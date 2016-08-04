@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+div, span, object, iframe, blockquote, pre, a, abbr, cite, code, em, font, img, q, s, samp, small, strike, strong, sub, sup, b, u, i, center, ul, li, fieldset, form, label, legend, table, caption, tbody, tr, th, td {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background: #F4F5F7;
+    font-family: "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    color: #3d464d;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    overflow-x: hidden;
+    letter-spacing: 0.2px;
+}
+
+hr {
+    margin: 1em 0;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #985527;
+    animation: border-colors 20s ease-in-out infinite;
+}
+
+audio, canvas, progress, video {
+    vertical-align: baseline;
+    width: 100%;
+    -webkit-app-region: no-drag;
+}
+
+audio:not([controls]) {
+    display: none;
+}
+
+a {
+    color: #446bcc;
+}
+
+a:active, a:hover {
+    outline: 0;
+}
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+b, strong {
+    font-weight: bold;
+}
+
+cite {
+    color: #888;
+    font-style: normal;
+    margin: 0.5em 0;
+    display: block;
+}
+
+img {
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+pre { overflow: auto; }
+
+code, kbd, pre, samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+li {
+    list-style: none;
+}
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+legend {
+    border: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td, th {
+    padding: 0;
+}

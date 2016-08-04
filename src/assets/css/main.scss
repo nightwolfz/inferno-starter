@@ -1,0 +1,21 @@
+// Typography
+main {
+    width: 680px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 100;
+    text-align: center;
+    margin: 0;
+}
+
+.error-message {
+    color: #f66;
+    margin: 2px 0 4px 0;
+}
+.success-message {
+    color: #fff;
+    margin: 2px 0 4px 0;
+}

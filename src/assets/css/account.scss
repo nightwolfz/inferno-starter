@@ -1,0 +1,21 @@
+.account {
+    background: #fff;
+    padding: 0.4rem;
+    margin: 1rem 0 0 0;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+
+    label {
+        padding: 0.3rem 1rem;
+        line-height: 2rem;
+    }
+
+    input {
+        padding: 0.4rem 0.4rem;
+        margin-left: 0.8rem;
+        line-height: 1rem;
+    }
+
+    button {
+        padding: 0.3rem 1rem;
+    }
+}

@@ -1,0 +1,17 @@
+input::-webkit-input-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #bbb;
+}
+
+input::-moz-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #bbb;
+}
+
+input::input-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #bbb;
+}
