@@ -2,7 +2,6 @@ import Inferno from 'inferno'
 import Component from 'inferno-component'
 import createElement from 'inferno-create-element'
 import Router from 'universal-router'
-import Context from '../components/Common/Context'
 import history from '../helpers/history'
 
 function onClick(e) {

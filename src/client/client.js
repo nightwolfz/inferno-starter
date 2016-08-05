@@ -26,19 +26,19 @@ const context = {
 }
 
 function renderComponent(props) {
-    return (
-        <Context router={history} context={context}>
-            {props.component}
-        </Context>
-    )
+    return <Context router={history} context={context}>
+        {props.component}
+    </Context>
 }
 
 function render(location) {
-    router({ routes, location: location.pathname }).then(renderProps => {
+    const routerParams = {
+        routes: routes(context),
+        location: location.pathname
+    }
+    router(routerParams).then(renderProps => {
         InfernoDOM.render(renderComponent(renderProps), document.getElementById('root'))
-    }).catch(err => {
-        throw new Error(err)
-    })
+    }).catch(err => {throw new Error(err)})
 }
 
 render(history.getCurrentLocation()); // render the current URL

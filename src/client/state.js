@@ -16,7 +16,7 @@ const defaultState = observable({
     }
 })
 
-// Export an instance of our state
+// Export function that creates our state
 module.exports = function createState(state) {
     return process.env.BROWSER ? extendObservable(defaultState, state) : toJS(defaultState)
 }

@@ -20,7 +20,7 @@ async function render(req, res) {
     if (account) state.account = account
 
     const context = {
-        state: state,
+        state,
         store: actions(state)
     }
 

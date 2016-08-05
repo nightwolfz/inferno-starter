@@ -13,7 +13,6 @@ import Register from './components/Account/Register'
  * @param {Object}
  * @returns {Object}
  */
-
 export default [{
     path: '/',
     action(context) {
