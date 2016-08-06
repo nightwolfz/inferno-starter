@@ -9,7 +9,7 @@ class App extends Component {
     render() {
         const { account } = this.context.state
         return <div>
-            {account.username ? <LoggedInMenu/> : <LoggedOutMenu/>}
+            {account && account.username ? <LoggedInMenu/> : <LoggedOutMenu/>}
             {this.props.children}
         </div>
     }

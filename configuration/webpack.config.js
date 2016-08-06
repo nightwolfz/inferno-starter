@@ -34,11 +34,8 @@ const config = {
                         "transform-es2015-parameters",
                         "transform-es2015-shorthand-properties",
                         "transform-es2015-spread",
-                        "inferno",
-                        ["fast-async", {
-                            "env": { "asyncStackTrace": true },
-                            "runtimePattern": "index\\.js"
-                        }]
+                        ["fast-async", { "runtimePattern": "index\\.js" }],
+                        "inferno"
                     ]
                 }
             },

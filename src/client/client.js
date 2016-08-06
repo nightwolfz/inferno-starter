@@ -25,25 +25,32 @@ const context = {
     store: actions(state)
 }
 
-function renderComponent(props) {
-    return <Context router={history} context={context}>
-        {props.component}
-    </Context>
-}
-
+/**
+ * Render our component acording to our routes
+ * @param location
+ */
 function render(location) {
+    function renderComponent(component) {
+        return <Context router={history} context={context}>
+            {component}
+        </Context>
+    }
+
     const routerParams = {
         routes: routes(context),
         location: location.pathname
     }
-    router(routerParams).then(renderProps => {
-        InfernoDOM.render(renderComponent(renderProps), document.getElementById('root'))
+
+    router(routerParams).then(component => {
+        InfernoDOM.render(renderComponent(component), document.getElementById('root'))
     }).catch(err => {throw new Error(err)})
 }
 
-render(history.getCurrentLocation()); // render the current URL
+// Listen for URL changes and render the correct component
+render(history.getCurrentLocation());
 history.listen(render);
 
+// Use hot-reloading if available
 if (module.hot) {
     module.hot.accept(() => {
         render(history.getCurrentLocation())

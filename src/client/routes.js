@@ -13,40 +13,35 @@ import Register from './components/Account/Register'
  * @param {Object}
  * @returns {Object}
  */
-export default [{
-    path: '/',
-    action(context) {
-        return context.next().then(ChildComponent => {
-            return {
-                component: <App><ChildComponent/></App>,
-                context
-            }
-        })
-    },
-    children: [
-        {
+export default function({ state }) {
+
+    function Layout(Content) {
+        return <App><Content/></App>
+    }
+
+    return [{
+        path: '/',
+        action(context) {
+            return context.next().then(Layout)
+        },
+        children: [{
             path: '/',
             action: () => Home
-        },
-        {
+        }, {
             path: '/about',
             action: () => About
-        },
-        {
+        }, {
             path: '/login',
             action: () => Login
-        },
-        {
+        }, {
             path: '/logout',
             action: () => Logout
-        },
-        {
+        }, {
             path: '/register',
             action: () => Register
-        }
-    ]
-}]
-
+        }]
+    }]
+}
 /*
 export default (
     <Router history={history} component={App} hashbang="true">

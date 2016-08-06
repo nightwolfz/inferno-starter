@@ -26,7 +26,7 @@ async function render(req, res) {
 
     // Create routing
     const matchRoutes = {
-        routes,
+        routes: routes(context),
         location: req.originalUrl
     }
 
@@ -34,7 +34,7 @@ async function render(req, res) {
         res.status(statusCode).send('<!DOCTYPE html>\n' + content)
     }
 
-    function renderComponent({ component }) {
+    function renderComponent(component) {
         return (
             <Context context={context}>
                 <Html>{component}</Html>
@@ -42,8 +42,8 @@ async function render(req, res) {
         )
     }
 
-    router(matchRoutes).then(renderProps => {
-        const content = InfernoServer.renderToString(renderComponent(renderProps))
+    router(matchRoutes).then(component => {
+        const content = InfernoServer.renderToString(renderComponent(component))
         sendResponse(200, content)
     }).catch(error => {
         sendResponse(404, error)
