@@ -16,7 +16,6 @@ Features:
 
 ![Preview](https://raw.githubusercontent.com/nightwolfz/mobx-starter/master/preview.png)
 
-
 ## How to run
 
 For development:

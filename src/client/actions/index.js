@@ -1,4 +1,4 @@
-import request from '../helpers/request'
+import request from '../../shared/request'
 import Todos from './todos'
 import Account from './account'
 

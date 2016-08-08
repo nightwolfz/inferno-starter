@@ -7,9 +7,9 @@ import Menu from './Common/Menu'
 @connect
 class App extends Component {
     render() {
-        const { account } = this.context.state
+        const { account } = this.context.store
         return <div>
-            {account && account.username ? <LoggedInMenu/> : <LoggedOutMenu/>}
+            {account.isLoggedIn() ? <LoggedInMenu/> : <LoggedOutMenu/>}
             {this.props.children}
         </div>
     }

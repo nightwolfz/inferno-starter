@@ -1,15 +1,7 @@
 /**
- * Return a SEO frieldly version of a string
- * @returns {string}
- */
-String.prototype.seoName = function() {
-    return this.toLowerCase().replace(/[\s\uFEFF\xA0]+/g, '_');
-}
-
-/**
  * Returns a numeric hash of a string
- * Usefull for generating keys on the spot for your React loops
- * @returns {number}
+ * Usefull for generating keys when mapping over components
+ * @returns {Number}
  */
 String.prototype.hashCode = function() {
     var hash = 0, i, chr, len;
@@ -24,7 +16,7 @@ String.prototype.hashCode = function() {
 
 /**
  * Encode into base64 without breaking utf-8
- * @returns {string}
+ * @returns {String}
  */
 String.prototype.base64encode = function() {
     return btoa(encodeURIComponent(this).replace(/%([0-9A-F]{2})/g, function(match, p1) {

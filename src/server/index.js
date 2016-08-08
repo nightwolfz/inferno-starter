@@ -1,19 +1,20 @@
-const fp = require('lodash/fp')
-const bodyParser = require('body-parser')
-const express = require('express')
-const session = require('express-session')
-const connectMongo = require('connect-mongo')
-const favicon = require('serve-favicon')
-const compression = require('compression')
-const passport = require('passport')
-const config = require('../../configuration/server.config')
-const db = require('./helpers/database')
-const todos = require('./routes/todos')
-const account = require('./routes/account')
-const render = require('./routes/render')
+import logger from 'debug'
+import fp from 'lodash/fp'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import express from 'express'
+import favicon from 'serve-favicon'
+import compression from 'compression'
+import config from '../../configuration/server.config'
+import db from './helpers/database'
+import authenticate from './middleware/authorize'
+import context from './middleware/context'
+import todos from './routes/todos'
+import account from './routes/account'
+import render from './middleware/render'
 
 const app = express()
-const MongoStore = connectMongo(session)
+//const MongoStore from 'connect-mongo')(session)
 
 // Serve static files
 if (fp.size(config.http.static)) {
@@ -33,16 +34,22 @@ app.use(favicon(config.http.favicon))
 // Parse POST requests
 app.use(bodyParser.json({ limit: '2mb' }))
 app.use(bodyParser.urlencoded({ limit: '2mb', extended: true }))
+app.use(cookieParser())
 
 // Enable sessions
-app.use(session({
+/*app.use(session({
     secret: config.session.secret,
-    store: new MongoStore({ mongooseConnection: db.connection }),
+    //store: new MongoStore({ mongooseConnection: db.connection }),
     resave: false,
-    saveUninitialized: true
-}))
-app.use(passport.initialize())
-app.use(passport.session())
+    saveUninitialized: true,
+    cookie: { path: '/', httpOnly: false, secure: false, maxAge: null }
+}))*/
+
+app.use(context)
+app.use(function(req, res, next) {
+    //logger('inferno:session')(req.session + ' [request] ' + req.originalUrl)
+    next()
+})
 
 // Routes
 app.use(todos)

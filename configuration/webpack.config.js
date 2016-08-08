@@ -34,7 +34,7 @@ const config = {
                         "transform-es2015-parameters",
                         "transform-es2015-shorthand-properties",
                         "transform-es2015-spread",
-                        ["fast-async", { "runtimePattern": "index\\.js" }],
+                        "transform-async-to-generator",
                         "inferno"
                     ]
                 }

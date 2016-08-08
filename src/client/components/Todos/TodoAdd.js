@@ -4,7 +4,7 @@ import { observable } from 'mobx'
 import { connect } from 'mobx-connect/inferno'
 
 @connect
-class AddTodo extends Component {
+class TodoAdd extends Component {
 
     @observable inputText = ''
 
@@ -37,4 +37,4 @@ class AddTodo extends Component {
     }
 }
 
-export default AddTodo
+export default TodoAdd

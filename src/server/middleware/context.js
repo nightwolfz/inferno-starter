@@ -1,0 +1,34 @@
+import logger from 'debug'
+import { getAccount } from '../actions/account';
+//import createRequest from '../../shared/request'
+import createState from '../../client/state'
+import actions from '../../client/actions'
+
+/**
+ * Middleware for creating the context
+ * @param req
+ * @param res
+ * @param next
+ */
+export default async function(req, res, next) {
+    // Get our token from headers (server) or cookies (client)
+    req.token = req.headers.token || req.cookies.token
+
+    // Add state & session data
+    const state = createState()
+    state.app.hostname = req.headers.host
+
+    // Check if logged in
+    const account = await getAccount(req.token)
+    if (account) {
+        logger('inferno:username')(account.username)
+        state.account = account
+    }
+
+    // Create the context
+    req.context = {
+        state,
+        store: actions(Object.assign({}, state, { token: req.token }))
+    }
+    next()
+}

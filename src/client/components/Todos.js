@@ -2,28 +2,18 @@ import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'mobx-connect/inferno'
 import size from 'lodash/fp'
-import AddTodo from './Home/AddTodo'
-import Todo from './Home/Todo'
+import TodoAdd from './Todos/TodoAdd'
+import TodoItem from './Todos/TodoItem'
 
 @connect
-class Home extends Component {
+class Todos extends Component {
 
-    // Server-side state being updated
+    // When route is loaded (isomorphic)
     static fetchData({ store, state, params }) {
         return store.todos.browse().then(items => {
+            console.debug('--- fetchData', items)
             state.todos.items = items
         })
-    }
-
-    componentDidMount() {
-        const { store, state } = this.context
-
-        if (!size(state.todos.items)) {
-            store.todos.browse().then(items => {
-                // Since the client-side state is observable, we have to use .replace() for arrays
-                state.todos.items.replace(items)
-            })
-        }
     }
 
     render() {
@@ -32,10 +22,10 @@ class Home extends Component {
         return <main>
             <h1>todos</h1>
             <div className="home">
-                <AddTodo/>
+                <TodoAdd/>
                 <section className="main">
                     <ul className="todo-list">
-                        {state.todos.items.map(item => <Todo key={item.text.hashCode()} item={item}/>)}
+                        {state.todos.items.map(item => <TodoItem key={item.text.hashCode()} item={item}/>)}
                     </ul>
                 </section>
             </div>
@@ -43,4 +33,4 @@ class Home extends Component {
     }
 }
 
-export default Home
+export default Todos

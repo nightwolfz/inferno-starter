@@ -41,7 +41,7 @@ function render(location) {
         location: location.pathname
     }
 
-    router(routerParams).then(component => {
+    router(routerParams, context).then(component => {
         InfernoDOM.render(renderComponent(component), document.getElementById('root'))
     }).catch(err => {throw new Error(err)})
 }

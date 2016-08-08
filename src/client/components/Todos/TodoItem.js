@@ -3,7 +3,7 @@ import Component from 'inferno-component'
 import { connect } from 'mobx-connect/inferno'
 
 @connect
-class Movie extends Component {
+class TodoItem extends Component {
 
     componentDidMount() {
     }
@@ -21,4 +21,4 @@ class Movie extends Component {
     }
 }
 
-export default Movie
+export default TodoItem

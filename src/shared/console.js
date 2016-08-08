@@ -16,7 +16,4 @@ if (typeof window === 'undefined') {
     console.info = info.bind(console);
     console.warn = warn.bind(console);
     console.error = error.bind(console);
-} else {
-    //window.logger2 = logger;
-    //window.logger2.enable('inferno:*')
 }
