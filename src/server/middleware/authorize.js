@@ -9,7 +9,7 @@ import { checkAuthorized } from '../actions/account'
  */
 export default function(req, res, next) {
     checkAuthorized(req.token).then(auth => {
-        logger('inferno:authorized')(auth)
+        logger('server:authorized')(auth.token)
         req.authorized = true
         next()
     }).catch(error => {

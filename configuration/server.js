@@ -13,7 +13,7 @@ module.exports = {
     session: {
         salt: 'SUPER_HOT_YES?',
         secret: 'SUPER_HOT_SECRET_KEY_KERE',
-        expires: 20 * 60 * 1000 // 20 minutes
+        expires: 2 * 3600 * 1000 // 2 hours
     },
     databases: {
         mongo: 'mongodb://127.0.0.1:27017/inferno-todos'

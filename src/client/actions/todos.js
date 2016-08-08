@@ -1,5 +1,3 @@
-import remove from 'lodash/fp/remove'
-
 /**
  * @name Todos
  * @class Todos

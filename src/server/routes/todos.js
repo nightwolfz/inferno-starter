@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import { Router } from 'express'
+import { getAccount } from '../actions/account'
 import authorize from '../middleware/authorize'
 import db from '../helpers/database'
-import { getAccount } from '../actions/account'
 const router = Router();
 
 router.get('/api/todos', authorize, async(req, res) => {

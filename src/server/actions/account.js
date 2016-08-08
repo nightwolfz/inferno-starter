@@ -16,7 +16,7 @@ export async function getAccount(token) {
     }
 }
 
-export async function loginAccount(username, password, token) {
+export async function loginAccount(username, password) {
     const account = await db.account.findOne({
         username,
         password: sha512(password)

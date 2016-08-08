@@ -16,7 +16,7 @@ const app = express()
 // Serve static files
 if (fp.size(config.http.static)) {
     fp.map(route => {
-        logger('inferno:static')(route.path)
+        logger('server:static')(route.path)
         app.use(route.url, express.static(route.path))
     })(config.http.static)
 }
