@@ -96,10 +96,10 @@ Don't worry, this is not inefficient, in contrast, more observer components make
 
 
 
-##### How do I execute async actions on the server instead of client ?
+##### How do I execute async actions on the server and/or client ?
 ---
 Checkout `src/client/components/Home.js`.
-The `fetchData` method there only runs on the server.
+The `fetchData` method is smart, it will be executed either on the server or on the browser depending on how you access the website.
 
 
 
