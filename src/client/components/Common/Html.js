@@ -9,9 +9,6 @@ class Html extends Component {
         const { state } = this.context
         const devServerURL = process.env.NODE_ENV === 'production' ? '' : `http://${state.app.hostname.replace(2000, 2002)}`
 
-        console.debug('=== context:  ', Object.keys(this.context))
-        console.debug('=== props:  ', Object.keys(this.props))
-
         return <html>
             <head>
                 <meta charSet="utf-8"/>
@@ -24,9 +21,7 @@ class Html extends Component {
 
                 {/* Bundled assets */}
                 <link href={devServerURL + '/build/bundle.css'} rel="stylesheet"/>
-                <script dangerouslySetInnerHTML={{
-                    __html: 'window.__STATE = ' + JSON.stringify(state) + ';'
-                }}/>
+                <script dangerouslySetInnerHTML={insertState(state)}/>
             </head>
             <body>
                 {/* Our content rendered here */}
@@ -36,6 +31,12 @@ class Html extends Component {
                 <script async src={devServerURL + '/build/bundle.js'}/>
             </body>
         </html>
+    }
+}
+
+function insertState(state) {
+    return {
+        __html: 'window.__STATE = ' + JSON.stringify(state) + ';'
     }
 }
 

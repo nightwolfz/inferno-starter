@@ -11,7 +11,6 @@ class Todos extends Component {
     // When route is loaded (isomorphic)
     static fetchData({ store, state, params }) {
         return store.todos.browse().then(items => {
-            console.debug('--- fetchData', items)
             state.todos.items = items
         })
     }
