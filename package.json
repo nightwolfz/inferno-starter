@@ -1,7 +1,7 @@
 {
   "name": "inferno-starter",
   "main": "index.js",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "author": "Ryan Megidov <ryan@megidov.com>",
   "description": "Mobx + Inferno + Inferno-router + Webpack hot-reload starter kit",
   "license": "MIT",
