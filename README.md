@@ -10,11 +10,13 @@ Features:
 + `async/await` support
 + Isomorphic
 + CSS and SCSS compilation
-+ MongoDB user auth / sessions
++ MongoDB user register/login/logout
++ Token based authentication
 + Decorators for accessing actions and state
++ Hot reload _(browser only)_
 
 
-![Preview](https://raw.githubusercontent.com/nightwolfz/mobx-starter/master/preview.png)
+![Preview](https://raw.githubusercontent.com/nightwolfz/inferno-starter/master/preview.png)
 
 ## How to run
 
@@ -29,6 +31,7 @@ For production:
 ## Requirements
 
     Node 6 or Node 4 with additional babel plugins
+    MongoDB server
 
 ## Goals
 
