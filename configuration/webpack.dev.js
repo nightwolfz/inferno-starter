@@ -1,10 +1,11 @@
-const { merge } = require('lodash')
 const path = require('path')
+const logger = require('debug')
+const merge = require('lodash/merge')
 const express = require('express')
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const config = require('./webpack.config.js')
+const config = require('./webpack.js')
 
 // Merge with base configuration
 //-------------------------------
@@ -44,8 +45,13 @@ const wdm = webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
     stats: {
         colors: true,
+        hash: false,
+        timings: false,
+        version: false,
         chunks: false,
-        modules: false
+        modules: false,
+        children: false,
+        chunkModules: false
     }
 })
 
@@ -57,13 +63,11 @@ app.use(webpackHotMiddleware(compiler));
 const devServer = app.listen(port, 'localhost', err => {
     if (err) return console.error(err)
 
-    console.info(`Webpack DEV Server running on port ${port}`)
+    logger('server:webpack')('Running on port ' + port)
 })
 
 process.on('SIGTERM', () => {
-    console.info('Stopping dev server')
+    logger('server:webpack')('Stopping...')
     wdm.close()
     devServer.close(() => process.exit(0))
 })
-
-module.exports = config

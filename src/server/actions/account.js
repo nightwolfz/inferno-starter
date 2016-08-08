@@ -1,22 +1,14 @@
 import jwt from 'jwt-simple'
 import crypto from 'crypto'
 import db from '../helpers/database'
-import config from '../../../configuration/server.config'
-
-// Public
-export {
-    getAccount,
-    checkAuthorized,
-    loginAccount,
-    registerAccount
-}
+import config from '../../../configuration/server'
 
 /**
  * Get account by session
  * @param token {string}
  * @returns {object}
  */
-async function getAccount(token) {
+export async function getAccount(token) {
     if (token) {
         const account = await db.account.findOne({ token })
         if (!account) return null
@@ -24,7 +16,7 @@ async function getAccount(token) {
     }
 }
 
-async function loginAccount(username, password, token) {
+export async function loginAccount(username, password, token) {
     const account = await db.account.findOne({
         username,
         password: sha512(password)
@@ -36,7 +28,7 @@ async function loginAccount(username, password, token) {
     return account.toJSON()
 }
 
-async function registerAccount(username, password) {
+export async function registerAccount(username, password) {
     const account = new db.account({
         username,
         password: sha512(password)
@@ -46,33 +38,49 @@ async function registerAccount(username, password) {
     return account
 }
 
+export async function updateAccount(body, file, token) {
+    const query = {}
+
+    const userExists = await db.account.findOne({ username: body.username }, '_id').lean()
+    if (userExists) return false
+
+    if (body.username) query.username = body.username
+    if (body.description) query.description = body.description
+
+    const user = await db.account.findOneAndUpdate(
+        { token },
+        { $set: query },
+        { new: true }
+    ).lean()
+
+    return {
+        username: user.username,
+        description: user.description,
+        picture: user.picture
+    }
+}
 
 
 /**
- * Check if logged in
+ * Check if we're logged in
  * @param token {string}
  * @returns {boolean}
  */
-async function checkAuthorized(token) {
+export async function checkAuthorized(token) {
     if (!token) return Promise.reject('Token not provided')
     const account = await db.account.findOne({ token }, 'token')
     if (account) {
         const decoded = jwt.decode(account.token, config.session.secret)
-        const isValid = Date.now() < decoded.expires
-        console.log('checkAuthorized', decoded)
-        console.log('Date.now       ', Date.now())
-        console.log('decoded.expires', decoded.expires)
-        console.log('isValid', isValid)
-        if (isValid) {
+        if (Date.now() < decoded.expires) {
             return Promise.resolve(account)
-        } else {
-            return Promise.reject('Invalid token')
         }
     }
+    return Promise.reject('Invalid token')
 }
 
 /**
  * Create a new token with a timestamp
+ * @private
  * @param accountID
  * @returns {string|*}
  */
@@ -86,6 +94,7 @@ function createAuthToken(accountID) {
 
 /**
  * Hash the password
+ * @private
  * @param str
  * @returns {string}
  */

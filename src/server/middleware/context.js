@@ -1,6 +1,5 @@
 import logger from 'debug'
 import { getAccount } from '../actions/account';
-//import createRequest from '../../shared/request'
 import createState from '../../client/state'
 import actions from '../../client/actions'
 
@@ -21,7 +20,6 @@ export default async function(req, res, next) {
     // Check if logged in
     const account = await getAccount(req.token)
     if (account) {
-        logger('inferno:username')(account.username)
         state.account = account
     }
 

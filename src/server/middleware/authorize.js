@@ -14,9 +14,6 @@ export default function(req, res, next) {
         req.authorized = true
         next()
     }).catch(error => {
-        logger('inferno:req')(req.headers['user-agent'])
-        logger('inferno:error')(error)
-        logger('inferno:req.headers')(req.headers)
         if (req.headers['user-agent'].includes('node-fetch')) {
             req.authorized = false
             next()

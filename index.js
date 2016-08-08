@@ -11,13 +11,13 @@ require('babel-register')
 require('isomorphic-fetch')
 require('./src/server/index')
 
+process.on('unhandledRejection', function(err) {
+    console.error(err)
+})
+
 // Compile files on PROD or launch DEV server
 if (process.env.NODE_ENV === 'production') {
     require('./configuration/webpack.prod.js')
 } else {
     require('./configuration/webpack.dev.js')
 }
-
-process.on('unhandledRejection', function(err) {
-    console.error(err)
-})
