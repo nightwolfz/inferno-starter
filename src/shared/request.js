@@ -1,6 +1,4 @@
-import logger from 'debug'
 import trimStart from 'lodash/fp/trimStart'
-import trimEnd from 'lodash/fp/trimEnd'
 
 /**
  * This is our overly complicated isomorphic "request"

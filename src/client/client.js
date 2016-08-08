@@ -3,7 +3,6 @@ import '../shared/console'
 import 'isomorphic-fetch'
 import Inferno from 'inferno'
 import InfernoDOM from 'inferno-dom'
-import { extendObservable } from 'mobx'
 import Context from './components/Common/Context'
 import history from './helpers/history'
 import router from './helpers/router'
@@ -36,14 +35,16 @@ function render(location) {
         </Context>
     }
 
-    const routerParams = {
+    const params = {
         routes: routes(context),
         location: location.pathname
     }
 
-    router(routerParams, context).then(component => {
+    router(params, context).then(component => {
         InfernoDOM.render(renderComponent(component), document.getElementById('root'))
-    }).catch(err => {throw new Error(err)})
+    }).catch(err => {
+        throw new Error(err)
+    })
 }
 
 // Listen for URL changes and render the correct component

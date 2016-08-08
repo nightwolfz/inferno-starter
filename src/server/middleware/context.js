@@ -1,4 +1,3 @@
-import logger from 'debug'
 import { getAccount } from '../actions/account';
 import createState from '../../client/state'
 import actions from '../../client/actions'

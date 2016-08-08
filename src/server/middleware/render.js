@@ -10,7 +10,6 @@ import routes from '../../client/routes'
  * Server-side render
  * @param req
  * @param res
- * @param context
  */
 export default function serverSideRender(req, res) {
 

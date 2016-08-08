@@ -1,4 +1,3 @@
-import filter from 'lodash/fp/filter';
 import map from 'lodash/fp/map';
 
 /**

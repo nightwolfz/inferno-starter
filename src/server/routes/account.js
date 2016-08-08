@@ -13,7 +13,10 @@ router.post('/api/account/login', async(req, res) => {
     return res.json(auth)
 })
 
-router.get('/api/account/logout', authorize, async(req, res) => {
+router.get('/api/account/logout', async(req, res) => {
+    if (!req.token) {
+        return res.json(false)
+    }
     const user = await db.account
                          .findOneAndUpdate({ token: req.token }, { token: null })
                          .lean() // clear in db

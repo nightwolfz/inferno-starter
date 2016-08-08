@@ -4,7 +4,7 @@ import db from '../helpers/database'
 import config from '../../../configuration/server'
 
 /**
- * Get account by session
+ * Get account by token
  * @param token {string}
  * @returns {object}
  */

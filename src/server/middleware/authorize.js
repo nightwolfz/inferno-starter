@@ -1,5 +1,4 @@
 import logger from 'debug'
-import jwt from 'jwt-simple'
 import { checkAuthorized } from '../actions/account'
 
 /**

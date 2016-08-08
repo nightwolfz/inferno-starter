@@ -44,4 +44,3 @@ export default class Account {
                    .then(account => this.state.account = account)
     }
 }
-

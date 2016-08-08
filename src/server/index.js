@@ -6,12 +6,10 @@ import express from 'express'
 import favicon from 'serve-favicon'
 import compression from 'compression'
 import config from '../../configuration/server'
-import db from './helpers/database'
-import authenticate from './middleware/authorize'
 import context from './middleware/context'
+import render from './middleware/render'
 import todos from './routes/todos'
 import account from './routes/account'
-import render from './middleware/render'
 
 const app = express()
 
@@ -29,8 +27,6 @@ app.use(compression())
 
 // Middleware
 app.use(favicon(config.http.favicon))
-
-// Parse POST requests
 app.use(bodyParser.json({ limit: '2mb' }))
 app.use(bodyParser.urlencoded({ limit: '2mb', extended: true }))
 

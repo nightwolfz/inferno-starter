@@ -16,7 +16,6 @@ db.once('open', () => logger('server:mongo')(config.databases.mongo))
 // Initialize our models
 export default {
     connection: db,
-    session: db.model('Session', require('../models/Session')),
     account: db.model('Account', require('../models/Account')),
     todos: db.model('Todo', require('../models/Todo'))
 }

@@ -11,9 +11,7 @@ require('babel-register')
 require('isomorphic-fetch')
 require('./src/server/index')
 
-process.on('unhandledRejection', function(err) {
-    console.error(err)
-})
+process.on('unhandledRejection', console.error.bind(console))
 
 // Compile files on PROD or launch DEV server
 if (process.env.NODE_ENV === 'production') {
