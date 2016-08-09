@@ -1,11 +1,11 @@
+const merge = require('lodash/merge')
 const path = require('path')
 const logger = require('debug')
-const merge = require('lodash/merge')
 const express = require('express')
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const config = require('./webpack.js')
+const config = require('./webpack.base.js')
 
 // Merge with base configuration
 //-------------------------------
@@ -15,6 +15,7 @@ merge(config, {
     devtool: 'eval-source-map', // eval eval-cheap-module-source-map source-map
     entry: {
         bundle: [
+            'event-source-polyfill',
             'webpack-hot-middleware/client?reload=true&path=http://localhost:2002/__webpack_hmr',
             path.join(__dirname, '../src/client/client.js')
         ]

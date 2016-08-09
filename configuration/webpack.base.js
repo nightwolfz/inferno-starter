@@ -1,8 +1,9 @@
 const path = require('path')
+const webpack = require('webpack')
 const ExtractCSS = require('extract-text-webpack-plugin')
 const sources = path.join(__dirname, '../src')
 
-export default {
+module.exports = {
     entry: {},
     node: {
         global: true,
@@ -33,7 +34,10 @@ export default {
                         "transform-es2015-parameters",
                         "transform-es2015-shorthand-properties",
                         "transform-es2015-spread",
-                        "transform-async-to-generator",
+                        ["transform-async-to-module-method", {
+                            "module": "bluebird",
+                            "method": "coroutine"
+                        }],
                         "inferno"
                     ]
                 }
@@ -63,6 +67,9 @@ export default {
         extensions: ['', '.js', '.jsx']
     },
     plugins: [
-        new ExtractCSS('bundle.css', { allChunks: true })
+        new ExtractCSS('bundle.css', { allChunks: true }),
+        new webpack.ProvidePlugin({
+            'Promise': 'bluebird'
+        })
     ]
 };

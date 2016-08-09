@@ -16,7 +16,10 @@
     "transform-es2015-shorthand-properties",
     "transform-es2015-spread",
     "transform-object-rest-spread",
-    "transform-async-to-generator",
+    ["transform-async-to-module-method", {
+      "module": "bluebird",
+      "method": "coroutine"
+    }],
     "inferno"
   ]
 }

@@ -4,20 +4,21 @@ import 'isomorphic-fetch'
 import Inferno from 'inferno'
 import InfernoDOM from 'inferno-dom'
 import Context from './components/Common/Context'
-import history from './helpers/history'
-import router from './helpers/router'
+import history from '../shared/history'
+import router from '../shared/router'
 import routes from './routes'
 import createState from './state'
 import actions from './actions'
 
 // This is the entry point for our client-side logic
 // The server-side has a similar configuration in `src/server/routes/render.js`
+
+// Import our styles
 if (process.env.BROWSER) {
-    // Import our styles
     require('../assets/css/index.scss')
 }
 
-// Initialize stores & inject server-side state into front-end
+// Initialize stores and state
 const state = createState(window.__STATE)
 const context = {
     state,
@@ -41,7 +42,7 @@ function render(location) {
     }
 
     router(params, context).then(component => {
-        InfernoDOM.render(renderComponent(component), document.getElementById('root'))
+        InfernoDOM.render(renderComponent(component), document.getElementById('inferno-root'))
     }).catch(err => {
         throw new Error(err)
     })

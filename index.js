@@ -4,14 +4,7 @@
 const sourceMaps = require('source-map-support')
 sourceMaps.install()
 
-require('./src/shared/polyfills')
 require('./src/shared/console')
-
-require('babel-register')
-require('isomorphic-fetch')
-require('./src/server/index')
-
-process.on('unhandledRejection', console.error.bind(console))
 
 // Compile files on PROD or launch DEV server
 if (process.env.NODE_ENV === 'production') {
@@ -19,3 +12,11 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     require('./configuration/webpack.dev.js')
 }
+
+require('isomorphic-fetch')
+require('babel-register')
+require('./src/shared/polyfills')
+require('./src/server/server')
+
+process.on('unhandledRejection', console.error.bind(console))
+

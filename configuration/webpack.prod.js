@@ -1,8 +1,8 @@
+const merge = require('lodash/merge')
 const path = require('path')
 const logger = require('debug')
-const merge = require('lodash/merge')
 const webpack = require('webpack')
-const config = require('./webpack.js')
+const config = require('./webpack.base.js')
 
 // Merge with base configuration
 //-------------------------------

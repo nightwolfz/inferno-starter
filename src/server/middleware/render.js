@@ -1,9 +1,9 @@
 import Inferno from 'inferno'
 import InfernoServer from 'inferno-server'
 import fetchData from '../../shared/fetchData';
-import router from '../../client/helpers/router';
-import Context from '../../client/components/Common/Context'
+import router from '../../shared/router';
 import Html from '../../client/components/Common/Html'
+import Context from '../../client/components/Common/Context'
 import routes from '../../client/routes'
 
 /**
@@ -34,6 +34,6 @@ export default function serverSideRender(req, res) {
     router(matchRoutes, req.context).then(component => {
         sendResponse(200, InfernoServer.renderToString(renderComponent(component)))
     }).catch(error => {
-        sendResponse(404, error)
+        sendResponse(404, error.stack.replace(/\n/g, '<br>'))
     })
 }

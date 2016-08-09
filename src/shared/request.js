@@ -47,7 +47,7 @@ function createURL(hostname, path) {
  * @private
  */
 function handleResponse(resp) {
-    const isJSON = resp.headers && resp.headers.get('Content-Type').includes('json');
+    const isJSON = resp.headers && resp.headers.get('Content-Type').indexOf('json') > -1;
     const response = resp[isJSON ? 'json' : 'text']();
 
     return resp.ok ? response : response.then(err => {throw err});

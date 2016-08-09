@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { registerAccount, loginAccount, updateAccount } from '../actions/account'
 import authorize from '../middleware/authorize'
 import db from '../helpers/database'
-const router = Router();
+const router = Router()
 
 router.post('/api/account/login', async(req, res) => {
     const { username, password } = req.body

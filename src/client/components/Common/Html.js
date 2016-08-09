@@ -25,10 +25,10 @@ class Html extends Component {
             </head>
             <body>
                 {/* Our content rendered here */}
-                <div id="root">
+                <div id="inferno-root">
                     {this.props.children}
                 </div>
-                <script async src={devServerURL + '/build/bundle.js'}/>
+                <script src={devServerURL + '/build/bundle.js'}/>
             </body>
         </html>
     }

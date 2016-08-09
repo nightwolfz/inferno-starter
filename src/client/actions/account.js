@@ -35,7 +35,7 @@ export default class Account {
                            this.state.account = null
                            document.cookie = 'token='
                        }
-                       window.location.href = '/'
+                       setTimeout(() => window.location.href = '/', 2000)
                    })
     }
 

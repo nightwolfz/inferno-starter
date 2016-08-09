@@ -6,7 +6,8 @@ module.exports = {
         favicon: path.join(__dirname, '../src/assets/favicon.ico'),
         static: [
             {
-                url: '/build', path: path.join(__dirname, '../build')
+                url: '/build',
+                path: path.join(__dirname, '../build')
             }
         ]
     },

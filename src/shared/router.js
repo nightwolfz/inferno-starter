@@ -1,10 +1,7 @@
 import Inferno from 'inferno'
-import Component from 'inferno-component'
-import createElement from 'inferno-create-element'
-import map from 'lodash/fp/map'
 import Router from 'universal-router'
-import fetchData from '../../shared/fetchData'
-import history from '../helpers/history'
+import fetchData from './fetchData'
+import history from './history'
 
 function onClick(e) {
     e.preventDefault()

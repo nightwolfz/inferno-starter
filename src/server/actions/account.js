@@ -21,11 +21,13 @@ export async function loginAccount(username, password) {
         username,
         password: sha512(password)
     })
-    if (!account) return null
-
-    account.token = createAuthToken(account._id)
-    await account.save()
-    return account.toJSON()
+    if (account) {
+        if (!checkAuthToken(account.token)) {
+            account.token = createAuthToken(account._id)
+            await account.save()
+        }
+        return account.toJSON()
+    }
 }
 
 export async function registerAccount(username, password) {
@@ -69,19 +71,28 @@ export async function updateAccount(body, file, token) {
 export async function checkAuthorized(token) {
     if (!token) return Promise.reject('Token not provided')
     const account = await db.account.findOne({ token }, 'token')
-    if (account) {
-        const decoded = jwt.decode(account.token, config.session.secret)
-        if (Date.now() < decoded.expires) {
-            return Promise.resolve(account)
-        }
+    if (account && checkAuthToken(account.token)) {
+        return Promise.resolve(account)
     }
     return Promise.reject('Invalid token')
 }
 
 /**
+ * Returns the token back if it's still valid
+ * @private
+ * @param token {string}
+ * @returns {boolean}
+ */
+function checkAuthToken(token) {
+    if (!token) return false
+    const decoded = jwt.decode(token, config.session.secret)
+    return (Date.now() < decoded.expires) ? token : false
+}
+
+/**
  * Create a new token with a timestamp
  * @private
- * @param accountID
+ * @param accountID {string}
  * @returns {string|*}
  */
 function createAuthToken(accountID) {

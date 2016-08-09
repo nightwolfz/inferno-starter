@@ -1,7 +1,7 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'mobx-connect/inferno'
-import { Link } from '../helpers/router'
+import { Link } from '../../shared/router'
 import Menu from './Common/Menu'
 
 @connect
