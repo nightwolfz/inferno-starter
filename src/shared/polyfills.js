@@ -24,6 +24,16 @@ String.prototype.base64encode = function() {
     }))
 }
 
+/**
+ * Here we add a few ES6 polyfills since we dont want to include whole of babel-polyfill
+ */
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+        position = position || 0;
+        return this.substr(position, searchString.length) === searchString;
+    };
+}
+
 if (!Array.prototype.find) {
     Array.prototype.find = function(predicate) {
         'use strict';
@@ -45,16 +55,6 @@ if (!Array.prototype.find) {
             }
         }
         return undefined;
-    };
-}
-
-/**
- * Here we add a few ES6 polyfills since we dont want to include whole of babel-polyfill
- */
-if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function(searchString, position){
-        position = position || 0;
-        return this.substr(position, searchString.length) === searchString;
     };
 }
 

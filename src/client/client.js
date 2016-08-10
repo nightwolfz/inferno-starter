@@ -3,7 +3,7 @@ import '../shared/console'
 import 'isomorphic-fetch'
 import Inferno from 'inferno'
 import InfernoDOM from 'inferno-dom'
-import Context from './components/Common/Context'
+import Context from './components/App/Context'
 import history from '../shared/history'
 import router from '../shared/router'
 import routes from './routes'
@@ -43,8 +43,6 @@ function render(location) {
 
     router(params, context).then(component => {
         InfernoDOM.render(renderComponent(component), document.getElementById('inferno-root'))
-    }).catch(err => {
-        throw new Error(err)
     })
 }
 

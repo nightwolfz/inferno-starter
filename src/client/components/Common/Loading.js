@@ -1,6 +1,5 @@
-import Inferno from 'inferno'
+import Inferno, { createVNode } from 'inferno'
 import Component from 'inferno-component'
-import createElement from 'inferno-create-element'
 
 class Loading extends Component {
 
@@ -9,11 +8,14 @@ class Loading extends Component {
     }
 
     render() {
+        const { loading, component, className, children } = this.props
 
         // When done loading, show wrapped components
-        if (!this.props.loading) {
-            const className = this.props.className || null
-            return createElement(this.props.component || 'div', { className }, this.props.children)
+        if (!loading) {
+            return createVNode()
+            .setTag(component || 'div')
+            .setClassName(className)
+            .setChildren(children)
         }
 
         // Still loading...

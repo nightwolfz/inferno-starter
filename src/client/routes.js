@@ -1,5 +1,5 @@
 import Inferno from 'inferno'
-import App from './components/App'
+import App from './components/App/App'
 import NotFound from './components/NotFound'
 import Todos from './components/Todos'
 import About from './components/About'

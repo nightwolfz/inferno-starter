@@ -44,6 +44,10 @@ const compiler = webpack(config)
 const port = 2002
 const wdm = webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: false
+    },
     stats: {
         colors: true,
         hash: false,

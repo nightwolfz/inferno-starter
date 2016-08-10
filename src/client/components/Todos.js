@@ -1,7 +1,7 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'mobx-connect/inferno'
-import size from 'lodash/fp'
+import size from 'lodash/fp/size'
 import TodoAdd from './Todos/TodoAdd'
 import TodoItem from './Todos/TodoItem'
 
@@ -24,7 +24,9 @@ class Todos extends Component {
                 <TodoAdd/>
                 <section className="main">
                     <ul className="todo-list">
-                        {state.todos.items.map(item => <TodoItem key={item.text.hashCode()} item={item}/>)}
+                        {state.todos.items.map(item => (
+                            <TodoItem key={item.text.hashCode()} item={item}/>
+                        ))}
                     </ul>
                 </section>
             </div>

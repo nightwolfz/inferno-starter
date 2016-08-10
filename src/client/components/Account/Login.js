@@ -5,8 +5,6 @@ import { connect } from 'mobx-connect/inferno'
 import Loading from '../Common/Loading'
 import Error from '../Common/Error'
 
-
-
 @connect
 class Login extends Component {
 

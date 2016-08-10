@@ -1,6 +1,8 @@
-import Inferno from 'inferno'
+import Inferno, { createVNode } from 'inferno'
 import Component from 'inferno-component'
+import createElement from 'inferno-create-element'
 import size from 'lodash/fp/size'
+import classnames from 'classnames'
 import { observable } from 'mobx'
 import { connect } from 'mobx-connect/inferno'
 
@@ -29,7 +31,9 @@ class Menu extends Component {
 
     render() {
         const children = this.props.children.map((child, index) => {
-            return child;
+            const className = classnames({ 'selected': this.menu.index === index })
+            return child.setClassName(className)
+            //.setAttrs({ tabIndex: index })
         })
         return <menu>
             {children}

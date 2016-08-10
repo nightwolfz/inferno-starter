@@ -5,9 +5,6 @@ import { connect } from 'mobx-connect/inferno'
 
 @connect
 class NotFound extends Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         const { router } = this.context
 

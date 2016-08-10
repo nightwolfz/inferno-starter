@@ -2,8 +2,8 @@ import Inferno from 'inferno'
 import InfernoServer from 'inferno-server'
 import fetchData from '../../shared/fetchData';
 import router from '../../shared/router';
-import Html from '../../client/components/Common/Html'
-import Context from '../../client/components/Common/Context'
+import Html from '../../client/components/App/Html'
+import Context from '../../client/components/App/Context'
 import routes from '../../client/routes'
 
 /**

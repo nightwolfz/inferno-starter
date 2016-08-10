@@ -8,12 +8,13 @@ The goal of this project is to provide a starting base for an mobx inferno proje
 
 Features:
 + `async/await` support
-+ Isomorphic
++ Isomorphic for SEO goodness
 + CSS and SCSS compilation
 + MongoDB user register/login/logout
 + Token based authentication
 + Decorators for accessing actions and state
 + Hot reload _(browser only)_
++ Bundle size as small as possible
 
 
 ![Preview](https://raw.githubusercontent.com/nightwolfz/inferno-starter/master/preview.png)
@@ -98,7 +99,7 @@ Don't worry, this is not inefficient, in contrast, more observer components make
 
 ##### How do I execute async actions on the server and/or client ?
 ---
-Checkout `src/client/components/Home.js`.
+Checkout `src/client/components/Todos.js`.
 The `fetchData` method is smart, it will be executed either on the server or on the browser depending on how you access the website.
 
 
