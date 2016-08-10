@@ -42,7 +42,6 @@ new webpack.optimize.UglifyJsPlugin({
 config.plugins.push(
     new webpack.DefinePlugin({
         'process.env.BROWSER': true,
-        'process.env.BLUEBIRD_WARNINGS': '0',
         'process.env.NODE_ENV': JSON.stringify('production')
     })
 )

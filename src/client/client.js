@@ -1,3 +1,5 @@
+// This is the entry point for our client-side logic
+// The server-side has a similar configuration in `src/server/routes/render.js`
 import '../shared/polyfills'
 import '../shared/console'
 import 'isomorphic-fetch'
@@ -10,8 +12,10 @@ import routes from './routes'
 import createState from './state'
 import actions from './actions'
 
-// This is the entry point for our client-side logic
-// The server-side has a similar configuration in `src/server/routes/render.js`
+// Disable warnings from bluebird
+Promise.config({
+    warnings: false
+})
 
 // Import our styles
 if (process.env.BROWSER) {
