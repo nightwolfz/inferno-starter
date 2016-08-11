@@ -1,10 +1,10 @@
 import Inferno, { createVNode } from 'inferno'
 import Component from 'inferno-component'
-import createElement from 'inferno-create-element'
 import size from 'lodash/fp/size'
 import classnames from 'classnames'
 import { observable } from 'mobx'
 import { connect } from 'mobx-connect/inferno'
+import { Link } from '../../../shared/router'
 
 @connect
 class Menu extends Component {
@@ -12,6 +12,10 @@ class Menu extends Component {
     @observable menu = {
         index: 0,
         items: {}
+    }
+
+    componentWillMount() {
+        this.menu.items = Object.keys(this.props.children)
     }
 
     componentWillUnmount() {
@@ -30,15 +34,19 @@ class Menu extends Component {
     }
 
     render() {
-        const children = this.props.children.map((child, index) => {
-            const className = classnames({ 'selected': this.menu.index === index })
-            return child.setClassName(className)
-            //.setAttrs({ tabIndex: index })
-        })
+        const { children } = this.props
         return <menu>
-            {children}
+            {children.map((child, index) => {
+                return child.setAttrs({
+                    ...child.attrs,
+                    className: classnames({ 'selected': this.menu.index === index }),
+                    onClick: (e) => {
+                        this.setIndex(index)
+                    }
+                })
+            })}
         </menu>
     }
 }
 
-export default Menu;
+export default Menu
