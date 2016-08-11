@@ -25,6 +25,7 @@ function LoggedInMenu() {
 
 function LoggedOutMenu() {
     return <Menu>
+        <Link to="/">Browse</Link>
         <Link to="/about">About</Link>
         <Link to="/register">Register</Link>
         <Link to="/login">Login</Link>
