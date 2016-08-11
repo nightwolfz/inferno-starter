@@ -36,6 +36,7 @@ class Login extends Component {
             .catch(error => {
                 this.form.error = error
                 this.form.loading = false
+                this.form.password = ''
             })
     }
 
@@ -53,7 +54,7 @@ class Login extends Component {
                     Username
                     <input type="text"
                            value={this.form.username}
-                           onChange={this.handleChange('username')}
+                           onKeyDown={this.handleChange('username')}
                            required="required"/>
                 </label>
 
@@ -61,7 +62,7 @@ class Login extends Component {
                     Password
                     <input type="password"
                            value={this.form.password}
-                           onChange={this.handleChange('password')}
+                           onKeyDown={this.handleChange('password')}
                            required="required"/>
                 </label>
 
