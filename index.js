@@ -13,8 +13,12 @@ if (process.env.NODE_ENV === 'production') {
     require('./configuration/webpack.dev.js')
 }
 
+// Ensure we're using the server babel settings
+process.env.BABEL_ENV = 'server';
+
 require('isomorphic-fetch')
 require('babel-register')
+require('babel-runtime/core-js/promise').default = require('bluebird')
 require('./src/shared/polyfills')
 require('./src/server/server')
 
