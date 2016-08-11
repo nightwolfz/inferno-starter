@@ -54,7 +54,7 @@ class Login extends Component {
                     Username
                     <input type="text"
                            value={this.form.username}
-                           onKeyDown={this.handleChange('username')}
+                           onKeyUp={this.handleChange('username')}
                            required="required"/>
                 </label>
 
@@ -62,7 +62,7 @@ class Login extends Component {
                     Password
                     <input type="password"
                            value={this.form.password}
-                           onKeyDown={this.handleChange('password')}
+                           onKeyUp={this.handleChange('password')}
                            required="required"/>
                 </label>
 

@@ -31,7 +31,7 @@ class TodoAdd extends Component {
                        className="new-todo"
                        placeholder="What needs to be done?"
                        value={this.inputText}
-                       onKeyDown={this.handleChange}
+                       onKeyUp={this.handleChange}
                 />
             </p>
         </form>
