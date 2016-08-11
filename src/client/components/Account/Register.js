@@ -44,14 +44,14 @@ class Register extends Component {
                     Username
                     <input type="text"
                            value={this.form.username}
-                           onChange={this.handleChange("username")} required="required"/>
+                           onKeyDown={this.handleChange("username")} required="required"/>
                 </label>
 
                 <label>
                     Password
                     <input type="password"
                            value={this.form.password}
-                           onChange={this.handleChange("password")} required="required"/>
+                           onKeyDown={this.handleChange("password")} required="required"/>
                 </label>
 
                 {this.form.errorMsg && <Error text={this.form.errorMsg}/>}
