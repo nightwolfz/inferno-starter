@@ -49,8 +49,7 @@ function createURL(hostname, path) {
 function handleResponse(resp) {
     const isJSON = resp.headers && resp.headers.get('Content-Type').indexOf('json') > -1;
     const response = resp[isJSON ? 'json' : 'text']();
-
-    return resp.ok ? response : response.then(err => {throw err});
+    return resp.ok ? response : response.then(Promise.reject);
 }
 
 function getCookie(key) {
