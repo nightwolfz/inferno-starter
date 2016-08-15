@@ -15,6 +15,19 @@ const defaultState = observable({
 })
 
 // Export function that creates our state
-module.exports = function createState(state) {
-    return process.env.BROWSER ? extendObservable(defaultState, state) : toJS(defaultState)
+export function createServerState() {
+    return toJS(defaultState)
+}
+
+export function createClientState() {
+    if (process.env.BROWSER) {
+        // Update our state
+        Object.keys(window.__STATE).forEach(key => {
+            extendObservable(defaultState[key], window.__STATE[key])
+        })
+        // For debugging purposes
+        window.__STATE = defaultState
+
+        return defaultState
+    }
 }

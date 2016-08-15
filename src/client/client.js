@@ -9,7 +9,7 @@ import Context from './components/App/Context'
 import history from '../shared/history'
 import router from '../shared/router'
 import routes from './routes'
-import createState from './state'
+import { createClientState } from './state'
 import actions from './actions'
 
 // Disable warnings from bluebird
@@ -23,7 +23,7 @@ if (process.env.BROWSER) {
 }
 
 // Initialize actions and state
-const state = createState(window.__STATE)
+const state = createClientState()
 const context = {
     state,
     history: history,
