@@ -54,7 +54,7 @@ module.exports = {
             },
             {
                 test: /\.(css|scss)(\?.+)?$/,
-                loader: ExtractCSS.extract(['css', 'sass']),
+                loader: ExtractCSS.extract(['css?sourceMap', 'sass?sourceMap']),
                 include: path.join(sources, 'assets')
             }
         ]
