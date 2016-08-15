@@ -9,8 +9,8 @@ import TodoItem from './Todos/TodoItem'
 class Todos extends Component {
 
     // When route is loaded (isomorphic)
-    static fetchData({ store, state, params }) {
-        return store.todos.browse().then(items => {
+    static fetchData({ action, state, params }) {
+        return action.todos.browse().then(items => {
             state.todos.items = items
         })
     }

@@ -6,12 +6,12 @@ import { connect } from 'mobx-connect/inferno'
 @connect
 class NotFound extends Component {
     render() {
-        const { router } = this.context
+        const { history } = this.context
 
         return <main className="">
             <h3>Page not found. Are you lost ?</h3>
 
-            <a onClick={router.goBack}>Go back</a>
+            <a onClick={history.goBack}>Go back</a>
             <a href="/">Main menu</a>
         </main>
     }

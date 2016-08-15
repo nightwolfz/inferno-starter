@@ -22,10 +22,13 @@ export default async function(req, res, next) {
         state.account = account
     }
 
+    // We need this for server-side requests
+    const stateWithToken = Object.assign({}, state, { token: req.token })
+
     // Create the context
     req.context = {
         state,
-        store: actions(Object.assign({}, state, { token: req.token }))
+        action: actions(stateWithToken)
     }
     next()
 }

@@ -3,7 +3,7 @@ import Todos from './todos'
 import Account from './account'
 
 /**
- * All our stores with actions go here
+ * All our actions with actions go here
  * @param state
  * @returns {{todos: Todos, account: Account}}
  */

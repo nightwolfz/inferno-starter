@@ -9,7 +9,7 @@ class TodoItem extends Component {
     }
 
     render() {
-        const { todos } = this.context.store
+        const { todos } = this.context.action
         const { item } = this.props
 
         return <li className="todo">

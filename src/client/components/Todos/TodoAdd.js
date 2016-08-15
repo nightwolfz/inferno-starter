@@ -10,7 +10,7 @@ class TodoAdd extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.context.store.todos.add(this.inputText)
+        this.context.action.todos.add(this.inputText)
             .then(() => {
                 // Clear input text on sucess
                 this.inputText = ''
@@ -22,7 +22,7 @@ class TodoAdd extends Component {
     }
 
     render() {
-        const { store } = this.context
+        const { action } = this.context
         const { item } = this.props
 
         return <form className="header" onSubmit={this.handleSubmit}>

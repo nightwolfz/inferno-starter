@@ -4,16 +4,13 @@ import { contextTypes } from 'mobx-connect/inferno'
 
 /**
  * Top level component that wraps everything (router, i18n, app)
- * providing an entry point for the store and state references
+ * providing an entry point for the action and state references
  * @class Context
  * @returns {Object}
  */
 class Context extends Component {
     getChildContext() {
-        return {
-            ...this.props.context,
-            router: this.props.router
-        }
+        return this.props.context
     }
     render() {
         return this.props.children

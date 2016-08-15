@@ -1,5 +1,5 @@
 // This is the entry point for our client-side logic
-// The server-side has a similar configuration in `src/server/routes/render.js`
+// The server-side has a similar configuration in `src/server/middleware/render.js`
 import '../shared/polyfills'
 import '../shared/console'
 import 'isomorphic-fetch'
@@ -22,11 +22,12 @@ if (process.env.BROWSER) {
     require('../assets/css/index.scss')
 }
 
-// Initialize stores and state
+// Initialize actions and state
 const state = createState(window.__STATE)
 const context = {
     state,
-    store: actions(state)
+    history: history,
+    action: actions(state)
 }
 
 /**
@@ -35,17 +36,12 @@ const context = {
  */
 function render(location) {
     function renderComponent(component) {
-        return <Context router={history} context={context}>
+        return <Context context={context}>
             {component}
         </Context>
     }
 
-    const params = {
-        routes: routes(context),
-        location: location.pathname
-    }
-
-    router(params, context).then(component => {
+    router(routes, location.pathname, context).then(component => {
         InfernoDOM.render(renderComponent(component), document.getElementById('inferno-root'))
     })
 }

@@ -21,8 +21,8 @@ class Login extends Component {
 
     handleLogin = (e) => {
         e.preventDefault()
-        const { account } = this.context.store
-        const { router } = this.context
+        const { account } = this.context.action
+        const { history } = this.context
 
         account.login({
                 username: this.form.username,
@@ -31,7 +31,7 @@ class Login extends Component {
             .then(() => {
                 this.form.error = null
                 this.form.loading = true
-                setTimeout(() => router.push('/'), 500)
+                setTimeout(() => history.push('/'), 500)
             })
             .catch(error => {
                 this.form.error = error

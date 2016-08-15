@@ -7,7 +7,7 @@ import Loading from '../Common/Loading'
 class Logout extends Component {
 
     componentDidMount() {
-        const { account } = this.context.store
+        const { account } = this.context.action
         account.logout()
     }
 
