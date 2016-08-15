@@ -13,12 +13,6 @@ import routes from '../../client/routes'
  */
 export default function serverSideRender(req, res) {
 
-    // Create routing
-    const matchRoutes = {
-        routes: routes(req.context),
-        location: req.originalUrl
-    }
-
     function sendResponse(statusCode, content) {
         res.status(statusCode).send('<!DOCTYPE html>\n' + content)
     }
@@ -31,7 +25,7 @@ export default function serverSideRender(req, res) {
         )
     }
 
-    router(matchRoutes, req.context).then(component => {
+    router(routes, req.originalUrl, req.context).then(component => {
         sendResponse(200, InfernoServer.renderToString(renderComponent(component)))
     }).catch(error => {
         sendResponse(404, error.stack.replace(/\n/g, '<br>'))
