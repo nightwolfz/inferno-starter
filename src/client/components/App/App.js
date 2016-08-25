@@ -1,13 +1,13 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 import Link from '../Common/Link'
 import Menu from '../Common/Menu'
 
-@connect
+@observer(['action', 'state'])
 class App extends Component {
     render() {
-        const { account } = this.context.action
+        const { account } = this.props.action
         return <div>
             {account.isLoggedIn() ? <LoggedInMenu/> : <LoggedOutMenu/>}
             {this.props.children}

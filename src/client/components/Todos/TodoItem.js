@@ -1,15 +1,15 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 
-@connect
+@observer(['action', 'state'])
 class TodoItem extends Component {
 
     componentDidMount() {
     }
 
     render() {
-        const { todos } = this.context.action
+        const { todos } = this.props.action
         const { item } = this.props
 
         return <li className="todo">

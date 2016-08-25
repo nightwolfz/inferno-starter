@@ -1,9 +1,8 @@
 import Inferno from 'inferno'
 import InfernoServer from 'inferno-server'
-import fetchData from '../../shared/fetchData';
+import { Provider } from 'mobx-inferno'
 import router from '../../shared/router';
 import Html from '../../client/components/App/Html'
-import Context from '../../client/components/App/Context'
 import routes from '../../client/routes'
 
 /**
@@ -18,10 +17,11 @@ export default function serverSideRender(req, res) {
     }
 
     function renderComponent(component) {
+        const context = req.context
         return (
-            <Context context={req.context}>
+            <Provider {...context}>
                 <Html>{component}</Html>
-            </Context>
+            </Provider>
         )
     }
 

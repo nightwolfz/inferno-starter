@@ -1,12 +1,12 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 //import { IndexLink } from 'inferno-router'
 
-@connect
+@observer(['action', 'state'])
 class NotFound extends Component {
     render() {
-        const { history } = this.context
+        const { history } = this.props
 
         return <main className="">
             <h3>Page not found. Are you lost ?</h3>

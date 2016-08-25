@@ -5,7 +5,7 @@ import '../shared/console'
 import 'isomorphic-fetch'
 import Inferno from 'inferno'
 import InfernoDOM from 'inferno-dom'
-import Context from './components/App/Context'
+import { Provider } from 'mobx-inferno'
 import history from '../shared/history'
 import router from '../shared/router'
 import routes from './routes'
@@ -36,9 +36,9 @@ const context = {
  */
 function render(location) {
     function renderComponent(component) {
-        return <Context context={context}>
+        return <Provider {...context}>
             {component}
-        </Context>
+        </Provider>
     }
 
     router(routes, location.pathname, context).then(component => {
