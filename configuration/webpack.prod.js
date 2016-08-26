@@ -1,4 +1,5 @@
 const merge = require('lodash/merge')
+const path = require('path')
 const logger = require('debug')
 const webpack = require('webpack')
 const config = require('./webpack.base.js')
@@ -10,7 +11,7 @@ merge(config, {
     target: 'web',
     devtool: 'source-map',
     entry: {
-        bundle: './src/client/client.js'
+        bundle: path.join(__dirname, '../src/client/client.js')
     },
     output: {
         publicPath: '/build/'
@@ -114,8 +115,7 @@ compiler.run(function(err, stats) {
  * @param stats
  */
 function writeWebpackStats(stats) {
-    const { resolve } = require('path')
-    const location = resolve(config.output.path, 'stats.json')
+    const location = path.resolve(config.output.path, 'stats.json')
     require('fs').writeFileSync(location, JSON.stringify(stats.toJson()))
     logger('server:webpack')(`Wrote stats.json to ${location}`)
 }
