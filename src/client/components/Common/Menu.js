@@ -6,7 +6,7 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-inferno'
 import Link from '../Common/Link'
 
-@observer(['action', 'state'])
+@observer(['actions', 'state'])
 class Menu extends Component {
 
     @observable menu = {

@@ -3,7 +3,7 @@ import Component from 'inferno-component'
 import { observer } from 'mobx-inferno'
 //import { IndexLink } from 'inferno-router'
 
-@observer(['action', 'state'])
+@observer(['actions', 'state', 'history'])
 class NotFound extends Component {
     render() {
         const { history } = this.props

@@ -4,10 +4,10 @@ import { observer } from 'mobx-inferno'
 import Link from '../Common/Link'
 import Menu from '../Common/Menu'
 
-@observer(['action', 'state'])
+@observer(['actions', 'state'])
 class App extends Component {
     render() {
-        const { account } = this.props.action
+        const { account } = this.props.actions
         return <div>
             {account.isLoggedIn() ? <LoggedInMenu/> : <LoggedOutMenu/>}
             {this.props.children}

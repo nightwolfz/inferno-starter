@@ -2,7 +2,7 @@ import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observer } from 'mobx-inferno'
 
-@observer(['action', 'state'])
+@observer(['actions', 'state'])
 class Html extends Component {
 
     render() {

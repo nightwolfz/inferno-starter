@@ -4,6 +4,7 @@
 const sourceMaps = require('source-map-support')
 sourceMaps.install()
 
+/*
 // Compile files on PROD or launch DEV server
 if (process.env.NODE_ENV === 'production') {
     const path = require('path')
@@ -17,7 +18,7 @@ if (process.env.NODE_ENV === 'production') {
     process.on('exit', () => child.kill())
 } else {
     require('./configuration/webpack.dev.js')
-}
+}*/
 
 // Ensure we're using the server babel settings
 process.env.BABEL_ENV = 'server';
@@ -29,5 +30,6 @@ require('./src/shared/console')
 require('./src/shared/polyfills')
 require('./src/server/server')
 
-process.on('unhandledRejection', console.error.bind(console))
+process.on('uncaughtException', err => console.error(err))
+process.on('unhandledRejection', err => console.error(err))
 

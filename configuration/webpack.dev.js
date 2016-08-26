@@ -28,8 +28,15 @@ merge(config, {
 })
 
 config.plugins.push(
+    new webpack.BannerPlugin(`
+    const sourceMaps = require('source-map-support'); 
+    sourceMaps.install();
+    `),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
+    new webpack.WatchIgnorePlugin([
+        path.join(__dirname, '../src/shared')
+    ]),
     new webpack.DefinePlugin({
         'process.env.BROWSER': true,
         'process.env.NODE_ENV': JSON.stringify('development')

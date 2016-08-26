@@ -5,12 +5,12 @@ import size from 'lodash/fp/size'
 import TodoAdd from './Todos/TodoAdd'
 import TodoItem from './Todos/TodoItem'
 
-@observer(['action', 'state'])
+@observer(['actions', 'state'])
 class Todos extends Component {
 
     // When route is loaded (isomorphic)
-    static fetchData({ action, state, params }) {
-        return action.todos.browse().then(items => {
+    static fetchData({ actions, state, params }) {
+        return actions.todos.browse().then(items => {
             state.todos.items = items
         })
     }

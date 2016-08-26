@@ -4,7 +4,7 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-inferno'
 import Error from '../Common/Error'
 
-@observer(['action', 'state'])
+@observer(['actions', 'state', 'history'])
 class Register extends Component {
 
     @observable form = {
@@ -23,7 +23,7 @@ class Register extends Component {
     }
 
     handleRegister() {
-        const { account } = this.props.action
+        const { account } = this.props.actions
         const { history } = this.props
         const { username, password } = this.form
 

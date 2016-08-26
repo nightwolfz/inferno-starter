@@ -3,11 +3,11 @@ import Component from 'inferno-component'
 import { observer } from 'mobx-inferno'
 import Loading from '../Common/Loading'
 
-@observer(['action', 'state'])
+@observer(['actions', 'state'])
 class Logout extends Component {
 
     componentDidMount() {
-        const { account } = this.props.action
+        const { account } = this.props.actions
         account.logout()
     }
 

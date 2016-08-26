@@ -26,8 +26,8 @@ if (process.env.BROWSER) {
 const state = createClientState()
 const context = {
     state,
-    history: history,
-    action: actions(state)
+    history,
+    actions: actions(state)
 }
 
 /**

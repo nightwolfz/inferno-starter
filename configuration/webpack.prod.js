@@ -1,5 +1,4 @@
 const merge = require('lodash/merge')
-const path = require('path')
 const logger = require('debug')
 const webpack = require('webpack')
 const config = require('./webpack.base.js')
@@ -11,18 +10,35 @@ merge(config, {
     target: 'web',
     devtool: 'source-map',
     entry: {
-        bundle: path.join(__dirname, '../src/client/client.js')
+        bundle: './src/client/client.js'
     },
     output: {
-        publicPath: 'http://localhost:2000/build/',
-        libraryTarget: 'var'
+        publicPath: '/build/'
+    }
+})
+
+// Production plugins for old browsers
+//------------------------------------
+config.module.loaders.forEach(loader => {
+    if (loader.loader === 'babel-loader') {
+        loader.query.plugins.push(
+        "transform-es2015-arrow-functions",
+        "transform-es2015-block-scoped-functions",
+        "transform-es2015-block-scoping",
+        "transform-es2015-classes",
+        "transform-es2015-computed-properties",
+        "transform-es2015-destructuring",
+        "transform-es2015-literals",
+        "transform-es2015-modules-commonjs",
+        "transform-es2015-parameters",
+        "transform-es2015-shorthand-properties",
+        "transform-es2015-spread",
+        "transform-es2015-template-literals"
+        )
     }
 })
 
 logger('server:webpack')('Environment: Production')
-
-delete config.output.libraryTarget
-delete config.output.pathinfo
 
 // Save files to disk
 //-------------------------------
@@ -33,9 +49,23 @@ new webpack.optimize.DedupePlugin(),
 new webpack.optimize.UglifyJsPlugin({
     compressor: {
         screw_ie8: true,
-        warnings: false
+        warnings: false,
+        properties: true,
+        sequences: true,
+        dead_code: true,
+        booleans: true,
+        unused: true,
+        loops: true,
+        hoist_funs: true,
+        cascade: true,
+        if_return: true,
+        join_vars: true
+    },
+    output: {
+        comments: false
     }
-}))
+})
+)
 
 // Set some environment variables
 //-------------------------------
@@ -64,11 +94,28 @@ compiler.run(function(err, stats) {
         hash: false,
         chunks: false,
         version: false,
+        children: false,
         chunkModules: false
     }))
+
+    // Write a stats.json for the webpack bundle visualizer
+    //writeWebpackStats(stats)
 
     if (stats.hasErrors()) {
         logger('server:webpackError')(stats.compilation.errors.toString())
     }
     logger('server:webpack')('Finished compiling')
 })
+
+
+/**
+ * Writes a stats.json for the webpack bundle visualizer
+ * URL: https://chrisbateman.github.io/webpack-visualizer/
+ * @param stats
+ */
+function writeWebpackStats(stats) {
+    const { resolve } = require('path')
+    const location = resolve(config.output.path, 'stats.json')
+    require('fs').writeFileSync(location, JSON.stringify(stats.toJson()))
+    logger('server:webpack')(`Wrote stats.json to ${location}`)
+}

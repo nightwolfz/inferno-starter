@@ -28,7 +28,8 @@ export default async function(req, res, next) {
     // Create the context
     req.context = {
         state,
-        action: actions(stateWithToken)
+        history: {}, // mock
+        actions: actions(stateWithToken)
     }
     next()
 }
