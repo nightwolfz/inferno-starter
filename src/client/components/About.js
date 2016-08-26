@@ -1,8 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 
-@connect
+@observer(['actions', 'state'])
 class About extends Component {
     render() {
         return <main>

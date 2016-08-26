@@ -1,12 +1,12 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 
-@connect
+@observer(['actions', 'state'])
 class Html extends Component {
 
     render() {
-        const { state } = this.context
+        const { state } = this.props
         const devServerURL = process.env.NODE_ENV === 'production' ? '' : `http://${state.app.hostname.replace(2000, 2002)}`
 
         return <html>

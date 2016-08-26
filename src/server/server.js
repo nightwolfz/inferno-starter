@@ -1,5 +1,6 @@
 import logger from 'debug'
-import fp from 'lodash/fp'
+import size from 'lodash/fp/size'
+import map from 'lodash/fp/map'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import express from 'express'
@@ -14,8 +15,8 @@ import account from './routes/account'
 const app = express()
 
 // Serve static files
-if (fp.size(config.http.static)) {
-    fp.map(route => {
+if (size(config.http.static)) {
+    map(route => {
         logger('server:static')(route.path)
         app.use(route.url, express.static(route.path))
     })(config.http.static)

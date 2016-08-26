@@ -3,10 +3,10 @@ import Component from 'inferno-component'
 import size from 'lodash/fp/size'
 import classnames from 'classnames'
 import { observable } from 'mobx'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 import Link from '../Common/Link'
 
-@connect
+@observer(['actions', 'state'])
 class Menu extends Component {
 
     @observable menu = {

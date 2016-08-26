@@ -1,11 +1,11 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observable } from 'mobx'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 import Loading from '../Common/Loading'
 import Error from '../Common/Error'
 
-@connect
+@observer(['actions', 'state', 'history'])
 class Login extends Component {
 
     @observable form = {
@@ -21,8 +21,8 @@ class Login extends Component {
 
     handleLogin = (e) => {
         e.preventDefault()
-        const { account } = this.context.action
-        const { history } = this.context
+        const { account } = this.props.actions
+        const { history } = this.props
 
         account.login({
                 username: this.form.username,

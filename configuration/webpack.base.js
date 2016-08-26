@@ -1,3 +1,5 @@
+require('../src/shared/console')
+
 const path = require('path')
 const webpack = require('webpack')
 const ExtractCSS = require('extract-text-webpack-plugin')

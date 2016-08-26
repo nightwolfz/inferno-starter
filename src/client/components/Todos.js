@@ -1,22 +1,22 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'mobx-connect/inferno'
+import { observer } from 'mobx-inferno'
 import size from 'lodash/fp/size'
 import TodoAdd from './Todos/TodoAdd'
 import TodoItem from './Todos/TodoItem'
 
-@connect
+@observer(['actions', 'state'])
 class Todos extends Component {
 
     // When route is loaded (isomorphic)
-    static fetchData({ action, state, params }) {
-        return action.todos.browse().then(items => {
+    static fetchData({ actions, state, params }) {
+        return actions.todos.browse().then(items => {
             state.todos.items = items
         })
     }
 
     render() {
-        const { state } = this.context
+        const { state } = this.props
 
         return <main>
             <h1>todos</h1>
