@@ -69,7 +69,7 @@ module.exports = {
         extensions: ['', '.js', '.jsx']
     },
     plugins: [
-        new ExtractCSS('bundle.css', { allChunks: true }),
+        new ExtractCSS({ filename: 'bundle.css', allChunks: true }),
         new webpack.ProvidePlugin({
             'Promise': 'bluebird'
         })

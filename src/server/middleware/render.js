@@ -25,7 +25,7 @@ export default function serverSideRender(req, res) {
         )
     }
 
-    router(routes, req.originalUrl, req.context).then(component => {
+    router(routes, req.context, req.originalUrl).then(component => {
         sendResponse(200, InfernoServer.renderToString(renderComponent(component)))
     }).catch(error => {
         sendResponse(404, error.stack.replace(/\n/g, '<br>'))

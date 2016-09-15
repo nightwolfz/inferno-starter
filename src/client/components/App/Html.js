@@ -36,7 +36,7 @@ class Html extends Component {
 
 function insertState(state) {
     return {
-        __html: 'window.__STATE = ' + JSON.stringify(state) + ';'
+        __html: 'window.__STATE = ' + JSON.stringify(state, null, process.env.DEV ? 2 : 0) + ';'
     }
 }
 

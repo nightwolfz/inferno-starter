@@ -1,26 +1,23 @@
 // This is the entry point for our client-side logic
 // The server-side has a similar configuration in `src/server/middleware/render.js`
+import '../assets/css/index.scss'
 import '../shared/polyfills'
 import '../shared/console'
 import 'isomorphic-fetch'
 import Inferno from 'inferno'
 import InfernoDOM from 'inferno-dom'
-import { Provider } from 'mobx-inferno'
 import history from '../shared/history'
 import router from '../shared/router'
 import routes from './routes'
+import { Provider } from 'mobx-inferno'
 import { createClientState } from './state'
 import actions from './actions'
+import App from './components/App/App'
 
 // Disable warnings from bluebird
 Promise.config({
     warnings: false
 })
-
-// Import our styles
-if (process.env.BROWSER) {
-    require('../assets/css/index.scss')
-}
 
 // Initialize actions and state
 const state = createClientState()
@@ -30,19 +27,18 @@ const context = {
     actions: actions(state)
 }
 
+// We render our react app into this element
+const container = document.getElementById('inferno-root')
+
 /**
  * Render our component acording to our routes
  * @param location
  */
 function render(location) {
-    function renderComponent(component) {
-        return <Provider {...context}>
+    router(routes, context, location.pathname).then(component => {
+        InfernoDOM.render(<Provider {...context}>
             {component}
-        </Provider>
-    }
-
-    router(routes, location.pathname, context).then(component => {
-        InfernoDOM.render(renderComponent(component), document.getElementById('inferno-root'))
+        </Provider>, container)
     })
 }
 
@@ -52,7 +48,6 @@ history.listen(render);
 
 // Use hot-reloading if available
 if (module.hot) {
-    module.hot.accept(() => {
-        render(history.getCurrentLocation())
-    })
+    module.hot.accept()
+    //module.hot.decline('')
 }

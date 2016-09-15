@@ -1,7 +1,7 @@
 import jwt from 'jwt-simple'
 import crypto from 'crypto'
 import db from '../helpers/database'
-import config from '../../../configuration/server'
+import config from '../../../config/server'
 
 /**
  * Get account by token

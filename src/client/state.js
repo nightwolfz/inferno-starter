@@ -1,4 +1,5 @@
-import { observable, extendObservable, asFlat, toJS } from 'mobx'
+import { observable, asFlat, toJS } from 'mobx'
+import mergeObservables from './helpers/mergeObservables'
 
 // Default state structure
 const defaultState = observable({
@@ -14,20 +15,8 @@ const defaultState = observable({
     }
 })
 
-// Export function that creates our state
-export function createServerState() {
-    return toJS(defaultState)
-}
+// Export function that creates our server tate
+export const createServerState = () => toJS(defaultState)
 
-export function createClientState() {
-    if (process.env.BROWSER) {
-        // Update our state
-        Object.keys(window.__STATE).forEach(key => {
-            extendObservable(defaultState[key], window.__STATE[key])
-        })
-        // For debugging purposes
-        window.__STATE = defaultState
-
-        return defaultState
-    }
-}
+// Export function that creates our client state
+export const createClientState = () => mergeObservables(defaultState, window.__STATE)

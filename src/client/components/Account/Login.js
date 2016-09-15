@@ -51,7 +51,7 @@ class Login extends Component {
             <h1>sign-in</h1>
             <form className="account" onSubmit={e => this.handleLogin(e)}>
                 <label>
-                    Username
+                    Usernames
                     <input type="text"
                            value={this.form.username}
                            onKeyUp={this.handleChange('username')}

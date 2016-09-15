@@ -1,7 +1,7 @@
 import logger from 'debug'
 import Promise from 'bluebird'
 import mongoose from 'mongoose'
-import config from '../../../configuration/server'
+import config from '../../../config/server'
 
 // Use bluebird
 mongoose.Promise = Promise
