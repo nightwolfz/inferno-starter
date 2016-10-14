@@ -34,16 +34,23 @@ config.module.loaders.forEach(loader => {
         "transform-es2015-parameters",
         "transform-es2015-shorthand-properties",
         "transform-es2015-spread",
-        "transform-es2015-template-literals"
+        "transform-es2015-template-literals",
+        "transform-decorators-legacy",
+        "transform-class-properties",
+        ["fast-async", {
+            "env": { "asyncStackTrace": true },
+            "runtimePattern": "index\\.js"
+        }]
         )
     }
 })
 
 logger('server:webpack')('Environment: Production')
 
+logger('webpack:environment')('Production')
+
 // Save files to disk
 //-------------------------------
-//config.output.path = path.join(__dirname, '../build')
 config.plugins.push(
 new webpack.optimize.OccurrenceOrderPlugin(),
 new webpack.optimize.DedupePlugin(),
@@ -71,10 +78,11 @@ new webpack.optimize.UglifyJsPlugin({
 // Set some environment variables
 //-------------------------------
 config.plugins.push(
-    new webpack.DefinePlugin({
-        'process.env.BROWSER': true,
-        'process.env.NODE_ENV': JSON.stringify('production')
-    })
+new webpack.DefinePlugin({
+    'process.env.BROWSER': true,
+    'process.env.BLUEBIRD_WARNINGS': '0',
+    'process.env.NODE_ENV': JSON.stringify('production')
+})
 )
 
 // Sanity checks
@@ -103,9 +111,9 @@ compiler.run(function(err, stats) {
     //writeWebpackStats(stats)
 
     if (stats.hasErrors()) {
-        logger('server:webpackError')(stats.compilation.errors.toString())
+        logger('webpack:error')(stats.compilation.errors.toString())
     }
-    logger('server:webpack')('Finished compiling')
+    logger('webpack:info')('Finished compiling')
 })
 
 
@@ -115,7 +123,8 @@ compiler.run(function(err, stats) {
  * @param stats
  */
 function writeWebpackStats(stats) {
-    const location = path.resolve(config.output.path, 'stats.json')
+    const { resolve } = require('path')
+    const location = resolve(config.output.path, 'stats.json')
     require('fs').writeFileSync(location, JSON.stringify(stats.toJson()))
-    logger('server:webpack')(`Wrote stats.json to ${location}`)
+    logger('webpack:debug')(`Wrote stats.json to ${location}`)
 }

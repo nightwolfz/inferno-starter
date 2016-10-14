@@ -4,11 +4,13 @@
     "transform-decorators-legacy",
     "transform-class-properties",
     "transform-es2015-modules-commonjs",
+    "transform-es2015-destructuring",
     "transform-object-rest-spread",
-    ["transform-async-to-module-method", {
-      "module": "bluebird",
-      "method": "coroutine"
-    }],
-    "inferno"
+    "inferno",
+    ["babel-plugin-webpack-alias", {"config": "./core/webpack.base.js"}],
+    ["fast-async", {
+      "env": {"dontMapStackTraces": true},
+      "runtimePattern": "index\\.js"
+    }]
   ]
 }

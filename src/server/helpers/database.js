@@ -1,17 +1,16 @@
 import logger from 'debug'
-import Promise from 'bluebird'
 import mongoose from 'mongoose'
-import config from '../../../config/server'
+import config from '../config'
 
-// Use bluebird
+// Use native promises
 mongoose.Promise = Promise
 
 // Initialize our database
 mongoose.connect(config.databases.mongo)
 
 const db = mongoose.connection
-db.on('error', (err) => logger('server:mongoError')(err))
-db.once('open', () => logger('server:mongo')(config.databases.mongo))
+db.on('error', (err) => logger('database:error')(err))
+db.once('open', () => logger('database:info')(config.databases.mongo))
 
 // Initialize our models
 export default {

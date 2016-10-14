@@ -1,16 +1,14 @@
-import requestCreator from '../../shared/request'
+import requestCreator from 'core/helpers/request'
+import Common from './common'
 import Todos from './todos'
 import Account from './account'
 
-/**
- * All our actions with actions go here
- * @param state
- * @returns {{todos: Todos, account: Account}}
- */
-export default (state) => {
-    const request = requestCreator(state)
+// All our actions are listed here
+export default (state = {}, token) => {
+    const request = requestCreator(state.common.hostname, token)
     return {
-        todos: new Todos(state, request),
-        account: new Account(state, request)
+        common: new Common(request, state.common),
+        todos: new Todos(request, state.todos),
+        account: new Account(request, state.account)
     }
 }

@@ -1,48 +1,42 @@
-import _ from 'lodash'
-import { Router } from 'express'
-import { getAccount } from '../actions/account'
+import router from 'koa-router'
 import authorize from '../middleware/authorize'
 import db from '../helpers/database'
-const router = Router();
+import _ from 'lodash'
+import { getAccount } from './account'
 
-router.get('/api/todos', authorize, async(req, res) => {
-    const query = {
-        createdBy: await getAccount(req.token)
-    }
-    const body = await db.todos.find(query).limit(50).exec()
-    return res.json(body)
-})
+export default router()
+.get('/api/todos', getTodos)
+.post('/api/todos/add', authorize, addTodos)
+.post('/api/todos/remove', authorize, removeTodos)
 
-router.post('/api/todos/add', authorize, async(req, res) => {
-    if (_.isEmpty(req.body.text)) return res.status(400).send('[text] not provided')
+async function getTodos(ctx) {
+    const response = await db.todos.find({
+        createdBy: await getAccount(ctx.token)
+    }).limit(50).exec()
 
-    const todo = new db.todos({
-        text: req.body.text,
-        createdBy: await getAccount(req.token)
-    })
-    const result = await todo.save()
-    return res.json(result)
-})
-
-router.post('/api/todos/remove', authorize, async(req, res) => {
-    if (_.isEmpty(req.body._id)) return res.status(400).send('[_id] not provided')
-
-    const result = await db.todos.remove({ _id: req.body._id })
-    return res.json(result)
-})
-
-
-/**
- * Remove weird characters and trim space
- * @private
- * @param str
- * @returns {string}
- */
-function cleanString(str) {
-    return str.toLowerCase()
-              .replace(/\W+|–/g, ' ')
-              .replace(/\s+/g, ' ')
-              .trim()
+    ctx.body = response
 }
 
-export default router
+async function addTodos(ctx) {
+    const { text } = ctx.request.fields
+
+    if (_.isEmpty(text)) throw new Error('[text] not provided')
+
+    const newTodo = new db.todos({
+        text,
+        createdBy: await getAccount(ctx.token)
+    })
+    const response = await newTodo.save()
+
+    ctx.body = response
+}
+
+async function removeTodos(ctx) {
+    const { _id } = ctx.request.fields
+
+    if (_.isEmpty(_id)) throw new Error('[_id] not provided')
+
+    const response = await db.todos.remove({ _id })
+
+    ctx.body = response
+}

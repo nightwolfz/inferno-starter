@@ -1,5 +1,5 @@
-import find from 'lodash/fp/find'
-import isEmpty from 'lodash/fp/isEmpty'
+import { extendObservable } from 'mobx'
+import { find, isEmpty } from 'lodash'
 
 /**
  * @name Account
@@ -7,40 +7,46 @@ import isEmpty from 'lodash/fp/isEmpty'
  */
 export default class Account {
 
-    constructor(state, request) {
-        this.state = state
+    constructor(request, state = {}) {
         this.request = request
+        extendObservable(this, {
+            username: null,
+            token: null,
+            users: []
+        }, state)
     }
 
     isLoggedIn() {
-        return !isEmpty(this.state.account)
+        return !isEmpty(this.username)
     }
 
     find(username) {
-        return find(this.state.users, { username })
+        return find(this.users, { username })
     }
 
     login(params) {
         return this.request('api/account/login', params)
                    .then(account => {
-                       this.state.account = account
-                       document.cookie = 'token=' + account.token;
-                    })
+                       extendObservable(this, account)
+                       setTimeout(() => window.location.href = '/', 1000)
+                   })
     }
 
     logout() {
         return this.request('api/account/logout')
                    .then(() => {
-                       if (this.state.account) {
-                           this.state.account = null
-                           document.cookie = 'token='
+                       if (this.profile) {
+                           this.username = null
+                           this.token = null
                        }
-                       setTimeout(() => window.location.href = '/', 2000)
+                       setTimeout(() => window.location.href = '/', 1000)
                    })
     }
 
     register(params) {
         return this.request('api/account/register', params)
-                   .then(account => this.state.account = account)
+                   .then(account => {
+                       extendObservable(this, account)
+                   })
     }
 }

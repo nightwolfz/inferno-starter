@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
     http: {
         port: 2000,
-        favicon: path.join(__dirname, '../src/assets/favicon.ico'),
+        favicon: path.join(__dirname, '../assets/favicon.ico'),
         static: [
             {
                 url: '/build',
