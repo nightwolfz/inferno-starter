@@ -1,7 +1,7 @@
 import Inferno from 'inferno'
 import classnames from 'classnames'
 import isEmpty from 'lodash/fp/isEmpty'
-import history from '../../../shared/history'
+import history from 'core/helpers/history'
 
 function pushHistory(e, props) {
     e.preventDefault()

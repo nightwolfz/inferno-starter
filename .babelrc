@@ -7,10 +7,9 @@
     "transform-es2015-destructuring",
     "transform-object-rest-spread",
     "inferno",
-    ["babel-plugin-webpack-alias", {"config": "./core/webpack.base.js"}],
+    ["babel-plugin-webpack-alias", {"config": "./core/webpack/webpack.base.js"}],
     ["fast-async", {
-      "env": {"dontMapStackTraces": true},
-      "runtimePattern": "index\\.js"
+      "env": {"dontMapStackTraces": true}
     }]
   ]
 }

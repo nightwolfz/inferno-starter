@@ -1,10 +1,11 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observable } from 'mobx'
-import { observer } from 'mobx-inferno'
+import { connect } from 'inferno-mobx'
+import history from 'core/helpers/history'
 import Error from '../Common/Error'
 
-@observer(['actions', 'state', 'history'])
+@connect(['account'])
 class Register extends Component {
 
     @observable form = {
@@ -23,8 +24,7 @@ class Register extends Component {
     }
 
     handleRegister() {
-        const { account } = this.props.actions
-        const { history } = this.props
+        const { account } = this.props
         const { username, password } = this.form
 
         account.register({ username, password })

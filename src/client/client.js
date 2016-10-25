@@ -3,45 +3,43 @@
 import '../assets/css/index.scss'
 import 'isomorphic-fetch'
 import 'core/polyfills'
-import 'core/console'
+import 'core/logger'
 import 'isomorphic-fetch'
+import { Router, getRoutes } from 'inferno-router'
+import fetchData from 'core/helpers/fetchData'
+import history from 'core/helpers/history'
 import Inferno from 'inferno'
-import InfernoDOM from 'inferno-dom'
-import history from '../shared/history'
-import router from '../shared/router'
 import routes from './routes'
-import { Provider } from 'mobx-inferno'
-import { createClientState } from './state'
-import actions from './actions'
 import autorun from './autorun'
-import App from './components/App/App'
+import stores from './stores'
+import App from './containers/App'
 
 // We render our react app into this element
 const container = document.getElementById('container')
 
-// Initialize actions and state
-const stores = actions(window.__STATE)
-
 // React to changes
 autorun(stores)
 
-const renderProps = (<App stores={stores}/>)
-
 /**
- * Render our component acording to our routes
+ * Render our component according to our routes
  * @param location
  */
-function render(location) {
-    router(routes, stores, location.pathname).then(component => {
-        InfernoDOM.render(<Provider {...stores}>
-            {component}
-        </Provider>, container)
+function renderDOM(location) {
+    const routing = routes(stores)
+    const matched = getRoutes(routing, location.pathname)
+
+    fetchData(matched, stores).then(() => {
+        Inferno.render(<App stores={stores}>
+            <Router history={history}>
+                {routing}
+            </Router>
+        </App>, container)
     })
 }
 
-// Listen for URL changes and render the correct component
-render(history.getCurrentLocation());
-history.listen(render);
+// Render HTML on the browser
+renderDOM(history.location)
+history.listen(renderDOM)
 
 // Use hot-reloading if available
 if (module.hot) {

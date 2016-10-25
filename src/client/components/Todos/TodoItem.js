@@ -1,8 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { observer } from 'mobx-inferno'
+import { connect } from 'inferno-mobx'
 
-@observer(['actions', 'state'])
+@connect(['actions', 'state'])
 class TodoItem extends Component {
 
     componentDidMount() {

@@ -1,4 +1,4 @@
-const { compact, size, includes, extend } = require('lodash')
+const _ = require('underscore')
 
 // For IE 11
 if (typeof Promise === 'undefined') {
@@ -6,10 +6,10 @@ if (typeof Promise === 'undefined') {
 }
 
 global.size = function(obj) {
-    return (typeof obj === 'string') ? obj.length : size(obj)
+    return (typeof obj === 'string') ? obj.length : _.size(obj)
 }
 
-global.compact = compact
+global.compact = _.compact
 
 /**
  * Encode spaces and other characters into +
@@ -43,7 +43,7 @@ String.prototype.cleanString = function() {
  * @returns {string}
  */
 String.prototype.escape = function() {
-    return escape(this)
+    return _.escape(this)
 }
 
 /**
@@ -83,18 +83,18 @@ if (!String.prototype.startsWith) {
 
 if (!Array.prototype.find) {
     Array.prototype.find = function(predicate) {
-        return find(this, predicate)
+        return _.find(this, predicate)
     };
 }
 
 if (!Array.prototype.includes) {
     Array.prototype.includes = function(searchElement) {
-        return includes(this, searchElement);
+        return _.includes(this, searchElement);
     };
 }
 
 if (typeof Object.assign != 'function') {
-    Object.assign = extend;
+    Object.assign = _.extend;
 }
 
 if (!String.prototype.includes) {

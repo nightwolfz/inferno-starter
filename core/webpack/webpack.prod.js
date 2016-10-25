@@ -1,5 +1,5 @@
-const merge = require('lodash/merge')
 const path = require('path')
+const merge = require('lodash/merge')
 const logger = require('debug')
 const webpack = require('webpack')
 const config = require('./webpack.base.js')
@@ -10,9 +10,9 @@ merge(config, {
     cache: false,
     target: 'web',
     devtool: 'source-map',
-    entry: {
-        bundle: path.join(__dirname, '../src/client/client.js')
-    },
+    entry: [
+        path.join(__dirname, '../../src/client/client.js')
+    ],
     output: {
         publicPath: '/build/'
     }
@@ -36,21 +36,16 @@ config.module.loaders.forEach(loader => {
         "transform-es2015-spread",
         "transform-es2015-template-literals",
         "transform-decorators-legacy",
-        "transform-class-properties",
-        ["fast-async", {
-            "env": { "asyncStackTrace": true },
-            "runtimePattern": "index\\.js"
-        }]
+        "transform-class-properties"
         )
     }
 })
 
 logger('server:webpack')('Environment: Production')
 
-logger('webpack:environment')('Production')
-
 // Save files to disk
 //-------------------------------
+//config.output.path = path.join(__dirname, '../../build')
 config.plugins.push(
 new webpack.optimize.OccurrenceOrderPlugin(),
 new webpack.optimize.DedupePlugin(),
@@ -111,9 +106,9 @@ compiler.run(function(err, stats) {
     //writeWebpackStats(stats)
 
     if (stats.hasErrors()) {
-        logger('webpack:error')(stats.compilation.errors.toString())
+        logger('server:webpackError')(stats.compilation.errors.toString())
     }
-    logger('webpack:info')('Finished compiling')
+    logger('server:webpack')('Finished compiling')
 })
 
 
@@ -126,5 +121,5 @@ function writeWebpackStats(stats) {
     const { resolve } = require('path')
     const location = resolve(config.output.path, 'stats.json')
     require('fs').writeFileSync(location, JSON.stringify(stats.toJson()))
-    logger('webpack:debug')(`Wrote stats.json to ${location}`)
+    logger('server:webpack')(`Wrote stats.json to ${location}`)
 }

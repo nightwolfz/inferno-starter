@@ -1,6 +1,6 @@
 // Enable logging
-const appName = 'app'
-const enabled = `${appName}:*,app:*,webpack:*`
+const appName = 'binder'
+const enabled = `${appName}:*,server:*,webpack:*`
 
 if (process.env.BROWSER) {
     const logger = require('debug')

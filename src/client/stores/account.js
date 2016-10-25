@@ -1,5 +1,6 @@
-import { extendObservable } from 'mobx'
-import { find, isEmpty } from 'lodash'
+import { extendObservable, asFlat } from 'mobx'
+import _ from 'underscore'
+import history from 'core/helpers/history'
 
 /**
  * @name Account
@@ -12,12 +13,12 @@ export default class Account {
         extendObservable(this, {
             username: null,
             token: null,
-            users: []
+            users: asFlat([])
         }, state)
     }
 
     isLoggedIn() {
-        return !isEmpty(this.username)
+        return !_.isEmpty(this.username)
     }
 
     find(username) {
@@ -28,7 +29,7 @@ export default class Account {
         return this.request('api/account/login', params)
                    .then(account => {
                        extendObservable(this, account)
-                       setTimeout(() => window.location.href = '/', 1000)
+                       setTimeout(() => history.push('/'), 1000)
                    })
     }
 
@@ -39,7 +40,7 @@ export default class Account {
                            this.username = null
                            this.token = null
                        }
-                       setTimeout(() => window.location.href = '/', 1000)
+                       setTimeout(() => history.push('/'), 1000)
                    })
     }
 

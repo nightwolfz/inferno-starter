@@ -1,7 +1,8 @@
 import Inferno from 'inferno'
+import { Route } from 'inferno-router'
 import isEmpty from 'lodash/fp/isEmpty'
-import App from './components/App/App'
-import NotFound from './components/NotFound'
+import Main from './containers/Main'
+import NotFound from './containers/NotFound'
 import Todos from './components/Todos'
 import About from './components/About'
 import Login from './components/Account/Login'
@@ -9,28 +10,13 @@ import Logout from './components/Account/Logout'
 import Register from './components/Account/Register'
 
 /**
- * Wrap our content with the layout and provide params as props
- * @param state
- * @returns {Function}
- * @constructor
- */
-function Layout(context) {
-    return context.next().then(Content => {
-        return {
-            component: <App><Content/></App>,
-            params: context.params
-        }
-    })
-}
-
-/**
  * If not logged-in, show Login page
  * @param state
  * @returns {Function}
  */
-function authorizedOnly(state) {
+function authorizedOnly(account) {
     return function(Route) {
-        if (isEmpty(state.account)) {
+        if (isEmpty(account)) {
             return () => Login
         }
         return () => Route
@@ -43,18 +29,16 @@ function authorizedOnly(state) {
  * @param {object}
  * @returns {object}
  */
-export default function({ state }) {
-    const auth = authorizedOnly(state)
-
-    return [{
-        path: '/',
-        action: Layout,
-        children: [
-            { path: '/', action: auth(Todos) },
-            { path: '/about', action: () => About },
-            { path: '/login', action: () => Login },
-            { path: '/logout', action: () => Logout },
-            { path: '/register', action: () => Register }
-        ]
-    }]
+export default function({ account }) {
+    const auth = authorizedOnly(account)
+    return (
+    <Route component={ Main }>
+        <Route path="/" component={ Todos }/>
+        <Route path="/about" component={ About }/>
+        <Route path="/login" component={ Login }/>
+        <Route path="/logout" component={ Logout }/>
+        <Route path="/register" component={ Register }/>
+        <Route path="*" component={ NotFound }/>
+    </Route>
+    )
 }

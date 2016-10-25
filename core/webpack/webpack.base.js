@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractCSS = require('extract-text-webpack-plugin')
-const sources = (location) => path.join(__dirname, '../src', location)
+const sources = (location) => path.join(__dirname, '../../src', location)
 
 module.exports = {
     entry: {},
@@ -12,23 +12,21 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.jsx?$/,
+                test: /\.js$/,
                 loader: 'babel-loader',
-                include: sources,
-                babelrc: false,
+                include: [sources(''), sources('../core')],
                 query: {
-                    cacheDirectory: true,
+                    cacheDirectory: false,
                     presets: [],
                     plugins: [
                         "add-module-exports",
                         "transform-es2015-modules-commonjs",
                         "transform-es2015-destructuring",
                         "transform-object-rest-spread",
+                        "inferno",
                         ["fast-async", {
-                            "env": {"dontMapStackTraces": true},
-                            "runtimePattern": "index\\.js"
-                        }],
-                        "inferno"
+                            "env": { "dontMapStackTraces": true }
+                        }]
                     ]
                 }
             },
@@ -53,12 +51,12 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         sourcePrefix: '',
-        path: path.join(__dirname, '../build')
+        path: path.resolve(__dirname, '../../build')
     },
 
     resolve: {
         alias: {
-            'core': path.join(__dirname)
+            'core': path.join(__dirname, '../')
         }
     },
 

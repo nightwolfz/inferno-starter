@@ -1,4 +1,5 @@
-import { each } from 'lodash'
+import _ from 'underscore'
+import store from 'core/helpers/store'
 
 /**
  * This is our overly complicated isomorphic "request"
@@ -15,7 +16,7 @@ export default (hostname, token) => {
         }
         if (body && postForm) {
             let formData = new FormData()
-            each(body, (value, field) => formData.append(field, value))
+            _.each(body, (value, field) => formData.append(field, value))
             requestOptions.method = 'POST'
             requestOptions.body = formData
         } else if (body) {

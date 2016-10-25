@@ -1,5 +1,5 @@
 import { getAccount } from '../routes/account';
-import actions from '../../client/actions'
+import { stores } from '../../client/stores'
 
 /**
  * Middleware for creating the context
@@ -24,6 +24,6 @@ export default async(ctx, next) => {
     }
 
     // Finally initialize state. This should come last
-    ctx.stores = actions(state, ctx.token)
+    ctx.stores = stores(state, ctx.token)
     await next()
 }

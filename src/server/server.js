@@ -1,5 +1,4 @@
 import logger from 'debug'
-import _ from 'lodash'
 import Koa from 'koa'
 import bodyParser from 'koa-better-body'
 import favicon from 'koa-favicon'
@@ -31,7 +30,7 @@ app.use(account.routes())
 app.use(render)
 
 // Serve static files
-_.each(config.http.static, staticRoute => {
+config.http.static.forEach(staticRoute => {
     logger('app:static')(staticRoute.path)
     app.use(serve(staticRoute.url, staticRoute.path))
 })

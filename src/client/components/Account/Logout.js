@@ -1,13 +1,13 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { observer } from 'mobx-inferno'
+import { connect } from 'inferno-mobx'
 import Loading from '../Common/Loading'
 
-@observer(['actions', 'state'])
+@connect(['account'])
 class Logout extends Component {
 
     componentDidMount() {
-        const { account } = this.props.actions
+        const { account } = this.props
         account.logout()
     }
 

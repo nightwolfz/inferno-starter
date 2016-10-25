@@ -1,17 +1,28 @@
-import { map } from 'lodash';
+import _ from 'underscore';
+
+/**
+ * Go through the mached route and extract fetchData method
+ * @param props
+ * @param promises
+ * @returns {*}
+ */
+function getRoutes(staticMethod, { props }, promises) {
+    props.component[staticMethod] && promises.push(props.component[staticMethod])
+    props.children && getRoutes(staticMethod, props.children, promises)
+    return props.params
+}
+
 
 /**
  * Execute fetchData methods for each component
- * @param renderProps
- * @param context - contains our state and actions
- * @returns {Promise} - returns a promise
+ * @param component {Object}
+ * @param params {Object}
+ * @param stores {Object}
+ * @returns {Promise}
  */
-export default async(components, params, stores) => {
+export default (routes, stores) => {
+    const promises = []
+    const params = getRoutes('fetchData', routes, promises)
 
-    console.log(components)
-
-    const accumulate = map(components.props.children, 'fetchData').filter(x => x)
-    const fetchDataMethods = accumulate.map(method => method(stores, params))
-
-    return Promise.all(fetchDataMethods);
-}
+    return Promise.all(promises.map(fetchData => fetchData({ ...stores, params})))
+};

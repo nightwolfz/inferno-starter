@@ -1,16 +1,16 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observable } from 'mobx'
-import { observer } from 'mobx-inferno'
+import { connect } from 'inferno-mobx'
 
-@observer(['actions', 'state'])
+@connect(['todos'])
 class TodoAdd extends Component {
 
     @observable inputText = ''
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.actions.todos.add(this.inputText)
+        this.props.todos.add(this.inputText)
             .then(() => {
                 // Clear input text on sucess
                 this.inputText = ''
@@ -22,9 +22,6 @@ class TodoAdd extends Component {
     }
 
     render() {
-        const { actions } = this.props
-        const { item } = this.props
-
         return <form className="header" onSubmit={this.handleSubmit}>
             <p>
                 <input type="text"
