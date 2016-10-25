@@ -12,7 +12,10 @@ export default class Todos {
         extendObservable(this, {
             loading: false,
             items: []
-        }, state)
+        }, {
+            loading: true,
+            items: []
+        })
     }
 
     map(predicate) {

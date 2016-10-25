@@ -10,9 +10,7 @@ class Todos extends Component {
 
     // When route is loaded (isomorphic)
     static fetchData({ todos, params }) {
-        return todos.browse().then(items => {
-            todos.items = items
-        })
+        return todos.browse()
     }
 
     render({ todos }) {
