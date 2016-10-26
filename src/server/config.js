@@ -12,8 +12,8 @@ module.exports = {
         ]
     },
     session: {
-        salt: 'SUPER_HOT_YES?',
-        secret: 'SUPER_HOT_SECRET_KEY_KERE',
+        salt: 'INFERNAL_YES?',
+        secret: 'INFERNAL_SECRET_KEY_KERE',
         expires: 2 * 3600 * 1000 // 2 hours
     },
     databases: {

@@ -2,7 +2,7 @@ import jwt from 'jwt-simple'
 import crypto from 'crypto'
 import router from 'koa-router'
 import config from '../config'
-import db from '../helpers/database'
+import db from '../database'
 
 export default router()
 .get('/api/account/logout', logoutAccount)

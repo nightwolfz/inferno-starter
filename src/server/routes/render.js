@@ -1,6 +1,6 @@
 import Inferno from 'inferno'
 import { renderToString } from 'inferno-server'
-import { Router, getRoutes, browserHistory } from 'inferno-router'
+import { Router, getRoutes } from 'inferno-router'
 import fetchData from '../../../core/helpers/fetchData';
 import history from '../../../core/helpers/history';
 import routes from '../../client/routes'
@@ -11,13 +11,13 @@ import App from '../../client/containers/App'
 export default async(ctx, next) => {
 
     const routing = routes(ctx.stores)
-    const matched = getRoutes(routing, ctx.url)
+    //const matched = getRoutes(routing, ctx.url)
 
     const renderComponent = renderToString(
         <Html stores={ctx.stores}>
             <App stores={ctx.stores}>
                 <Router url={ctx.url}>
-                    {routes(ctx.stores)}
+                    {routing}
                 </Router>
             </App>
         </Html>

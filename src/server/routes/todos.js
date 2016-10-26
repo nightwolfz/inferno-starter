@@ -1,6 +1,6 @@
 import router from 'koa-router'
 import authorize from '../middleware/authorize'
-import db from '../helpers/database'
+import db from '../database'
 import _ from 'lodash'
 import { getAccount } from './account'
 

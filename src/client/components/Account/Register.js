@@ -2,7 +2,6 @@ import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observable } from 'mobx'
 import { connect } from 'inferno-mobx'
-import history from 'core/helpers/history'
 import Error from '../Common/Error'
 
 @connect(['account'])
@@ -26,6 +25,7 @@ class Register extends Component {
     handleRegister() {
         const { account } = this.props
         const { username, password } = this.form
+        const { history } = this.context
 
         account.register({ username, password })
             .then(() => {

@@ -1,6 +1,6 @@
 import logger from 'debug'
 import mongoose from 'mongoose'
-import config from '../config'
+import config from './config'
 
 // Use native promises
 mongoose.Promise = Promise
@@ -15,6 +15,6 @@ db.once('open', () => logger('database:info')(config.databases.mongo))
 // Initialize our models
 export default {
     connection: db,
-    account: db.model('Account', require('../models/Account')),
-    todos: db.model('Todo', require('../models/Todo'))
+    account: db.model('Account', require('./models/Account')),
+    todos: db.model('Todo', require('./models/Todo'))
 }

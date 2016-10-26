@@ -1,6 +1,5 @@
 import { extendObservable, asFlat } from 'mobx'
 import _ from 'underscore'
-import history from 'core/helpers/history'
 
 /**
  * @name Account
@@ -29,7 +28,6 @@ export default class Account {
         return this.request('api/account/login', params)
                    .then(account => {
                        extendObservable(this, account)
-                       setTimeout(() => history.push('/'), 1000)
                    })
     }
 
@@ -40,7 +38,6 @@ export default class Account {
                            this.username = null
                            this.token = null
                        }
-                       setTimeout(() => history.push('/'), 1000)
                    })
     }
 
