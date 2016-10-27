@@ -16,13 +16,13 @@ import Register from './components/Account/Register'
  */
 export default function({ account }) {
     return (
-    <Route component={ Main }>
-        <Route path="/" component={ Todos }/>
-        <Route path="/about" component={ About }/>
-        <Route path="/login" component={ Login }/>
-        <Route path="/logout" component={ Logout }/>
-        <Route path="/register" component={ Register }/>
-        <Route path="*" component={ NotFound }/>
-    </Route>
+        <Route component={ Main }>
+            <Route path="/" component={ Todos }/>
+            <Route path="/about" component={ About }/>
+            <Route path="/login" component={ Login }/>
+            <Route path="/logout" component={ Logout }/>
+            <Route path="/register" component={ Register }/>
+            <Route path="*" component={ NotFound }/>
+        </Route>
     )
 }

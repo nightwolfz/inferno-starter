@@ -4,20 +4,18 @@ import '../assets/css/index.scss'
 import 'isomorphic-fetch'
 import 'core/polyfills'
 import 'core/logger'
-import 'isomorphic-fetch'
+import Inferno from 'inferno'
 import { Router, getRoutes } from 'inferno-router'
 import createBrowserHistory from 'history/createBrowserHistory';
 import fetchData from 'core/helpers/fetchData'
-import Inferno from 'inferno'
-import routes from './routes'
 import autorun from './autorun'
 import stores from './stores'
+import routes from './routes'
 import App from './containers/App'
 
 // We render our react app into this element
 const container = document.getElementById('container')
-const browserHistory = createBrowserHistory()
-window.browserHistory = browserHistory
+const history = createBrowserHistory()
 
 // React to changes
 autorun(stores)
@@ -28,17 +26,21 @@ autorun(stores)
  */
 function renderDOM(location) {
     const routing = routes(stores)
-    //const matched = getRoutes(routing, location.pathname)
+    const matched = getRoutes(routing, location.pathname, '')
 
-    //fetchData(matched, stores).then(() => {
+    fetchData(matched, stores).then(() => {
         Inferno.render(<App stores={stores}>
-            <Router history={browserHistory}>
+            <Router history={history}>
                 {routing}
             </Router>
         </App>, container)
-    //})
+    })
 }
 
 // Render HTML on the browser
-renderDOM(browserHistory.location)
-// browserHistory.listen(renderDOM)
+renderDOM(history.location)
+history.listen(renderDOM)
+
+if (module.hot) {
+    module.hot.accept()
+}
