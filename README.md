@@ -41,6 +41,7 @@ For production:
 - Using Inferno, the fastest React-like framework out there. 
 - Using MobX, the easiest and insanely fast state manager.
 - Simple and minimal with routing, authentication, database and server-side rendering.
+- Good developer experience with hot-reloading and source-maps.
 
 # Benchmarks
 
