@@ -34,10 +34,8 @@ export default class Account {
     logout() {
         return this.request('api/account/logout')
                    .then(() => {
-                       if (this.profile) {
-                           this.username = null
-                           this.token = null
-                       }
+                       this.username = null
+                       this.token = null
                    })
     }
 
