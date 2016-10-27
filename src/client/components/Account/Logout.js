@@ -6,16 +6,29 @@ import Loading from '../Common/Loading'
 @connect(['account'])
 class Logout extends Component {
 
+    state = {
+        loading: false
+    }
+
     handleLogout = () => {
         const { account } = this.props
         const { history } = this.context
 
         account.logout().then(() => {
+            this.setState({
+                loading: true
+            })
             setTimeout(() => history.push('/'), 500)
         })
     }
 
     render() {
+        const { loading } = this.state
+
+        if (loading) {
+            return <Loading/>
+        }
+
         return <main>
             <center className="account">
                 <h3>Do you want to log out ?</h3>

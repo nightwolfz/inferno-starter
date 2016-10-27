@@ -25,10 +25,10 @@ export default class Account {
     }
 
     login(params) {
-        return this.request('api/account/login', params)
-                   .then(account => {
-                       extendObservable(this, account)
-                   })
+        return this.request('api/account/login', params).then(account => {
+           extendObservable(this, account)
+           return Promise.resolve()
+       })
     }
 
     logout() {

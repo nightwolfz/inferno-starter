@@ -59,7 +59,7 @@ function handleResponse(resp) {
     const response = resp[isJSON ? 'json' : 'text']();
 
     return resp.ok ? response : response.then(err => {
-        console.error('handleResponse-----', err)
+        console.error('Error received from server', err)
         throw err
     });
 }

@@ -9,6 +9,7 @@
     "inferno",
     ["babel-plugin-webpack-alias", {"config": "./core/webpack/webpack.base.js"}],
     ["fast-async", {
+      "runtimePattern": "index\\.js",
       "env": {"dontMapStackTraces": true}
     }]
   ]

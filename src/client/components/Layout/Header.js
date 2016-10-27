@@ -1,16 +1,12 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
-import { Router } from 'inferno-router'
 import { Link } from 'inferno-router'
 
 @connect(['account'])
-export default class Main extends Component {
-    render({ account, children }) {
-        return <div>
-            {account.isLoggedIn() ? <LoggedInMenu/> : <LoggedOutMenu/>}
-            {children}
-        </div>
+export default class Header extends Component {
+    render({ account }) {
+        return account.isLoggedIn() ? <LoggedInMenu/> : <LoggedOutMenu/>
     }
 }
 

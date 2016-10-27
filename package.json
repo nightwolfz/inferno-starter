@@ -11,7 +11,7 @@
     "prod": "cross-env NODE_ENV=production node index.js"
   },
   "dependencies": {
-    "babel-loader": "6.2.5",
+    "babel-loader": "6.2.7",
     "babel-plugin-inferno": "1.0.1-beta6",
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-plugin-transform-async-to-generator": "6.16.0",
@@ -36,7 +36,7 @@
     "css-loader": "0.25.0",
     "debug": "^2.2.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
-    "fast-async": "6.1.1",
+    "fast-async": "6.1.2",
     "file-loader": "0.9.0",
     "history": "^4.3.0",
     "inferno": "1.0.0-beta5",
@@ -68,7 +68,7 @@
     "webpack": "2.1.0-beta.25"
   },
   "devDependencies": {
-    "babel-eslint": "^7.0.0",
+    "babel-eslint": "^7.1.0",
     "cross-env": "3.1.3",
     "eslint": "^3.8.1",
     "nodemon": "1.11.0",

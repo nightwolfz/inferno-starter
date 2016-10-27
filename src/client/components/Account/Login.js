@@ -8,7 +8,7 @@ import Error from '../Common/Error'
 @connect(['account'])
 class Login extends Component {
 
-    @observable form = {
+    state = {
         username: '',
         password: '',
         loading: false,
@@ -16,44 +16,48 @@ class Login extends Component {
     }
 
     handleChange = (key) => (e) => {
-        this.form[key] = e.target.value
+        this.setState({
+            [key]: e.target.value
+        })
     }
 
     handleLogin = (e) => {
         e.preventDefault()
         const { account } = this.props
         const { history } = this.context
+        const { username, password } = this.state
 
-        account.login({
-                username: this.form.username,
-                password: this.form.password
-            })
+        account.login({ username, password })
             .then(() => {
-                this.form.error = null
-                this.form.loading = true
+                this.setState({
+                    error: null,
+                    loading: true
+                })
                 setTimeout(() => history.push('/'), 500)
             })
             .catch(error => {
-                this.form.error = error
-                this.form.loading = false
-                this.form.password = ''
+                this.setState({
+                    error,
+                    loading: false,
+                    password: ''
+                })
             })
     }
 
     render() {
-        const { form } = this
+        const { loading, error } = this.state
 
-        if (form.loading) {
+        if (loading) {
             return <Loading/>
         }
 
         return <main>
             <h1>sign-in</h1>
-            <form className="account" onSubmit={e => this.handleLogin(e)}>
+            <form className="account" onSubmit={(e) => this.handleLogin(e)}>
                 <label>
                     Usernames
                     <input type="text"
-                           value={this.form.username}
+                           value={this.state.username}
                            onKeyUp={this.handleChange('username')}
                            required="required"/>
                 </label>
@@ -61,14 +65,14 @@ class Login extends Component {
                 <label>
                     Password
                     <input type="password"
-                           value={this.form.password}
+                           value={this.state.password}
                            onKeyUp={this.handleChange('password')}
                            required="required"/>
                 </label>
 
-                {form.error && <Error text={form.error}/>}
+                {error && <Error text={error}/>}
 
-                <button onClick={e => this.handleLogin(e)}>Login</button>
+                <button onClick={(e) => this.handleLogin(e)}>Login</button>
             </form>
         </main>
     }
