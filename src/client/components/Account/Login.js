@@ -24,7 +24,7 @@ class Login extends Component {
     handleLogin = (e) => {
         e.preventDefault()
         const { account } = this.props
-        const { history } = this.context
+        const { router } = this.context
         const { username, password } = this.state
 
         account.login({ username, password })
@@ -33,7 +33,7 @@ class Login extends Component {
                     error: null,
                     loading: true
                 })
-                setTimeout(() => history.push('/'), 500)
+                setTimeout(() => router.push('/'), 500)
             })
             .catch(error => {
                 this.setState({

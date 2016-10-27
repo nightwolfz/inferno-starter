@@ -15,9 +15,14 @@ import Register from './components/Account/Register'
  * @returns {object}
  */
 export default function({ account }) {
+
+    function isAuthenticated(nextState, router) {
+        console.warn('Is authenticated?', nextState)
+    }
+
     return (
         <Route component={ Main }>
-            <Route path="/" component={ Todos }/>
+            <Route path="/" component={ Todos } onEnter={ isAuthenticated }/>
             <Route path="/about" component={ About }/>
             <Route path="/login" component={ Login }/>
             <Route path="/logout" component={ Logout }/>

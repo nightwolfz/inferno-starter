@@ -25,12 +25,12 @@ class Register extends Component {
     handleRegister() {
         const { account } = this.props
         const { username, password } = this.form
-        const { history } = this.context
+        const { router } = this.context
 
         account.register({ username, password })
             .then(() => {
                 account.login({ username, password }).then(() => {
-                    history.push('/')
+                    router.push('/')
                 })
             })
             .catch(error => this.form.errorMsg = error)

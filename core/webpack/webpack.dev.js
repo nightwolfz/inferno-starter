@@ -9,7 +9,6 @@ const config = require('./webpack.base.js')
 //-------------------------------
 merge(config, {
     cache: true,
-    target: 'web',
     devtool: 'source-map', // eval eval-cheap-module-source-map source-map
     entry: {
         bundle: [
@@ -35,7 +34,6 @@ config.plugins.push(
     new webpack.DefinePlugin({
         'process.env.DEV': true,
         'process.env.BROWSER': true,
-        'process.env.BLUEBIRD_WARNINGS': '0',
         'process.env.NODE_ENV': JSON.stringify('development')
     })
 )

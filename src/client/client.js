@@ -30,9 +30,7 @@ function renderDOM(location) {
 
     fetchData(matched, stores).then(() => {
         Inferno.render(<App stores={stores}>
-            <Router history={history}>
-                {routing}
-            </Router>
+            <Router history={history} matched={matched}/>
         </App>, container)
     })
 }

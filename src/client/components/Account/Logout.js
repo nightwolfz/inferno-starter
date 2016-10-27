@@ -12,13 +12,13 @@ class Logout extends Component {
 
     handleLogout = () => {
         const { account } = this.props
-        const { history } = this.context
+        const { router } = this.context
 
         account.logout().then(() => {
             this.setState({
                 loading: true
             })
-            setTimeout(() => history.push('/'), 500)
+            setTimeout(() => router.push('/'), 500)
         })
     }
 

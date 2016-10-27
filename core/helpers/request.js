@@ -1,5 +1,4 @@
 import _ from 'underscore'
-import store from 'core/helpers/store'
 
 /**
  * This is our overly complicated isomorphic "request"
@@ -27,7 +26,11 @@ export default (hostname, token) => {
                 'Content-Type': 'application/json'
             }
         }
-        console.info('requestURL:', requestURL)
+        if (process.env.DEV) {
+            console.info('requestURL:', requestURL)
+        }
+
+        // Append token to the headers
         requestOptions.headers.token = requestToken
 
         return fetch(requestURL, requestOptions).then(handleResponse)
@@ -59,7 +62,9 @@ function handleResponse(resp) {
     const response = resp[isJSON ? 'json' : 'text']();
 
     return resp.ok ? response : response.then(err => {
-        console.error('Error received from server', err)
+        if (process.env.DEV) {
+            console.error('Error received from server', err)
+        }
         throw err
     });
 }
