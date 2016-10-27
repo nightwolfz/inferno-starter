@@ -14,14 +14,10 @@ export default async function(ctx, next) {
         await next()
     } catch(error) {
         logger('binder:forbidden')(error)
-        if (ctx.headers['user-agent'].includes('node-fetch')) {
-            ctx.authorized = false
-            ctx.token = null
-            await next()
-        } else {
-            //ctx.redirect('/page/login')
-            //ctx.cookies.set('token', null)
-            ctx.status = 401
-        }
+        ctx.authorized = false
+        ctx.token = null
+        ctx.redirect('/page/login')
+        ctx.status = 401
+        await next()
     }
 }

@@ -5,7 +5,9 @@ import Home from './components/Home'
 const routes = [
     {
         pattern: '/',
-        execute: Home.fetchData
+        onEnter: Home.fetchData,
+        onLeave: Home.clearData,
+        component: Home
     }
 ]
 

@@ -58,6 +58,12 @@ function createURL(hostname, path) {
  * @private
  */
 function handleResponse(resp) {
+    const redirect = resp.headers.get('Location')
+    if (redirect) {
+        // redirect = url of the redirect
+        // Handle...
+    }
+
     const isJSON = resp.headers && resp.headers.get('Content-Type').includes('json');
     const response = resp[isJSON ? 'json' : 'text']();
 
