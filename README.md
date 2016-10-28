@@ -99,6 +99,11 @@ Example: If you display a `messageCount` from a `Messages` store and it gets upd
 2. Add `[name].js` (based on another store like `account.js`)
 3. Update `src/client/stores.js`
 
+## How to enable/disable server-side rendering
+
+1. Goto `src/server/config`
+2. Set `server.SSR` variable to `true` or `false`
+
 ## My components are not updating!
 
 Make sure you added the `@connect` decorator to your component.

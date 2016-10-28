@@ -6,6 +6,11 @@ import Loading from '../Common/Loading'
 @connect(['account'])
 class Logout extends Component {
 
+    // When route is loaded (isomorphic)
+    static onEnter({ common }) {
+        common.title = 'Logout'
+    }
+
     state = {
         loading: false
     }

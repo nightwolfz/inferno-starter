@@ -1,0 +1,310 @@
+@charset "UTF-8";
+.spinner-wrapper {
+  position: absolute;
+  text-align: center;
+  margin-top: 10%;
+  width: 100%;
+  pointer-events: none;
+  -webkit-user-select: none; }
+  .spinner-wrapper h1 {
+    margin-top: 1em; }
+
+.spinner {
+  animation: rotator 1.4s linear infinite; }
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(270deg); } }
+
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite; }
+
+@keyframes colors {
+  0% {
+    stroke: #4285F4; }
+  25% {
+    stroke: #DE3E35; }
+  50% {
+    stroke: #F7C223; }
+  75% {
+    stroke: #1B9A59; }
+  100% {
+    stroke: #4285F4; } }
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187; }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg); }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg); } }
+
+input::-webkit-input-placeholder {
+  font-style: italic;
+  font-weight: 300;
+  color: #bbb; }
+
+input::-moz-placeholder {
+  font-style: italic;
+  font-weight: 300;
+  color: #bbb; }
+
+input::input-placeholder {
+  font-style: italic;
+  font-weight: 300;
+  color: #bbb; }
+
+.account {
+  background: #fff;
+  padding: 0.4rem;
+  margin: 1rem 0 0 0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1); }
+  .account label {
+    padding: 0.3rem 1rem;
+    line-height: 2rem; }
+  .account input {
+    padding: 0.4rem 0.4rem;
+    margin-left: 0.8rem;
+    line-height: 1rem; }
+  .account button {
+    padding: 0.3rem 1rem; }
+
+.hidden {
+  display: none; }
+
+.home {
+  background: #fff;
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1); }
+
+.new-todo {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 1.4em;
+  outline: none;
+  color: inherit;
+  box-sizing: border-box;
+  padding: 16px 16px 16px 60px;
+  border: none;
+  background: rgba(0, 0, 0, 0.003);
+  box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03); }
+
+.main {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid #e6e6e6; }
+
+.todo-list {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+.todo-list li {
+  position: relative;
+  font-size: 24px;
+  border-bottom: 1px solid #ededed; }
+
+.todo-list li:last-child {
+  border-bottom: none; }
+
+.todo-list li label {
+  white-space: pre-line;
+  word-break: break-all;
+  padding: 15px 60px 15px 15px;
+  margin-left: 45px;
+  display: block;
+  line-height: 1.2;
+  transition: color 0.4s; }
+
+.todo-list li .destroy {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  color: #cc9a9a;
+  margin: auto 0 11px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: color 0.2s ease-out; }
+
+.todo-list li .destroy:hover {
+  color: #af5b5e; }
+
+.todo-list li .destroy:after {
+  content: '\D7'; }
+
+.todo-list li:hover .destroy {
+  display: block; }
+
+menu {
+  margin: 0;
+  padding: 1rem;
+  width: 100%;
+  background-color: #eee;
+  z-index: 9550; }
+  menu a {
+    color: #959aab;
+    font-size: 1.1rem;
+    line-height: 1.1rem;
+    margin-right: 1rem;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out; }
+    menu a:hover {
+      color: #000; }
+    menu a.selected {
+      color: #000;
+      outline: none;
+      border-bottom: 1px solid #000; }
+  menu a.back-button {
+    vertical-align: top; }
+    menu a.back-button svg {
+      fill: #888; }
+  menu a.back-button:hover svg {
+    fill: #ddd; }
+  menu a.back-button-disabled {
+    color: #3a3a45; }
+    menu a.back-button-disabled svg {
+      fill: #3a3a45; }
+
+main {
+  width: 680px;
+  margin: 0 auto; }
+
+h1 {
+  font-size: 3rem;
+  font-weight: 100;
+  text-align: center;
+  margin: 0; }
+
+.error-message {
+  color: #f66;
+  margin: 2px 0 4px 0; }
+
+.success-message {
+  color: #fff;
+  margin: 2px 0 4px 0; }
+
+div, span, object, iframe, blockquote, pre, a, abbr, cite, code, em, font, img, q, s, samp, small, strike, strong, sub, sup, b, u, i, center, ul, li, fieldset, form, label, legend, table, caption, tbody, tr, th, td {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline; }
+
+html {
+  height: 100%; }
+
+body {
+  height: 100%;
+  background: #F4F5F7;
+  font-family: "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  color: #3d464d;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  overflow-x: hidden;
+  letter-spacing: 0.2px; }
+
+hr {
+  margin: 1em 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #985527;
+  animation: border-colors 20s ease-in-out infinite; }
+
+audio, canvas, progress, video {
+  vertical-align: baseline;
+  width: 100%;
+  -webkit-app-region: no-drag; }
+
+audio:not([controls]) {
+  display: none; }
+
+a {
+  color: #446bcc; }
+
+a:active, a:hover {
+  outline: 0; }
+
+abbr[title] {
+  border-bottom: 1px dotted; }
+
+b, strong {
+  font-weight: bold; }
+
+cite {
+  color: #888;
+  font-style: normal;
+  margin: 0.5em 0;
+  display: block; }
+
+img {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; }
+
+small {
+  font-size: 80%; }
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+sup {
+  top: -0.5em; }
+
+sub {
+  bottom: -0.25em; }
+
+pre {
+  overflow: auto; }
+
+code, kbd, pre, samp {
+  font-family: monospace, monospace;
+  font-size: 1em; }
+
+li {
+  list-style: none; }
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em; }
+
+legend {
+  border: 0;
+  padding: 0; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+td, th {
+  padding: 0; }
+
+/*# sourceMappingURL=bundle.css.map*/

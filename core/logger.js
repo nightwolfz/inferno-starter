@@ -1,5 +1,5 @@
 // Enable logging
-const appName = 'binder'
+const appName = 'app'
 const enabled = `${appName}:*,server:*,webpack:*`
 
 if (process.env.BROWSER) {

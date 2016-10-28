@@ -8,7 +8,8 @@ import TodoItem from './Todos/TodoItem'
 class Todos extends Component {
 
     // When route is loaded (isomorphic)
-    static fetchData({ todos, params }) {
+    static onEnter({ todos, common, params }) {
+        common.title = 'Home'
         return todos.browse()
     }
 

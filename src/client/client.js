@@ -7,7 +7,7 @@ import 'core/logger'
 import Inferno from 'inferno'
 import { Router, getRoutes } from 'inferno-router'
 import createBrowserHistory from 'history/createBrowserHistory';
-import fetchData from 'core/helpers/fetchData'
+import onEnter from 'core/helpers/onEnter'
 import autorun from './autorun'
 import stores from './stores'
 import routes from './routes'
@@ -28,7 +28,7 @@ function renderDOM(location) {
     const routing = routes(stores)
     const matched = getRoutes(routing, location.pathname, '')
 
-    fetchData(matched, stores).then(() => {
+    onEnter(matched, stores).then(() => {
         Inferno.render(<App stores={stores}>
             <Router history={history} matched={matched}/>
         </App>, container)

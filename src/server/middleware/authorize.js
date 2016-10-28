@@ -8,16 +8,26 @@ import { checkAuthorized } from '../routes/account'
  */
 export default async function(ctx, next) {
     try {
-        const auth = await checkAuthorized(ctx.token)
-        logger('binder:authorized')(auth.token.substring(125))
-        ctx.authorized = true
-        await next()
+        const auth = await checkAuthorized(ctx)
+        if (auth) await next()
     } catch(error) {
+
         logger('binder:forbidden')(error)
-        ctx.authorized = false
+        if (ctx.headers['user-agent'].includes('node-fetch')) {
+            ctx.authorized = false
+            ctx.token = null
+            await next()
+        } else {
+            ctx.redirect('/page/login')
+            //ctx.cookies.set('token', null)
+            ctx.status = 401
+        }
+
+        /*logger('binder:forbidden')(error)
         ctx.token = null
+        ctx.authorized = false
         ctx.redirect('/page/login')
         ctx.status = 401
-        await next()
+        return*/
     }
 }

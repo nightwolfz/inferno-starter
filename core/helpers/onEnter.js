@@ -1,7 +1,7 @@
 import _ from 'underscore';
 
 /**
- * Go through the mached route and extract fetchData method
+ * Go through the mached route and extract the static method
  * @param props
  * @param promises
  * @returns {*}
@@ -21,8 +21,10 @@ function getRoutes(staticMethod, { props }, promises) {
  * @returns {Promise}
  */
 export default (routes, stores) => {
-    const promises = []
-    const params = getRoutes('fetchData', routes, promises)
+    if (!routes) return Promise.resolve()
 
-    return Promise.all(promises.map(fetchData => fetchData({ ...stores, params})))
+    const promises = []
+    const params = getRoutes('onEnter', routes, promises)
+
+    return Promise.all(promises.map(onEnter => onEnter({ ...stores, params})))
 };

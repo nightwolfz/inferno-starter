@@ -13,16 +13,16 @@ export default class Header extends Component {
 function LoggedInMenu() {
     return <menu>
         <Link to="/">Browse</Link>
-        <Link to="/about">About</Link>
-        <Link to="/logout">Logout</Link>
+        <Link to="/page/about">About</Link>
+        <Link to="/page/logout">Logout</Link>
     </menu>
 }
 
 function LoggedOutMenu() {
     return <menu>
         <Link to="/">Browse</Link>
-        <Link to="/about">About</Link>
-        <Link to="/register">Register</Link>
-        <Link to="/login">Login</Link>
+        <Link to="/page/about">About</Link>
+        <Link to="/page/register">Register</Link>
+        <Link to="/page/login">Login</Link>
     </menu>
 }

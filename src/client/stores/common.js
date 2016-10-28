@@ -1,7 +1,6 @@
 import { extendObservable } from 'mobx'
 
 /**
- * @name Common
  * @class Common
  */
 export default class Common {
