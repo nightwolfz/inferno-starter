@@ -2,7 +2,7 @@ import jwt from 'jwt-simple'
 import crypto from 'crypto'
 import router from 'koa-router'
 import config from '../config'
-import db from '../database'
+import Account from '../models/Account'
 
 export default router()
 .get('/api/account/logout', logoutAccount)
@@ -17,14 +17,14 @@ export default router()
  */
 export async function getAccount(token) {
     if (token) {
-        const account = await db.account.findOne({ token })
+        const account = await Account.findOne({ token })
         return account && account.toJSON()
     }
 }
 
 async function loginAccount(ctx) {
     const { username, password } = ctx.request.fields
-    const account = await db.account.findOne({
+    const account = await Account.findOne({
         username,
         password: sha512(password, { salt: username })
     })
@@ -40,9 +40,8 @@ async function loginAccount(ctx) {
 async function logoutAccount(ctx) {
     if (!ctx.token) return ctx.res.json(false)
 
-    const user = await db.account
-                         .findOneAndUpdate({ token: ctx.token }, { token: null })
-                         .lean() // clear in db
+    const user = await Account.findOneAndUpdate({ token: ctx.token }, { token: null })
+                              .lean() // clear in db
 
     ctx.cookies.set('token', null)
     ctx.body = user
@@ -54,10 +53,10 @@ async function registerAccount(ctx) {
     if (!isValidUsername(username)) {
         throw new Error('Username cannot contain special characters')
     }
-    const exists = await db.account.count({ username })
+    const exists = await Account.count({ username })
     if (exists) throw new Error('Username already taken')
 
-    const account = new db.account({
+    const account = new Account({
         username,
         password: sha512(password, { salt: username }),
         email
@@ -76,7 +75,7 @@ async function registerAccount(ctx) {
  */
 export async function checkAuthorized(token) {
     if (!token) throw new Error('Token not provided')
-    const account = await db.account.findOne({ token }, 'token')
+    const account = await Account.findOne({ token }, 'token')
     if (account) {
         const decoded = jwt.decode(account.token, config.session.secret)
         if (Date.now() < decoded.expires) {
@@ -88,21 +87,6 @@ export async function checkAuthorized(token) {
     }
     throw new Error('Invalid token')
 }
-/*
-export async function checkAuthorized(token) {
-    if (!token) return console.error('Token not provided')
-    const account = await db.account.findOne({ token }, 'token')
-    if (account) {
-        const decoded = jwt.decode(account.token, config.session.secret)
-        if (Date.now() < decoded.expires) {
-            return account
-        } else {
-            // Add renew or redirect functionality
-            console.error('Token expired: ' + new Date(decoded.expires))
-        }
-    }
-    console.error('Invalid token')
-}*/
 
 /**
  * Create a new token with a timestamp
