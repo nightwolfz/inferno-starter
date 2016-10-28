@@ -1,12 +1,11 @@
 const path = require('path')
-const merge = require('lodash/merge')
 const logger = require('debug')
 const webpack = require('webpack')
 const config = require('./webpack.base.js')
 
 // Merge with base configuration
 //-------------------------------
-merge(config, {
+Object.assign(config, {
     cache: false,
     devtool: 'source-map',
     entry: [
