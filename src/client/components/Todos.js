@@ -1,7 +1,6 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
-import size from 'lodash/fp/size'
 import TodoAdd from './Todos/TodoAdd'
 import TodoItem from './Todos/TodoItem'
 

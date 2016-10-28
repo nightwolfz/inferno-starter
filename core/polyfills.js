@@ -9,8 +9,6 @@ global.size = function(obj) {
     return (typeof obj === 'string') ? obj.length : _.size(obj)
 }
 
-global.compact = _.compact
-
 /**
  * Encode spaces and other characters into +
  * @returns {string}

@@ -1,4 +1,3 @@
-import _ from 'underscore'
 import router from 'koa-router'
 import authorize from '../middleware/authorize'
 import Todo from '../models/Todo'
@@ -20,7 +19,7 @@ async function getTodos(ctx) {
 async function addTodos(ctx) {
     const { text } = ctx.request.fields
 
-    if (_.isEmpty(text)) throw new Error('[text] not provided')
+    if (!text) throw new Error('[text] not provided')
 
     const newTodo = new Todo({
         text,
@@ -34,7 +33,7 @@ async function addTodos(ctx) {
 async function removeTodos(ctx) {
     const { _id } = ctx.request.fields
 
-    if (_.isEmpty(_id)) throw new Error('[_id] not provided')
+    if (!_id) throw new Error('[_id] not provided')
 
     const response = await Todo.remove({ _id })
 

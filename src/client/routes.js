@@ -1,6 +1,5 @@
 import Inferno from 'inferno'
 import { Route } from 'inferno-router'
-import isEmpty from 'lodash/fp/isEmpty'
 import Main from './components/Layout/Main'
 import NotFound from './containers/NotFound'
 import Todos from './components/Todos'

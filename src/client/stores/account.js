@@ -1,5 +1,4 @@
 import { extendObservable, asFlat } from 'mobx'
-import _ from 'underscore'
 
 /**
  * @name Account
@@ -17,7 +16,7 @@ export default class Account {
     }
 
     isLoggedIn() {
-        return !_.isEmpty(this.username)
+        return !this.username
     }
 
     find(username) {
