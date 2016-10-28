@@ -91,9 +91,7 @@ Example: If you display a `messageCount` from a `Messages` store and it gets upd
 ## How to add mongoose models ?
 
 1. Goto `src/server/models`
-2. Add `[Name].js`
-3. Update `src/server/database.js`
-
+2. Add `[Name].js` with your model in it
 
 ## How to add a new store
 
