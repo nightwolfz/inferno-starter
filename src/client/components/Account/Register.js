@@ -1,11 +1,16 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observable } from 'mobx'
-import { observer } from 'mobx-inferno'
+import { connect } from 'inferno-mobx'
 import Error from '../Common/Error'
 
-@observer(['actions', 'state', 'history'])
+@connect(['account'])
 class Register extends Component {
+
+    // When route is loaded (isomorphic)
+    static onEnter({ common }) {
+        common.title = 'Register'
+    }
 
     @observable form = {
         username: '',
@@ -23,14 +28,14 @@ class Register extends Component {
     }
 
     handleRegister() {
-        const { account } = this.props.actions
-        const { history } = this.props
+        const { account } = this.props
         const { username, password } = this.form
+        const { router } = this.context
 
         account.register({ username, password })
             .then(() => {
                 account.login({ username, password }).then(() => {
-                    history.push('/')
+                    router.push('/')
                 })
             })
             .catch(error => this.form.errorMsg = error)

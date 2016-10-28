@@ -1,13 +1,16 @@
 {
   // http://eslint.org/docs/rules/
+  "root": true,
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": [1, { "pragma": "Inferno" }],
-      "modules": true,
-      "react": true,
-      "es6": true
+      "globalReturn ": true,
+      "impliedStrict": true,
+      "experimentalObjectRestSpread": true
     }
   },
   "env": {
@@ -17,15 +20,28 @@
     "es6": true
   },
   "globals": {
-    "Inferno": true
+    "size": true,
+    "compact": true,
+    "window": true,
+    "decode": true,
+    "Inferno": true,
+    "Mousetrap": true,
+    "SERVER_URL": true,
+    "STREAM_URL": true
   },
   "rules": {
     "semi": 0,
+    "no-var": 0,
     "vars-on-top": 0,
     "spaced-comment": 0,
     "prefer-template": 0,
+    "no-unused-vars": 0,
+    "no-inner-declarations": 0,
     "consistent-return": 0,
     "comma-dangle": 0,
+    "no-use-before-define": 0,
+    "no-return-assign": 0,
+    "no-console": 0,
     "max-len": 0,
     "arrow-body-style": 0,
     "new-cap": 0,
@@ -35,21 +51,8 @@
     "func-names": 0,
     "padded-blocks": 0,
     "keyword-spacing": 0,
-    "no-var": 0,
-    "no-unused-vars": 0,
-    "no-console": 0,
-    "no-constant-condition": 2,
-    "no-debugger": 1,
-    "no-dupe-args": 2,
-    "no-dupe-keys": 2,
-    "no-duplicate-case": 2,
-    "no-inner-declarations": 0,
-    "no-use-before-define": 0,
-    "no-return-assign": 0,
     "no-trailing-spaces": 0,
     "no-unused-expressions": 0,
-    "no-mixed-spaces-and-tabs": 2,
-    "no-shadow-restricted-names": 2,
     "space-before-function-paren": 0,
     "global-require": 0,
     "react/jsx-no-bind": 0,

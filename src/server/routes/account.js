@@ -1,41 +1,123 @@
-import { Router } from 'express'
-import { registerAccount, loginAccount, updateAccount } from '../actions/account'
-import authorize from '../middleware/authorize'
-import db from '../helpers/database'
-const router = Router()
+import jwt from 'jwt-simple'
+import crypto from 'crypto'
+import router from 'koa-router'
+import config from '../config'
+import Account from '../models/Account'
 
-router.post('/api/account/login', async(req, res) => {
-    const { username, password } = req.body
-    const auth = await loginAccount(username, password)
-    if (!auth) {
-        return res.status(400).send('Wrong credentials')
+export default router()
+.get('/api/account/logout', logout)
+.post('/api/account/login', login)
+.post('/api/account/register', register)
+
+
+/**
+ * Get account by token
+ * @param token {string}
+ * @returns {object}
+ */
+export async function getAccount(token) {
+    if (token) {
+        const account = await Account.findOne({ token })
+        return account && account.toJSON()
     }
-    return res.json(auth)
-})
+}
 
-router.get('/api/account/logout', async(req, res) => {
-    if (!req.token) {
-        return res.json(false)
+async function login(ctx) {
+    const { username, password } = ctx.request.fields
+    const account = await Account.findOne({
+        username,
+        password: sha512(password, { salt: username })
+    })
+    if (!account) throw new Error('Wrong credentials')
+
+    account.token = createAuthToken(account._id)
+    await account.save()
+
+    ctx.cookies.set('token', account.token)
+    ctx.body = account.toJSON()
+}
+
+async function logout(ctx) {
+    const user = await Account.findOneAndUpdate({ token: ctx.token }, { token: null })
+                              .lean() // clear in db
+
+    ctx.cookies.set('token', null)
+    ctx.body = user
+}
+
+async function register(ctx) {
+    const { username, password, email } = ctx.request.fields
+
+    if (!isValidUsername(username)) {
+        throw new Error('Username cannot contain special characters')
     }
-    const user = await db.account
-                         .findOneAndUpdate({ token: req.token }, { token: null })
-                         .lean() // clear in db
-    res.json(user)
-})
+    const exists = await Account.count({ username })
+    if (exists) throw new Error('Username already taken')
 
-router.post('/api/account/register', async(req, res) => {
-    const { username, password } = req.body
-    const exists = await db.account.count({ username })
-    if (exists) return res.status(400).send('Username already taken')
+    const account = new Account({
+        username,
+        password: sha512(password, { salt: username }),
+        email
+    })
+    account.token = createAuthToken(account._id)
+    await account.save()
 
-    const auth = await registerAccount(username, password)
-    res.json(auth)
-})
+    ctx.cookies.set('token', account.token)
+    ctx.body = account
+}
 
-router.post('/api/account/update', authorize, async(req, res) => {
-    const updated = await updateAccount(req.body.body, req.body.file, req.token)
-    if (!updated) return res.status(400).send('Username already taken')
-    res.json(updated)
-})
+/**
+ * Check if we're logged in
+ * @param token {string}
+ * @returns {boolean}
+ */
+export async function checkAuthorized(ctx) {
+    ctx.authorized = false
+    if (!ctx.token) throw new Error('Token not provided')
+    const account = await Account.findOne({ token: ctx.token }, 'token')
+    if (account) {
+        const decoded = jwt.decode(account.token, config.session.secret)
+        if (Date.now() < decoded.expires) {
+            ctx.authorized = true
+            return account
+        } else {
+            // Add renew or redirect functionality
+            throw new Error('Token expired: ' + new Date(decoded.expires))
+        }
+    }
+    throw new Error('Invalid token')
+}
 
-export default router
+/**
+ * Create a new token with a timestamp
+ * @private
+ * @param accountID
+ * @returns {string|*}
+ */
+function createAuthToken(accountID) {
+    const payload = {
+        accountID,
+        expires: Date.now() + config.session.expires
+    }
+    return jwt.encode(payload, config.session.secret)
+}
+
+/**
+ * Hash the password
+ * @private
+ * @param str {string}
+ * @param options {object}
+ * @returns {string}
+ */
+function sha512(str, options) {
+    return crypto.createHmac('sha512', options.salt).update(str).digest('hex')
+}
+
+/**
+ * Check for special characters
+ * @param username
+ * @returns {boolean}
+ */
+function isValidUsername(username) {
+    return /^[a-z0-9_-]+$/i.test(username)
+}

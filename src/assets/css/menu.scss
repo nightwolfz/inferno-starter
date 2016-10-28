@@ -1,6 +1,6 @@
 menu {
     margin: 0;
-    padding: 0 0 0 1.2rem;
+    padding: 1rem;
     width: 100%;
     background-color: #eee;
     z-index: 9550;
@@ -8,7 +8,8 @@ menu {
     a {
         color: #959aab;
         font-size: 1.1rem;
-        padding: 0.4rem;
+        line-height: 1.1rem;
+        margin-right: 1rem;
         display: inline-block;
         cursor: pointer;
         text-decoration: none;

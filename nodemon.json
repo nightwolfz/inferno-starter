@@ -1,18 +1,12 @@
 {
-  "verbose": true,
+  "verbose": false,
   "restartable": "rs",
   "events": {
-    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+    "restart": "echo \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
   "ext": "js",
-  "ignore": [
-    "\\.git",
-    "npm-debug.log",
-    "node_modules/*",
-    "node_modules/.*.*/node_modules",
-    "src/assets/*"
-  ],
   "watch": [
-    "src/server"
+    "src/server",
+    "src/shared"
   ]
 }

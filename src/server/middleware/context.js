@@ -1,35 +1,31 @@
-import { getAccount } from '../actions/account';
-import { createServerState } from '../../client/state'
-import actions from '../../client/actions'
+import { getAccount } from '../routes/account';
+import { stores } from '../../client/stores'
 
 /**
  * Middleware for creating the context
- * @param req
- * @param res
+ * @param ctx
  * @param next
  */
-export default async function(req, res, next) {
+export default async(ctx, next) => {
     // Get our token from headers (server) or cookies (client)
-    req.token = req.headers.token || req.cookies.token
+    ctx.token = ctx.headers['token'] || ctx.cookies.get('token')
 
-    // Add state & session data
-    const state = createServerState()
-    state.app.hostname = req.headers.host
+    // Create the context with params and hostname for SSR
+    const state = {
+        common: {
+            hostname: ctx.headers.host
+        }
+    }
 
     // Check if logged in
-    const account = await getAccount(req.token)
-    if (account) {
-        state.account = account
+    if (ctx.token) {
+        const account = await getAccount(ctx.token)
+        if (account) {
+            state.account = account
+        }
     }
 
-    // We need this for server-side requests
-    const stateWithToken = Object.assign({}, state, { token: req.token })
-
-    // Create the context
-    req.context = {
-        state,
-        history: {}, // mock
-        actions: actions(stateWithToken)
-    }
-    next()
+    // Finally initialize state. This should come last
+    ctx.stores = stores(state, ctx.token)
+    await next()
 }

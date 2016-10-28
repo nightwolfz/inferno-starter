@@ -1,7 +1,7 @@
 import Inferno from 'inferno'
-import isEmpty from 'lodash/fp/isEmpty'
-import App from './components/App/App'
-import NotFound from './components/NotFound'
+import { Route } from 'inferno-router'
+import Main from './components/Layout/Main'
+import NotFound from './containers/NotFound'
 import Todos from './components/Todos'
 import About from './components/About'
 import Login from './components/Account/Login'
@@ -9,52 +9,26 @@ import Logout from './components/Account/Logout'
 import Register from './components/Account/Register'
 
 /**
- * Wrap our content with the layout and provide params as props
- * @param state
- * @returns {Function}
- * @constructor
- */
-function Layout(context) {
-    return context.next().then(Content => {
-        return {
-            component: <App><Content/></App>,
-            params: context.params
-        }
-    })
-}
-
-/**
- * If not logged-in, show Login page
- * @param state
- * @returns {Function}
- */
-function authorizedOnly(state) {
-    return function(Route) {
-        if (isEmpty(state.account)) {
-            return () => Login
-        }
-        return () => Route
-    }
-}
-
-/**
- * Routes are defined here. They are loaded asynchronously.
- * Paths are relative to the "components" directory.
- * @param {object}
+ * Routes are defined here.
+ * @param {object} - stores
  * @returns {object}
  */
-export default function({ state }) {
-    const auth = authorizedOnly(state)
+export default function({ account }) {
 
-    return [{
-        path: '/',
-        action: Layout,
-        children: [
-            { path: '/', action: auth(Todos) },
-            { path: '/about', action: () => About },
-            { path: '/login', action: () => Login },
-            { path: '/logout', action: () => Logout },
-            { path: '/register', action: () => Register }
-        ]
-    }]
+    function isAuthenticated(nextState, router) {
+        if (!account.isLoggedIn()) {
+            //router.push('/page/login')
+        }
+    }
+
+    return (
+        <Route component={ Main }>
+            <Route path="/" component={ Todos } onEnter={ isAuthenticated }/>
+            <Route path="/page/about" component={ About }/>
+            <Route path="/page/login" component={ Login }/>
+            <Route path="/page/logout" component={ Logout }/>
+            <Route path="/page/register" component={ Register }/>
+            <Route path="*" component={ NotFound }/>
+        </Route>
+    )
 }

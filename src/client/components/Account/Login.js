@@ -1,14 +1,19 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observable } from 'mobx'
-import { observer } from 'mobx-inferno'
+import { connect } from 'inferno-mobx'
 import Loading from '../Common/Loading'
 import Error from '../Common/Error'
 
-@observer(['actions', 'state', 'history'])
+@connect(['account'])
 class Login extends Component {
 
-    @observable form = {
+    // When route is loaded (isomorphic)
+    static onEnter({ common }) {
+        common.title = 'Login'
+    }
+
+    state = {
         username: '',
         password: '',
         loading: false,
@@ -16,44 +21,48 @@ class Login extends Component {
     }
 
     handleChange = (key) => (e) => {
-        this.form[key] = e.target.value
+        this.setState({
+            [key]: e.target.value
+        })
     }
 
     handleLogin = (e) => {
         e.preventDefault()
-        const { account } = this.props.actions
-        const { history } = this.props
+        const { account } = this.props
+        const { router } = this.context
+        const { username, password } = this.state
 
-        account.login({
-                username: this.form.username,
-                password: this.form.password
-            })
+        account.login({ username, password })
             .then(() => {
-                this.form.error = null
-                this.form.loading = true
-                setTimeout(() => history.push('/'), 500)
+                this.setState({
+                    error: null,
+                    loading: true
+                })
+                setTimeout(() => router.push('/'), 500)
             })
             .catch(error => {
-                this.form.error = error
-                this.form.loading = false
-                this.form.password = ''
+                this.setState({
+                    error,
+                    loading: false,
+                    password: ''
+                })
             })
     }
 
     render() {
-        const { form } = this
+        const { loading, error } = this.state
 
-        if (form.loading) {
+        if (loading) {
             return <Loading/>
         }
 
         return <main>
             <h1>sign-in</h1>
-            <form className="account" onSubmit={e => this.handleLogin(e)}>
+            <form className="account" onSubmit={(e) => this.handleLogin(e)}>
                 <label>
                     Usernames
                     <input type="text"
-                           value={this.form.username}
+                           value={this.state.username}
                            onKeyUp={this.handleChange('username')}
                            required="required"/>
                 </label>
@@ -61,14 +70,14 @@ class Login extends Component {
                 <label>
                     Password
                     <input type="password"
-                           value={this.form.password}
+                           value={this.state.password}
                            onKeyUp={this.handleChange('password')}
                            required="required"/>
                 </label>
 
-                {form.error && <Error text={form.error}/>}
+                {error && <Error text={error}/>}
 
-                <button onClick={e => this.handleLogin(e)}>Login</button>
+                <button onClick={(e) => this.handleLogin(e)}>Login</button>
             </form>
         </main>
     }

@@ -1,53 +1,44 @@
 // This is the entry point for our client-side logic
 // The server-side has a similar configuration in `src/server/middleware/render.js`
 import '../assets/css/index.scss'
-import '../shared/polyfills'
-import '../shared/console'
 import 'isomorphic-fetch'
+import 'core/polyfills'
+import 'core/logger'
 import Inferno from 'inferno'
-import InfernoDOM from 'inferno-dom'
-import history from '../shared/history'
-import router from '../shared/router'
+import { Router, getRoutes } from 'inferno-router'
+import createBrowserHistory from 'history/createBrowserHistory';
+import onEnter from 'core/helpers/onEnter'
+import autorun from './autorun'
+import stores from './stores'
 import routes from './routes'
-import { Provider } from 'mobx-inferno'
-import { createClientState } from './state'
-import actions from './actions'
-import App from './components/App/App'
-
-// Disable warnings from bluebird
-Promise.config({
-    warnings: false
-})
-
-// Initialize actions and state
-const state = createClientState()
-const context = {
-    state,
-    history,
-    actions: actions(state)
-}
+import App from './containers/App'
 
 // We render our react app into this element
-const container = document.getElementById('inferno-root')
+const container = document.getElementById('container')
+const history = createBrowserHistory()
+
+// React to changes
+autorun(stores)
 
 /**
- * Render our component acording to our routes
+ * Render our component according to our routes
  * @param location
  */
-function render(location) {
-    router(routes, context, location.pathname).then(component => {
-        InfernoDOM.render(<Provider {...context}>
-            {component}
-        </Provider>, container)
+function renderDOM(location) {
+    const routing = routes(stores)
+    const matched = getRoutes(routing, location.pathname, '')
+
+    onEnter(matched, stores).then(() => {
+        Inferno.render(<App stores={stores}>
+            <Router history={history} matched={matched}/>
+        </App>, container)
     })
 }
 
-// Listen for URL changes and render the correct component
-render(history.getCurrentLocation());
-history.listen(render);
+// Render HTML on the browser
+renderDOM(history.location)
+history.listen(renderDOM)
 
-// Use hot-reloading if available
 if (module.hot) {
     module.hot.accept()
-    //module.hot.decline('')
 }

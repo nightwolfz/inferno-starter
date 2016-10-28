@@ -1,9 +1,15 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { observer } from 'mobx-inferno'
+import { connect } from 'inferno-mobx'
 
-@observer(['actions', 'state'])
+@connect
 class About extends Component {
+
+    // When route is loaded (isomorphic)
+    static onEnter({ common }) {
+        common.title = 'About'
+    }
+
     render() {
         return <main>
             <h1>Inferno-starter</h1>

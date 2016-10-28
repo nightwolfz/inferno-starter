@@ -1,21 +1,19 @@
 const path = require('path')
 const logger = require('debug')
-const merge = require('lodash/merge')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const config = require('./webpack.base.js')
 
 // Merge with base configuration
 //-------------------------------
-merge(config, {
+Object.assign(config, {
     cache: true,
-    target: 'web',
     devtool: 'source-map', // eval eval-cheap-module-source-map source-map
     entry: {
         bundle: [
             'webpack-dev-server/client?http://localhost:2002',
             'webpack/hot/only-dev-server',
-            path.join(__dirname, '../src/client/client.js')
+            path.join(__dirname, '../../src/client/client.js')
         ]
     },
     output: {
@@ -30,12 +28,11 @@ config.plugins.push(
     new webpack.NoErrorsPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.WatchIgnorePlugin([
-        path.join(__dirname, '../src/shared')
+        path.join(__dirname, '../../src/shared')
     ]),
     new webpack.DefinePlugin({
         'process.env.DEV': true,
         'process.env.BROWSER': true,
-        'process.env.BLUEBIRD_WARNINGS': '0',
         'process.env.NODE_ENV': JSON.stringify('development')
     })
 )
@@ -53,6 +50,10 @@ new WebpackDevServer(compiler, {
     },
     hot: true,
     historyApiFallback: true,
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: false
+    },
     stats: {
         colors: true,
         hash: false,

@@ -1,45 +1,40 @@
 import logger from 'debug'
-import size from 'lodash/fp/size'
-import map from 'lodash/fp/map'
-import bodyParser from 'body-parser'
-import cookieParser from 'cookie-parser'
-import express from 'express'
-import favicon from 'serve-favicon'
-import compression from 'compression'
-import config from '../../config/server'
+import Koa from 'koa'
+import bodyParser from 'koa-better-body'
+import favicon from 'koa-favicon'
+import serve from 'koa-static2'
+import config from './config'
 import context from './middleware/context'
-import render from './middleware/render'
-import todos from './routes/todos'
+import catcher from './middleware/catcher'
+import render from './routes/render'
 import account from './routes/account'
+import todos from './routes/todos'
 
-const app = express()
-
-// Serve static files
-if (size(config.http.static)) {
-    map(route => {
-        logger('server:static')(route.path)
-        app.use(route.url, express.static(route.path))
-    })(config.http.static)
-}
-
-// Settings
-app.disable('x-powered-by')
-app.use(compression())
+const app = new Koa()
 
 // Middleware
 app.use(favicon(config.http.favicon))
-app.use(bodyParser.json({ limit: '2mb' }))
-app.use(bodyParser.urlencoded({ limit: '2mb', extended: true }))
+app.use(bodyParser({
+    formLimit: '200kb',
+    jsonLimit: '200kb',
+    bufferLimit: '4mb'
+}))
 
 // Needed for authentication
-app.use(cookieParser())
 app.use(context)
+// app.use(catcher)
 
 // Routes
-app.use(todos)
-app.use(account)
+app.use(todos.routes())
+app.use(account.routes())
 app.use(render)
 
+// Serve static files
+config.http.static.forEach(staticRoute => {
+    logger('app:static')(staticRoute.path)
+    app.use(serve(staticRoute.url, staticRoute.path))
+})
+
 app.listen(config.http.port, function() {
-    logger('server:start')('Listening on port ' + config.http.port)
+    logger('app:start')('Listening on port ' + config.http.port)
 })
