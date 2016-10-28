@@ -14,8 +14,3 @@ export default class App extends Component {
         </div>
     }
 }
-
-// Use hot-reloading if available
-if (module.hot) {
-    module.hot.accept()
-}

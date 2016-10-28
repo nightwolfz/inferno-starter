@@ -8,6 +8,11 @@ import Error from '../Common/Error'
 @connect(['account'])
 class Login extends Component {
 
+    // When route is loaded (isomorphic)
+    static onEnter({ common }) {
+        common.title = 'Login'
+    }
+
     state = {
         username: '',
         password: '',

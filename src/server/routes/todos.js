@@ -4,7 +4,7 @@ import Todo from '../models/Todo'
 import { getAccount } from './account'
 
 export default router()
-.get('/api/todos', getTodos)
+.get('/api/todos', authorize, getTodos)
 .post('/api/todos/add', authorize, addTodos)
 .post('/api/todos/remove', authorize, removeTodos)
 

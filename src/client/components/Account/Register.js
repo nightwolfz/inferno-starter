@@ -7,6 +7,11 @@ import Error from '../Common/Error'
 @connect(['account'])
 class Register extends Component {
 
+    // When route is loaded (isomorphic)
+    static onEnter({ common }) {
+        common.title = 'Register'
+    }
+
     @observable form = {
         username: '',
         password: '',

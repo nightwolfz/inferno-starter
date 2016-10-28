@@ -60,16 +60,19 @@ function createURL(hostname, path) {
 function handleResponse(resp) {
     const redirect = resp.headers.get('Location')
     if (redirect) {
-        // redirect = url of the redirect
-        // Handle...
+        if (process.env.BROWSER) {
+            window.location.replace(redirect)
+        }
+        return Promise.reject({ redirect })
     }
 
-    const isJSON = resp.headers && resp.headers.get('Content-Type').includes('json');
-    const response = resp[isJSON ? 'json' : 'text']();
+    const contentType = resp.headers && resp.headers.get('Content-Type')
+    const isJSON = contentType && contentType.includes('json')
+    const response = resp[isJSON ? 'json' : 'text']()
 
     return resp.ok ? response : response.then(err => {
         if (process.env.DEV) {
-            console.error('Error received from server', err)
+            //console.error('requestError:', err)
         }
         throw err
     });

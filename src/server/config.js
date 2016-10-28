@@ -11,8 +11,11 @@ module.exports = {
             }
         ]
     },
+    server: {
+        // Server side rendering
+        SSR: true
+    },
     session: {
-        salt: 'INFERNAL_YES?',
         secret: 'INFERNAL_SECRET_KEY_KERE',
         expires: 2 * 3600 * 1000 // 2 hours
     },

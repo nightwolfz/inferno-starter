@@ -5,9 +5,9 @@ import config from '../config'
 import Account from '../models/Account'
 
 export default router()
-.get('/api/account/logout', logoutAccount)
-.post('/api/account/login', loginAccount)
-.post('/api/account/register', registerAccount)
+.get('/api/account/logout', logout)
+.post('/api/account/login', login)
+.post('/api/account/register', register)
 
 
 /**
@@ -22,7 +22,7 @@ export async function getAccount(token) {
     }
 }
 
-async function loginAccount(ctx) {
+async function login(ctx) {
     const { username, password } = ctx.request.fields
     const account = await Account.findOne({
         username,
@@ -37,9 +37,7 @@ async function loginAccount(ctx) {
     ctx.body = account.toJSON()
 }
 
-async function logoutAccount(ctx) {
-    if (!ctx.token) return ctx.res.json(false)
-
+async function logout(ctx) {
     const user = await Account.findOneAndUpdate({ token: ctx.token }, { token: null })
                               .lean() // clear in db
 
@@ -47,7 +45,7 @@ async function logoutAccount(ctx) {
     ctx.body = user
 }
 
-async function registerAccount(ctx) {
+async function register(ctx) {
     const { username, password, email } = ctx.request.fields
 
     if (!isValidUsername(username)) {
@@ -73,12 +71,14 @@ async function registerAccount(ctx) {
  * @param token {string}
  * @returns {boolean}
  */
-export async function checkAuthorized(token) {
-    if (!token) throw new Error('Token not provided')
-    const account = await Account.findOne({ token }, 'token')
+export async function checkAuthorized(ctx) {
+    ctx.authorized = false
+    if (!ctx.token) throw new Error('Token not provided')
+    const account = await Account.findOne({ token: ctx.token }, 'token')
     if (account) {
         const decoded = jwt.decode(account.token, config.session.secret)
         if (Date.now() < decoded.expires) {
+            ctx.authorized = true
             return account
         } else {
             // Add renew or redirect functionality

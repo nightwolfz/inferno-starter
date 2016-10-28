@@ -2,10 +2,10 @@ import logger from 'debug'
 
 /**
  * Middleware for catching errors thrown in routes
- * @param fn {function}
+ * @param ctx
  * @returns {function}
  */
-export default (fn) => async(ctx, next) => {
+export default async function(ctx, next) {
     try {
         await next()
     } catch(error) {

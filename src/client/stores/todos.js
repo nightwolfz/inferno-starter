@@ -1,7 +1,6 @@
 import { extendObservable, asFlat } from 'mobx'
 
 /**
- * @name Todos
  * @class Todos
  */
 export default class Todos {
@@ -12,10 +11,7 @@ export default class Todos {
         extendObservable(this, {
             loading: false,
             items: []
-        }, {
-            loading: true,
-            items: []
-        })
+        }, state)
     }
 
     map(predicate) {

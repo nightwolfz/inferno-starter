@@ -1,7 +1,6 @@
 import { extendObservable, asFlat } from 'mobx'
 
 /**
- * @name Account
  * @class Account
  */
 export default class Account {
@@ -16,7 +15,7 @@ export default class Account {
     }
 
     isLoggedIn() {
-        return !this.username
+        return size(this.username)
     }
 
     find(username) {

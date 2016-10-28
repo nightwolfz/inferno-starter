@@ -4,6 +4,12 @@ import { connect } from 'inferno-mobx'
 
 @connect
 class About extends Component {
+
+    // When route is loaded (isomorphic)
+    static onEnter({ common }) {
+        common.title = 'About'
+    }
+
     render() {
         return <main>
             <h1>Inferno-starter</h1>

@@ -18,9 +18,11 @@ export default async(ctx, next) => {
     }
 
     // Check if logged in
-    const account = await getAccount(ctx.token)
-    if (account) {
-        state.account = account
+    if (ctx.token) {
+        const account = await getAccount(ctx.token)
+        if (account) {
+            state.account = account
+        }
     }
 
     // Finally initialize state. This should come last
