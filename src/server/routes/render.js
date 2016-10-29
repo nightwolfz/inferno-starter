@@ -1,5 +1,5 @@
 import Inferno from 'inferno'
-import { renderToString } from 'inferno-server'
+import { renderToStaticMarkup } from 'inferno-server'
 import { Router, getRoutes } from 'inferno-router'
 import config from '../config';
 import onEnter from '../../../core/helpers/onEnter';
@@ -20,7 +20,7 @@ export default async(ctx, next) => {
     }
 
     function renderComponent() {
-        return renderToString(<Html stores={ctx.stores}>
+        return renderToStaticMarkup(<Html stores={ctx.stores}>
             {serverSideRender(config.server.SSR)}
         </Html>)
     }
