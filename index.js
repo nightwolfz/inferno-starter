@@ -15,6 +15,3 @@ if (process.env.NODE_ENV === 'production') {
 
 require('babel-register')
 require('./src/server/server')
-
-process.on('uncaughtException', console.error.bind(console))
-process.on('unhandledRejection', console.error.bind(console))

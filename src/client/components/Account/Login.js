@@ -1,6 +1,5 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { observable } from 'mobx'
 import { connect } from 'inferno-mobx'
 import Loading from '../Common/Loading'
 import Error from '../Common/Error'
@@ -20,9 +19,9 @@ class Login extends Component {
         error: null
     }
 
-    handleChange = (key) => (e) => {
+    handleChange = (e) => {
         this.setState({
-            [key]: e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
@@ -62,16 +61,18 @@ class Login extends Component {
                 <label>
                     Usernames
                     <input type="text"
+                           name="username"
                            value={this.state.username}
-                           onKeyUp={this.handleChange('username')}
+                           onKeyUp={this.handleChange}
                            required="required"/>
                 </label>
 
                 <label>
                     Password
                     <input type="password"
+                           name="password"
                            value={this.state.password}
-                           onKeyUp={this.handleChange('password')}
+                           onKeyUp={this.handleChange}
                            required="required"/>
                 </label>
 

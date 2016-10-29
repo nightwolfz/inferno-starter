@@ -19,15 +19,7 @@ export default async function(ctx, next) {
             await next()
         } else {
             ctx.redirect('/page/login')
-            //ctx.cookies.set('token', null)
             ctx.status = 401
         }
-
-        /*logger('binder:forbidden')(error)
-        ctx.token = null
-        ctx.authorized = false
-        ctx.redirect('/page/login')
-        ctx.status = 401
-        return*/
     }
 }

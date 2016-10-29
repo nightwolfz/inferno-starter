@@ -13,7 +13,7 @@ Features:
 + MongoDB user register/login/logout
 + Token based authentication
 + Decorators for accessing actions and state
-+ Hot reload _(browser only)_
++ Hot reload
 + Bundle size as small as possible
 
 
@@ -132,7 +132,7 @@ static fetchData({ myStore, params }) {
 
 The `fetchData` method is smart, it will be executed either on the server or on the browser depending on how you access the website.
 
-It also gets all your stores and url params as arguments as a convenience.
+It also passes all your stores and url params as arguments as a convenience.
 
 
 ## Usefull links
@@ -140,9 +140,6 @@ It also gets all your stores and url params as arguments as a convenience.
 [Inferno](https://github.com/trueadm/inferno)
 
 [MobX](https://mobxjs.github.io/mobx/)
-
-[mobx-connect](https://github.com/nightwolfz/mobx-connect)
-
 
 
 ## Author
