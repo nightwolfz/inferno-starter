@@ -1,10 +1,10 @@
-const database = require('core/database')
-const mongoose = require('mongoose')
+import database from 'core/database'
+import { Schema } from 'mongoose'
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     text: String,
     image: String,
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' }
+    createdBy: { type: Schema.Types.ObjectId, ref: 'Account' }
 })
 
 export default database.model('Todo', schema)
