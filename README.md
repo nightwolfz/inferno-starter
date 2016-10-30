@@ -71,7 +71,7 @@ Tested on i7-6700K @ 4.00GHz 16GB RAM. **Single** node.js instance.
 
 ## What are `stores` ?
 
-Stores will contain the state of your applicatio and the methods that mutate that state.
+Stores will contain the state of your application and the methods that mutate that state.
 Basically most of your client side logic is inside stores.
 
 
@@ -80,7 +80,8 @@ Basically most of your client side logic is inside stores.
 The `@connect` decorator injects stores into your components.
 Additionally, it keeps your components up to date with any changes in your stores.
 
-Example: If you display a `messageCount` from a `Messages` store and it gets updated, then all the visible components that display that `messageCount` will update themselves. 
+_Example: If you display a `messageCount` from a `Messages` store and it gets updated, 
+then all the visible components that display that `messageCount` will update themselves._
 
 
 ## Does connecting many components make my app slower?
@@ -88,18 +89,18 @@ Example: If you display a `messageCount` from a `Messages` store and it gets upd
 **No**, it actually allows the rendering to be done more efficiently. So connect as many as you want !
 
 
-## How to add mongoose models ?
+## Adding mongoose models
 
 1. Goto `src/server/models`
 2. Add `[Name].js` with your model in it
 
-## How to add a new store
+## Adding stores
 
 1. Goto `src/client/stores`
 2. Add `[name].js` (based on another store like `account.js`)
 3. Update `src/client/stores.js`
 
-## How to enable/disable server-side rendering
+## Enabling server-side rendering
 
 1. Goto `src/server/config`
 2. Set `server.SSR` variable to `true` or `false`
@@ -124,10 +125,13 @@ const MyComponent = connect((props, context) => {
 Add a static `onEnter` method to your component like this:
 
 ```js
-static onEnter({ myStore, params }) {
-    // Make sure to ALWAYS returns something, even if its nothing!
-    // Otherwise we won't know when the method finished it's work
-    return myStore.browse()
+class MyComponent extends Component {
+    static onEnter({ myStore, params }) {
+        // Make sure to ALWAYS returns something (preferably a promise), even if its nothing!
+        // Otherwise we won't know when the method finished it's work
+        return myStore.browse()
+    }
+    // ...
 }
 ```
 
