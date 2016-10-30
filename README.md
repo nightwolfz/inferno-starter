@@ -121,16 +121,17 @@ const MyComponent = connect((props, context) => {
 
 ## How do I execute async actions on the server and/or client ?
 
-Add a static `fetchData` method to your component like this:
+Add a static `onEnter` method to your component like this:
 
 ```js
-static fetchData({ myStore, params }) {
+static onEnter({ myStore, params }) {
     // Make sure to ALWAYS returns something, even if its nothing!
+    // Otherwise we won't know when the method finished it's work
     return myStore.browse()
 }
 ```
 
-The `fetchData` method is smart, it will be executed either on the server or on the browser depending on how you access the website.
+The `onEnter` method is smart, it will be executed either on the server or on the browser depending on how you access the website.
 
 It also passes all your stores and url params as arguments as a convenience.
 
