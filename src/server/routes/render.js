@@ -14,17 +14,22 @@ export default async(ctx, next) => {
     const routing = routes(ctx.stores)
     const renderProps = match(routing, ctx.url)
 
-    function renderComponent() {
+    function renderSSRComponent() {
         if (config.server.SSR) {
-            return <App stores={ctx.stores}><RouterContext {...renderProps}/></App>
+            return <Html stores={ctx.stores}>
+                <App stores={ctx.stores}>
+                    <RouterContext {...renderProps}/>
+                </App>
+            </Html>
         } else {
-            return <RouterContext {...renderProps}/>
+            return <Html stores={ctx.stores}/>
         }
     }
 
     try {
         await onEnter(renderProps.matched, ctx.stores)
-        content = renderToStaticMarkup(<Html stores={ctx.stores}>{renderComponent()}</Html>)
+        content = renderToStaticMarkup(renderSSRComponent())
+
     } catch(error) {
         if (error.redirect) {
             ctx.redirect(error.redirect)

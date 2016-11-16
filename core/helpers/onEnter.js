@@ -6,7 +6,7 @@
  */
 function getRoutes(staticMethod, components, promises) {
     const routes = components instanceof Array ? components : [components];
-    console.log(routes)
+
     routes.forEach(({ props }) => {
         props.component[staticMethod] && promises.push(props.component[staticMethod])
         props.children && getRoutes(staticMethod, props.children, promises)

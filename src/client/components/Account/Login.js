@@ -20,6 +20,9 @@ class Login extends Component {
     }
 
     handleChange = (e) => {
+        console.log({
+            [e.target.name]: e.target.value
+        })
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -51,34 +54,30 @@ class Login extends Component {
     render() {
         const { loading, error } = this.state
 
-        if (loading) {
-            return <Loading/>
-        }
-
         return <main>
             <h1>sign-in</h1>
             <form className="account" onSubmit={(e) => this.handleLogin(e)}>
                 <label>
-                    Usernames
+                    Username
                     <input type="text"
                            name="username"
-                           value={this.state.username}
                            onKeyUp={this.handleChange}
-                           required="required"/>
+                    />
                 </label>
 
                 <label>
                     Password
                     <input type="password"
                            name="password"
-                           value={this.state.password}
-                           onKeyUp={this.handleChange}
-                           required="required"/>
+                           onKeyUp={this.handleChange}/>
                 </label>
 
                 {error && <Error text={error}/>}
 
-                <button onClick={(e) => this.handleLogin(e)}>Login</button>
+                {loading
+                    ? <Loading/>
+                    : <button onClick={(e) => this.handleLogin(e)}>Login</button>
+                }
             </form>
         </main>
     }

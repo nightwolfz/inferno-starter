@@ -27,7 +27,6 @@ class TodoAdd extends Component {
                 <input type="text"
                        className="new-todo"
                        placeholder="What needs to be done?"
-                       value={this.inputText}
                        onKeyUp={this.handleChange}
                 />
             </p>

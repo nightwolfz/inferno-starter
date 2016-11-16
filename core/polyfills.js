@@ -1,7 +1,4 @@
 // For IE 11
-if (typeof Promise === 'undefined') {
-    global.Promise = require('promise-polyfill')
-}
 
 global.size = function size(obj) {
     return obj && ((typeof obj === 'string') ? obj.length : Object.keys(obj).length)

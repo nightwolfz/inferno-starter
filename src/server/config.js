@@ -12,7 +12,7 @@ module.exports = {
         ]
     },
     server: {
-        SSR: true // Server side rendering
+        SSR: false // Server side rendering
     },
     session: {
         secret: 'INFERNAL_SECRET_KEY_KERE',
