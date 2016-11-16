@@ -21,13 +21,9 @@
   },
   "globals": {
     "size": true,
-    "compact": true,
+    "fetch": true,
     "window": true,
-    "decode": true,
-    "Inferno": true,
-    "Mousetrap": true,
-    "SERVER_URL": true,
-    "STREAM_URL": true
+    "Inferno": true
   },
   "rules": {
     "semi": 0,

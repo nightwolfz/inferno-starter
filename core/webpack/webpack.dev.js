@@ -49,7 +49,6 @@ new WebpackDevServer(compiler, {
         'Access-Control-Expose-Headers': 'SourceMap,X-SourceMap'
     },
     hot: true,
-    historyApiFallback: true,
     watchOptions: {
         aggregateTimeout: 300,
         poll: false

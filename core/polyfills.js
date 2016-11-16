@@ -1,14 +1,19 @@
-const _ = require('underscore')
-
 // For IE 11
 if (typeof Promise === 'undefined') {
     global.Promise = require('promise-polyfill')
 }
 
-global.size = function(obj) {
-    return (typeof obj === 'string') ? obj.length : _.size(obj)
+global.size = function size(obj) {
+    return obj && ((typeof obj === 'string') ? obj.length : Object.keys(obj).length)
 }
 
+global.isArray = function isArray(obj) {
+    return obj instanceof Array
+}
+
+global.isEmpty = function isEmpty(obj) {
+    return !size(obj)
+}
 /**
  * Encode spaces and other characters into +
  * @returns {string}
@@ -34,14 +39,6 @@ String.prototype.cleanString = function() {
                .replace(/\W+|–/g, ' ')
                .replace(/\s+/g, ' ')
                .trim()
-}
-
-/**
- * Escape output for XSS protection
- * @returns {string}
- */
-String.prototype.escape = function() {
-    return _.escape(this)
 }
 
 /**
@@ -77,22 +74,6 @@ if (!String.prototype.startsWith) {
         position = position || 0;
         return this.substr(position, searchString.length) === searchString;
     };
-}
-
-if (!Array.prototype.find) {
-    Array.prototype.find = function(predicate) {
-        return _.find(this, predicate)
-    };
-}
-
-if (!Array.prototype.includes) {
-    Array.prototype.includes = function(searchElement) {
-        return _.includes(this, searchElement);
-    };
-}
-
-if (typeof Object.assign != 'function') {
-    Object.assign = _.extend;
 }
 
 if (!String.prototype.includes) {

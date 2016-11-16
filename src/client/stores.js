@@ -1,4 +1,4 @@
-import requestCreator from 'core/helpers/request'
+import requestCreator from '../../core/helpers/request'
 import Common from './stores/common'
 import Todos from './stores/todos'
 import Account from './stores/account'

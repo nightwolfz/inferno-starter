@@ -1,4 +1,4 @@
-import database from 'core/database'
+import database from '../../../core/database'
 import { Schema } from 'mongoose'
 
 const schema = new Schema({

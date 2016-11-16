@@ -1,15 +1,17 @@
-import _ from 'underscore';
-
 /**
  * Go through the mached route and extract the static method
  * @param props
  * @param promises
  * @returns {*}
  */
-function getRoutes(staticMethod, { props }, promises) {
-    props.component[staticMethod] && promises.push(props.component[staticMethod])
-    props.children && getRoutes(staticMethod, props.children, promises)
-    return props.params
+function getRoutes(staticMethod, components, promises) {
+    const routes = components instanceof Array ? components : [components];
+    console.log(routes)
+    routes.forEach(({ props }) => {
+        props.component[staticMethod] && promises.push(props.component[staticMethod])
+        props.children && getRoutes(staticMethod, props.children, promises)
+    })
+    return routes[0].props.params
 }
 
 

@@ -1,5 +1,3 @@
-import _ from 'underscore'
-
 /**
  * This is our overly complicated isomorphic "request"
  * @param state
@@ -15,7 +13,9 @@ export default (hostname, token) => {
         }
         if (body && postForm) {
             let formData = new FormData()
-            _.each(body, (value, field) => formData.append(field, value))
+            Object.keys(body).forEach(field => {
+                formData.append(field, body[field])
+            })
             requestOptions.method = 'POST'
             requestOptions.body = formData
         } else if (body) {
@@ -25,9 +25,6 @@ export default (hostname, token) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-        }
-        if (process.env.DEV) {
-            console.info('requestURL:', requestURL)
         }
 
         // Append token to the headers

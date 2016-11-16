@@ -26,9 +26,7 @@ module.exports = {
                         "transform-decorators-legacy",
                         "transform-class-properties",
                         "inferno",
-                        ["fast-async", {
-                            "env": { "dontMapStackTraces": true }
-                        }]
+                        ["fast-async"]
                     ]
                 }
             },
@@ -44,7 +42,7 @@ module.exports = {
             },
             {
                 test: /\.(css|scss)(\?.+)?$/,
-                loader: ExtractCSS.extract(['css?sourceMap', 'sass?sourceMap']),
+                loader: ExtractCSS.extract(['css-loader?sourceMap', 'sass-loader?sourceMap']),
                 include: [sources('assets'), sources('client/components')]
             }
         ]

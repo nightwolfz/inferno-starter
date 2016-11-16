@@ -1,6 +1,6 @@
 import Inferno from 'inferno'
 import { renderToStaticMarkup } from 'inferno-server'
-import { Router, getRoutes } from 'inferno-router'
+import { RouterContext, match } from 'inferno-router'
 import config from '../config';
 import onEnter from '../../../core/helpers/onEnter';
 import routes from '../../client/routes'
@@ -10,33 +10,31 @@ import App from '../../client/containers/App'
 // Server-side render
 export default async(ctx, next) => {
 
+    let content = null
     const routing = routes(ctx.stores)
-    const matched = getRoutes(routing, ctx.url)
-
-    function serverSideRender(SSR) {
-        return SSR ? (<App stores={ctx.stores}>
-            <Router url={ctx.url} matched={matched}/>
-        </App>) : null
-    }
+    const renderProps = match(routing, ctx.url)
 
     function renderComponent() {
-        return renderToStaticMarkup(<Html stores={ctx.stores}>
-            {serverSideRender(config.server.SSR)}
-        </Html>)
+        if (config.server.SSR) {
+            return <App stores={ctx.stores}><RouterContext {...renderProps}/></App>
+        } else {
+            return <RouterContext {...renderProps}/>
+        }
     }
 
     try {
-        await onEnter(matched, ctx.stores)
-        ctx.body = '<!DOCTYPE html>\n' + renderComponent()
-        await next()
+        await onEnter(renderProps.matched, ctx.stores)
+        content = renderToStaticMarkup(<Html stores={ctx.stores}>{renderComponent()}</Html>)
     } catch(error) {
         if (error.redirect) {
             ctx.redirect(error.redirect)
         } else {
-            ctx.body = '<!DOCTYPE html>\n' + renderError(error)
-            await next()
+            content = renderError(error)
         }
     }
+
+    ctx.body = '<!DOCTYPE html>\n' + content
+    await next()
 }
 
 function renderError(error) {
