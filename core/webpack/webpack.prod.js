@@ -42,7 +42,6 @@ logger('server:webpack')('Environment: Production')
 config.output.path = path.join(__dirname, '../../build')
 config.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         compressor: {
             screw_ie8: true,

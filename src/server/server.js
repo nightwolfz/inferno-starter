@@ -22,7 +22,7 @@ app.use(bodyParser({
 
 // Needed for authentication
 app.use(context)
-// app.use(catcher)
+app.use(catcher)
 
 // Routes
 app.use(todos.routes())
