@@ -9,7 +9,7 @@ global.isArray = function isArray(obj) {
 }
 
 global.isEmpty = function isEmpty(obj) {
-    return !size(obj)
+    return !global.size(obj)
 }
 /**
  * Encode spaces and other characters into +
