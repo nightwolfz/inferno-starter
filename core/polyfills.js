@@ -1,4 +1,7 @@
 // For IE 11
+if (typeof Promise === 'undefined') {
+    global.Promise = require('promise-polyfill')
+}
 
 global.size = function size(obj) {
     return obj && ((typeof obj === 'string') ? obj.length : Object.keys(obj).length)
@@ -10,32 +13,6 @@ global.isArray = function isArray(obj) {
 
 global.isEmpty = function isEmpty(obj) {
     return !global.size(obj)
-}
-/**
- * Encode spaces and other characters into +
- * @returns {string}
- */
-String.prototype.safeParam = function() {
-    return this.replace(/[\s\uFEFF\xA0]+/g, '+')
-}
-
-/**
- * Return a SEO frieldly version of a string
- * @returns {string}
- */
-String.prototype.seoName = function() {
-    return this.toLowerCase().replace(/[\s\uFEFF\xA0]+/g, '_')
-}
-
-/**
- * Remove weird characters and trim spaces
- * @returns {string}
- */
-String.prototype.cleanString = function() {
-    return this.toLowerCase()
-               .replace(/\W+|–/g, ' ')
-               .replace(/\s+/g, ' ')
-               .trim()
 }
 
 /**
