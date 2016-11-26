@@ -1,5 +1,5 @@
+import createStores from '../../client/stores'
 import { getAccount } from '../routes/account';
-import { stores } from '../../client/stores'
 
 /**
  * Middleware for creating the context
@@ -17,7 +17,7 @@ export default async(ctx, next) => {
         }
     }
 
-    // Check if logged in
+    // Add account state if logged in
     if (ctx.token) {
         const account = await getAccount(ctx.token)
         if (account) {
@@ -26,6 +26,6 @@ export default async(ctx, next) => {
     }
 
     // Finally initialize state. This should come last
-    ctx.stores = stores(state, ctx.token)
+    ctx.stores = createStores(state, ctx.token)
     await next()
 }

@@ -27,7 +27,7 @@ export default async(ctx, next) => {
     }
 
     try {
-        await onEnter(renderProps.matched, ctx.stores)
+        await onEnter(renderProps, ctx.stores)
         content = renderToStaticMarkup(renderSSRComponent())
 
     } catch(error) {

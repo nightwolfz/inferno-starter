@@ -3,8 +3,8 @@ import Common from './stores/common'
 import Todos from './stores/todos'
 import Account from './stores/account'
 
-// All our actions are listed here
-export const stores = (state = {}, token) => {
+// All our stores are listed here
+function createStores(state, token) {
     const request = requestCreator(state.common.hostname, token)
     return {
         common: new Common(request, state.common),
@@ -14,4 +14,4 @@ export const stores = (state = {}, token) => {
 }
 
 // Initialize actions and state
-export default process.env.BROWSER ? stores(window.__STATE) : {}
+export default process.env.BROWSER ? createStores(window.__STATE) : createStores

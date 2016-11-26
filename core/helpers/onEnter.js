@@ -1,8 +1,9 @@
 /**
  * Go through the mached route and extract the static method
- * @param props
- * @param promises
- * @returns {*}
+ * @param staticMethod {String}
+ * @param components {Object}
+ * @param promises {Array}
+ * @returns {Object}
  */
 function getRoutes(staticMethod, components, promises) {
     const routes = components instanceof Array ? components : [components];
@@ -16,17 +17,14 @@ function getRoutes(staticMethod, components, promises) {
 
 
 /**
- * Execute fetchData methods for each component
- * @param component {Object}
- * @param params {Object}
- * @param stores {Object}
+ * Execute onEnter methods of matched components
  * @returns {Promise}
  */
 export default (routes, stores) => {
-    if (!routes) return Promise.resolve()
+    if (!routes) throw new Error('A <Route> object must be provided')
 
     const promises = []
-    const params = getRoutes('onEnter', routes, promises)
+    const params = getRoutes('onEnter', routes.matched, promises)
 
     return Promise.all(promises.map(onEnter => onEnter({ ...stores, params})))
-};
+}

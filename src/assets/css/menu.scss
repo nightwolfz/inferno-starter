@@ -2,8 +2,6 @@ menu {
     margin: 0;
     padding: 1rem;
     width: 100%;
-    background-color: #eee;
-    z-index: 9550;
 
     a {
         color: #959aab;
@@ -15,25 +13,8 @@ menu {
         text-decoration: none;
         transition: color 0.2s ease-in-out;
 
-        &:hover {
+        &:hover, &.selected {
             color: #000;
         }
-        &.selected {
-            color: #000;
-            outline: none;
-            border-bottom: 1px solid #000;
-        }
-    }
-
-    a.back-button {
-        vertical-align: top;
-        svg { fill: #888; }
-    }
-    a.back-button:hover {
-        svg { fill: #ddd; }
-    }
-    a.back-button-disabled {
-        color: #3a3a45;
-        svg { fill: #3a3a45; }
     }
 }

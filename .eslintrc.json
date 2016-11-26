@@ -9,8 +9,7 @@
     "ecmaFeatures": {
       "jsx": [1, { "pragma": "Inferno" }],
       "globalReturn ": true,
-      "impliedStrict": true,
-      "experimentalObjectRestSpread": true
+      "impliedStrict": true
     }
   },
   "env": {

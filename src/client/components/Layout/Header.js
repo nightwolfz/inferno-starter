@@ -10,7 +10,7 @@ export default class Header extends Component {
     }
 }
 
-function LoggedInMenu() {
+const LoggedInMenu = (props) => {
     return <menu>
         <Link to="/">Browse</Link>
         <Link to="/page/about">About</Link>
@@ -18,7 +18,7 @@ function LoggedInMenu() {
     </menu>
 }
 
-function LoggedOutMenu() {
+const LoggedOutMenu = (props) => {
     return <menu>
         <Link to="/">Browse</Link>
         <Link to="/page/about">About</Link>
