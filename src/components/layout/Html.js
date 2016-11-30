@@ -1,9 +1,12 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 
+/**
+ * This component is rendered on the server side
+ */
 export default class Html extends Component {
-    render({ stores, children }) {
-        const devServerURL = process.env.DEV ? `http://${stores.common.hostname.replace(/\d+/, 2002)}` : ''
+    render({ stores, children, hostname, config }) {
+        const serverURL = process.env.DEV ? `http://${hostname}:${config.http.port + 2}` : ''
 
         return <html>
             <head>
@@ -17,7 +20,7 @@ export default class Html extends Component {
                 <link rel="icon" href="/favicon.ico?v=ngg42qbKBN"/>
 
                 {/* Build CSS */}
-                <link href={devServerURL + '/build/bundle.css'} rel="stylesheet"/>
+                <link href={serverURL + '/build/bundle.css'} rel="stylesheet"/>
 
                 {/* SSR State*/}
                 <script dangerouslySetInnerHTML={insertState(stores)}/>
@@ -29,7 +32,7 @@ export default class Html extends Component {
                 </div>
 
                 {/* Bundled JS */}
-                <script src={devServerURL + '/build/bundle.js'}/>
+                <script src={serverURL + '/build/bundle.js'}/>
             </body>
         </html>
     }

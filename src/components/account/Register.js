@@ -2,7 +2,7 @@ import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { observable } from 'mobx'
 import { connect } from 'inferno-mobx'
-import Error from '../Common/Error'
+import Error from '../common/Error'
 
 @connect(['account'])
 class Register extends Component {

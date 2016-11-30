@@ -1,7 +1,7 @@
 import requestCreator from '../../core/helpers/request'
-import Common from './stores/common'
-import Todos from './stores/todos'
-import Account from './stores/account'
+import Common from '../stores/common'
+import Todos from '../stores/todos'
+import Account from '../stores/account'
 
 // All our stores are listed here
 function createStores(state, token) {

@@ -11,7 +11,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import autorun from './autorun'
 import stores from './stores'
 import routes from './routes'
-import App from './containers/App'
+import App from '../components/App'
 
 // We render our react app into this element
 const container = document.getElementById('container')

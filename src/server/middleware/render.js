@@ -4,8 +4,8 @@ import { RouterContext, match } from 'inferno-router'
 import config from '../config';
 import onEnter from '../../../core/helpers/onEnter';
 import routes from '../../client/routes'
-import Html from '../../client/containers/Html'
-import App from '../../client/containers/App'
+import Html from '../../components/layout/Html'
+import App from '../../components/App'
 
 // Server-side render
 export default async(ctx, next) => {
@@ -15,15 +15,13 @@ export default async(ctx, next) => {
     const renderProps = match(routing, ctx.url)
 
     function renderSSRComponent() {
-        if (config.server.SSR) {
-            return <Html stores={ctx.stores}>
+        return <Html stores={ctx.stores} hostname={ctx.hostname} config={config}>
+            {config.server.SSR &&
                 <App stores={ctx.stores}>
                     <RouterContext {...renderProps}/>
                 </App>
-            </Html>
-        } else {
-            return <Html stores={ctx.stores}/>
-        }
+            }
+        </Html>
     }
 
     try {
@@ -32,17 +30,10 @@ export default async(ctx, next) => {
 
     } catch(error) {
         if (error.redirect) {
-            ctx.redirect(error.redirect)
-        } else {
-            content = renderError(error)
+            return ctx.redirect(error.redirect)
         }
+        throw error
     }
 
     ctx.body = '<!DOCTYPE html>\n' + content
-    await next()
-}
-
-function renderError(error) {
-    console.error('renderError:', error)
-    return (error.stack ? error.stack.replace(/\n/g, '<br>') : error.toString());
 }

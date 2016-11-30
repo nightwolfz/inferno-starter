@@ -1,8 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
-import Loading from '../Common/Loading'
-import Error from '../Common/Error'
+import Loading from '../common/Loading'
+import Error from '../common/Error'
 
 @connect(['account'])
 class Login extends Component {
@@ -20,9 +20,6 @@ class Login extends Component {
     }
 
     handleChange = (e) => {
-        console.log({
-            [e.target.name]: e.target.value
-        })
         this.setState({
             [e.target.name]: e.target.value
         })

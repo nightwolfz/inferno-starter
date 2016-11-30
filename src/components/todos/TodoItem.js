@@ -4,10 +4,6 @@ import { connect } from 'inferno-mobx'
 
 @connect(['todos'])
 class TodoItem extends Component {
-
-    componentDidMount() {
-    }
-
     render({ todos, item }) {
         return <li className="todo">
             <div className="view">

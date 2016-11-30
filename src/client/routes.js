@@ -1,12 +1,12 @@
 import Inferno from 'inferno'
 import { Route } from 'inferno-router'
-import Main from './components/Layout/Main'
-import NotFound from './containers/NotFound'
-import Todos from './components/Todos'
-import About from './components/About'
-import Login from './components/Account/Login'
-import Logout from './components/Account/Logout'
-import Register from './components/Account/Register'
+import Layout from '../components/layout/Layout'
+import NotFound from '../components/layout/404'
+import Todos from '../pages/Todos'
+import About from '../pages/About'
+import Login from '../components/account/Login'
+import Logout from '../components/account/Logout'
+import Register from '../components/account/Register'
 
 /**
  * Routes are defined here.
@@ -22,7 +22,7 @@ export default function({ account }) {
     }
 
     return (
-        <Route component={ Main }>
+        <Route component={ Layout }>
             <Route path="/" component={ Todos } onEnter={ isAuthenticated }/>
             <Route path="/page/about" component={ About }/>
             <Route path="/page/login" component={ Login }/>

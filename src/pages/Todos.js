@@ -1,8 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
-import TodoAdd from './Todos/TodoAdd'
-import TodoItem from './Todos/TodoItem'
+import TodoAdd from '../components/todos/TodoAdd'
+import TodoItem from '../components/todos/TodoItem'
 
 @connect(['todos'])
 class Todos extends Component {

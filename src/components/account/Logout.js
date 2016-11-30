@@ -1,7 +1,7 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
-import Loading from '../Common/Loading'
+import Loading from '../common/Loading'
 
 @connect(['account'])
 class Logout extends Component {
