@@ -35,7 +35,7 @@ app.use(render)
 // Serve static files
 config.http.static.forEach(staticRoute => {
     logger('app:static')(staticRoute.path)
-    app.use(mount(staticRoute.url, serve(staticRoute.path)))
+    app.use(mount(staticRoute.url, convert(serve(staticRoute.path))))
 })
 
 app.listen(config.http.port, function() {
