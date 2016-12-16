@@ -12,7 +12,7 @@ export default async function(ctx, next) {
         if (auth) await next()
     } catch(error) {
 
-        logger('binder:forbidden')(error)
+        logger('app:forbidden')(error)
         if (ctx.headers['user-agent'].includes('node-fetch')) {
             ctx.authorized = false
             ctx.token = null

@@ -19,7 +19,7 @@ async function getTodos(ctx) {
 async function addTodos(ctx) {
     const { text } = ctx.request.fields
 
-    if (!text) throw new Error('[text] not provided')
+    if (!text) throw new TypeError('[text] not provided')
 
     const newTodo = new Todo({
         text,
@@ -33,7 +33,7 @@ async function addTodos(ctx) {
 async function removeTodos(ctx) {
     const { _id } = ctx.request.fields
 
-    if (!_id) throw new Error('[_id] not provided')
+    if (!_id) throw new TypeError('[_id] not provided')
 
     const response = await Todo.remove({ _id })
 

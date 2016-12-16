@@ -5,6 +5,13 @@
     "restart": "echo \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
   "ext": "js",
+  "ignore": [
+	".git",
+	"npm-debug.log",
+	"build/*",
+	"node_modules/**/node_modules",
+	"src/assets/*"
+  ],
   "watch": [
     "src/server",
     "src/shared"

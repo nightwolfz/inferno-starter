@@ -28,7 +28,7 @@ async function login(ctx) {
         username,
         password: sha512(password, { salt: username })
     })
-    if (!account) throw new Error('Wrong credentials')
+    if (!account) throw new TypeError('Wrong credentials')
 
     account.token = createAuthToken(account._id)
     await account.save()
@@ -49,10 +49,10 @@ async function register(ctx) {
     const { username, password, email } = ctx.request.fields
 
     if (!isValidUsername(username)) {
-        throw new Error('Username cannot contain special characters')
+        throw new TypeError('Username cannot contain special characters')
     }
     const exists = await Account.count({ username })
-    if (exists) throw new Error('Username already taken')
+    if (exists) throw new TypeError('Username already taken')
 
     const account = new Account({
         username,
@@ -73,7 +73,7 @@ async function register(ctx) {
  */
 export async function checkAuthorized(ctx) {
     ctx.authorized = false
-    if (!ctx.token) throw new Error('Token not provided')
+    if (!ctx.token) throw new TypeError('Token not provided')
     const account = await Account.findOne({ token: ctx.token }, 'token')
     if (account) {
         const decoded = jwt.decode(account.token, config.session.secret)
@@ -82,10 +82,10 @@ export async function checkAuthorized(ctx) {
             return account
         } else {
             // Add renew or redirect functionality
-            throw new Error('Token expired: ' + new Date(decoded.expires))
+            throw new TypeError('Token expired: ' + new Date(decoded.expires))
         }
     }
-    throw new Error('Invalid token')
+    throw new TypeError('Invalid token')
 }
 
 /**
