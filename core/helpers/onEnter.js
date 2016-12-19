@@ -21,8 +21,6 @@ function getRoutes(staticMethod, components, promises) {
  * @returns {Promise}
  */
 export default (routes, stores) => {
-    if (!routes) throw new Error('A <Route> object must be provided')
-
     const promises = []
     const params = getRoutes('onEnter', routes.matched, promises)
 
