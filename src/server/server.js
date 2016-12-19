@@ -24,8 +24,8 @@ app.use(convert(bodyParser({
 })))
 
 // Needed for authentication
-app.use(context)
 app.use(catcher)
+app.use(context)
 
 // Routes
 app.use(todos.routes())
