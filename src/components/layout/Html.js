@@ -6,7 +6,8 @@ import Component from 'inferno-component'
  */
 export default class Html extends Component {
     render({ stores, children, hostname, config }) {
-        const serverURL = process.env.DEV ? `http://${hostname}:${config.http.port + 2}` : ''
+        const serverURL = `//${hostname}`
+        const bundleURL = process.env.DEV ? `${serverURL}:${config.http.port + 2}` : ''
 
         return <html>
             <head>
@@ -16,11 +17,8 @@ export default class Html extends Component {
                 <meta name="title" content={stores.common.title}/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
-                {/* Favicons */}
+                {/* Favicon */}
                 <link rel="icon" href="/favicon.ico?v=ngg42qbKBN"/>
-
-                {/* Build CSS */}
-                <link href={serverURL + '/build/bundle.css'} rel="stylesheet"/>
 
                 {/* SSR State*/}
                 <script dangerouslySetInnerHTML={insertState(stores)}/>
@@ -31,8 +29,11 @@ export default class Html extends Component {
                     {children}
                 </div>
 
+                {/* Build CSS */}
+                <link href={`${bundleURL}/build/bundle.css`} rel="stylesheet"/>
+
                 {/* Bundled JS */}
-                <script src={serverURL + '/build/bundle.js'}/>
+                <script src={`${bundleURL}/build/bundle.js`}/>
             </body>
         </html>
     }

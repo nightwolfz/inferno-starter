@@ -30,13 +30,14 @@ app.use(context)
 // Routes
 app.use(todos.routes())
 app.use(account.routes())
-app.use(render)
 
 // Serve static files
 config.http.static.forEach(staticRoute => {
     logger('app:static')(staticRoute.path)
     app.use(mount(staticRoute.url, convert(serve(staticRoute.path))))
 })
+
+app.use(render)
 
 app.listen(config.http.port, function() {
     logger('app:start')('Listening on port ' + config.http.port)
