@@ -21,6 +21,11 @@ const routing = routes(stores)
 // React to changes
 autorun(stores)
 
+// Fetch data on route change
+history.listen(location => {
+    onEnter(match(routing, location), stores)
+})
+
 /**
  * Render our component according to our routes
  */
@@ -29,11 +34,6 @@ Inferno.render(<App stores={stores}>
         {routing}
     </Router>
 </App>, container)
-
-// Fetch data on route change
-history.listen(location => {
-    onEnter(match(routing, location), stores)
-})
 
 if (module.hot) {
     module.hot.accept()
