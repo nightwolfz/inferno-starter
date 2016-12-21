@@ -19,15 +19,18 @@ class Todos extends Component {
             <div className="home">
                 <TodoAdd/>
                 <section className="main">
-                    <ul className="todo-list">
-                        {todos.map(item => (
-                            <TodoItem key={item.text.hashCode()} item={item}/>
-                        ))}
-                    </ul>
+                    <TodoItemWrapper todos={todos}/>
                 </section>
             </div>
         </main>
     }
 }
+
+// Render each item
+const TodoItemWrapper = connect(props => {
+    return <ul className="todo-list">
+        {props.todos.map(item => <TodoItem item={item}/>)}
+    </ul>
+})
 
 export default Todos
