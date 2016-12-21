@@ -27,10 +27,10 @@ class Todos extends Component {
 }
 
 // Render each item
-const TodoItemWrapper = connect(props => {
-    return <ul className="todo-list">
+const TodoItemWrapper = connect(props => (
+    <ul className="todo-list">
         {props.todos.map(item => <TodoItem item={item}/>)}
     </ul>
-})
+))
 
 export default Todos
