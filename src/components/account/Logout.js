@@ -1,7 +1,6 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
-import Loading from '../common/Loading'
 
 @connect(['account'])
 class Logout extends Component {
@@ -19,12 +18,12 @@ class Logout extends Component {
         const { account } = this.props
         const { router } = this.context
 
-        account.logout().then(() => {
-            this.setState({
-                loading: true
-            })
-            setTimeout(() => router.push('/'), 500)
+        this.setState({
+            loading: true
         })
+        new Promise(resolve => setTimeout(resolve, 500))
+            .then(() => account.logout())
+            .then(() => router.push('/'))
     }
 
     render() {
@@ -36,7 +35,7 @@ class Logout extends Component {
                 <p>This will disconnect you and you will have to login again next time.</p>
 
                 {loading
-                    ? <Loading/>
+                    ? <button disabled>Loading</button>
                     : <button onClick={this.handleLogout}>Logout</button>
                 }
             </center>

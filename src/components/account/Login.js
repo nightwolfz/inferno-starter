@@ -1,7 +1,6 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
-import Loading from '../common/Loading'
 import Error from '../common/Error'
 
 @connect(['account'])
@@ -31,19 +30,18 @@ class Login extends Component {
         const { router } = this.context
         const { username, password } = this.state
 
-        account.login({ username, password })
-            .then(() => {
-                this.setState({
-                    error: null,
-                    loading: true
-                })
-                setTimeout(() => router.push('/'), 500)
-            })
+        this.setState({
+            error: null,
+            loading: true
+        })
+
+        new Promise(resolve => setTimeout(resolve, 500))
+            .then(() => account.login({ username, password }))
+            .then(() => router.push('/'))
             .catch(error => {
                 this.setState({
                     error,
                     loading: false,
-                    password: ''
                 })
             })
     }
@@ -53,12 +51,13 @@ class Login extends Component {
 
         return <main>
             <h1>sign-in</h1>
-            <form className="account" onSubmit={(e) => this.handleLogin(e)}>
+            <form className="account" onSubmit={this.handleLogin}>
                 <label>
                     Username
                     <input type="text"
                            name="username"
-                           onKeyUp={this.handleChange}
+                           required
+                           onInput={this.handleChange}
                     />
                 </label>
 
@@ -66,15 +65,17 @@ class Login extends Component {
                     Password
                     <input type="password"
                            name="password"
-                           onKeyUp={this.handleChange}/>
+                           required
+                           onInput={this.handleChange}
+                    />
                 </label>
 
-                {error && <Error text={error}/>}
-
                 {loading
-                    ? <Loading/>
-                    : <button onClick={(e) => this.handleLogin(e)}>Login</button>
+                    ? <button disabled>Loading</button>
+                    : <button type="submit">Login</button>
                 }
+
+                {error && <Error text={error}/>}
             </form>
         </main>
     }

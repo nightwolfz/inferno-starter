@@ -1,6 +1,6 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
 import { connect } from 'inferno-mobx'
 import Error from '../common/Error'
 
@@ -15,7 +15,8 @@ class Register extends Component {
     @observable form = {
         username: '',
         password: '',
-        errorMsg: null
+        errorMsg: null,
+        loading: false
     }
 
     handleChange = (key) => (e) => {
@@ -27,39 +28,54 @@ class Register extends Component {
         this.handleRegister()
     }
 
-    handleRegister() {
+    @action handleRegister() {
         const { account } = this.props
-        const { username, password } = this.form
+        const form = this.form
+        const { username, password } = form
         const { router } = this.context
 
-        account.register({ username, password })
-            .then(() => {
-                account.login({ username, password }).then(() => {
-                    router.push('/')
-                })
-            })
-            .catch(error => this.form.errorMsg = error)
+        form.errorMsg = null
+        form.loading = true
+        new Promise(resolve => setTimeout(resolve, 500))
+            .then(() => account.register({username, password}))
+            .then(() => account.login({username, password}))
+            .then(() => router.push('/'))
+            .catch(action(error => {
+                form.errorMsg = error
+                form.loading = false
+            }))
     }
 
     render() {
+        const form = this.form;
         return <main>
             <h1>register</h1>
-            <form className="account" onSubmit={e => this.handleSubmit(e)}>
+            <form className="account" onSubmit={this.handleSubmit}>
                 <label>
                     Username
                     <input type="text"
-                           onKeyUp={this.handleChange("username")}/>
+                           required
+                           onInput={this.handleChange("username")}
+                           value={form.username}
+                    />
                 </label>
 
                 <label>
                     Password
                     <input type="password"
-                           onKeyUp={this.handleChange("password")}/>
+                           required
+                           onInput={this.handleChange("password")}
+                           autocomplete="new-password"
+                           value={form.password}
+                    />
                 </label>
 
-                {this.form.errorMsg && <Error text={this.form.errorMsg}/>}
+                {form.loading
+                    ? <button disabled>Loading</button>
+                    : <button type="submit">Register</button>
+                }
 
-                <button>Register</button>
+                {form.errorMsg && <Error text={form.errorMsg}/>}
             </form>
         </main>
     }
