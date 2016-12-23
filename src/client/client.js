@@ -13,6 +13,10 @@ import stores from './stores'
 import routes from './routes'
 import App from '../components/App'
 
+if (module.hot) {
+    require('inferno-devtools')
+}
+
 // We render our react app into this element
 const container = document.getElementById('container')
 const history = createBrowserHistory()
