@@ -35,8 +35,7 @@ class Login extends Component {
             loading: true
         })
 
-        new Promise(resolve => setTimeout(resolve, 500))
-            .then(() => account.login({ username, password }))
+        account.login({ username, password })
             .then(() => router.push('/'))
             .catch(error => {
                 this.setState({

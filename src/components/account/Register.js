@@ -36,8 +36,8 @@ class Register extends Component {
 
         form.errorMsg = null
         form.loading = true
-        new Promise(resolve => setTimeout(resolve, 500))
-            .then(() => account.register({username, password}))
+
+        account.register({username, password})
             .then(() => account.login({username, password}))
             .then(() => router.push('/'))
             .catch(action(error => {
