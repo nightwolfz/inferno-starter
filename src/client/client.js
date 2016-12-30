@@ -1,8 +1,8 @@
 // This is the entry point for our client-side logic
 // The server-side has a similar configuration in `src/server/middleware/render.js`
 import 'isomorphic-fetch'
-import '../../core/polyfills'
-import '../../core/logger'
+import '../../core/helpers/polyfills'
+import '../../core/helpers/logger'
 import '../assets/css/index.scss'
 import onEnter from '../../core/helpers/onEnter'
 import Inferno from 'inferno'

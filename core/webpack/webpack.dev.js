@@ -28,7 +28,8 @@ config.plugins.push(
     new webpack.NoErrorsPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.WatchIgnorePlugin([
-        path.join(__dirname, '../../src/shared')
+        path.join(__dirname, '../../core'),
+        path.join(__dirname, '../../build')
     ]),
     new webpack.DefinePlugin({
         'process.env.DEV': true,

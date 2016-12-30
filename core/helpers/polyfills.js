@@ -3,16 +3,16 @@ if (typeof Promise === 'undefined') {
     global.Promise = require('promise-polyfill')
 }
 
+global.Exception = class Exception extends Error {
+    constructor(message) {
+        super(message);
+        this.message = message;
+        this.name = 'Exception';
+    }
+}
+
 global.size = function size(obj) {
     return obj && ((typeof obj === 'string') ? obj.length : Object.keys(obj).length)
-}
-
-global.isArray = function isArray(obj) {
-    return obj instanceof Array
-}
-
-global.isEmpty = function isEmpty(obj) {
-    return !global.size(obj)
 }
 
 /**
@@ -28,16 +28,6 @@ String.prototype.hashCode = function() {
         hash |= 0; // Convert to 32bit integer
     }
     return hash
-}
-
-/**
- * Encode into base64 without breaking utf-8
- * @returns {string}
- */
-String.prototype.base64encode = function() {
-    return btoa(encodeURIComponent(this).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-        return String.fromCharCode('0x' + p1)
-    }))
 }
 
 /**
@@ -57,15 +47,15 @@ if (!String.prototype.includes) {
 }
 if (!String.prototype.trimLeft) {
     String.prototype.trimLeft = function trimLeft(str) {
-        return remove(this, str ? new RegExp(`/^${str}+/`) : /^\s+/);
+        return remove(this, `^${str || '\\s'}+`);
     };
 }
 if (!String.prototype.trimRight) {
     String.prototype.trimRight = function trimRight(str) {
-        return remove(this, str ? new RegExp(`/${str}+$/`) : /\s+$/);
+        return remove(this, `${str || '\\s'}+$`);
     };
 }
 
 function remove(str, rx) {
-    return str.replace(rx, '');
+    return str.replace(new RegExp(rx), '');
 }

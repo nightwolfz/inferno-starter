@@ -5,9 +5,8 @@ const sources = (location) => path.join(__dirname, '../../src', location)
 
 module.exports = {
     entry: {},
-    node: {
-        global: true,
-        fs: 'empty'
+    performance: {
+        hints: false
     },
     module: {
         loaders: [

@@ -1,6 +1,8 @@
 /**
  * Bootstrap core and webpack
  */
+require('./core/helpers/logger')
+require('./core/helpers/polyfills')
 require('./core/compile')
 
 /**

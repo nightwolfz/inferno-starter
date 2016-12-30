@@ -1,7 +1,7 @@
 import Inferno from 'inferno'
 import { renderToStaticMarkup } from 'inferno-server'
 import { RouterContext, match } from 'inferno-router'
-import config from '../config';
+import config from '../../config';
 import onEnter from '../../../core/helpers/onEnter';
 import routes from '../../client/routes'
 import Html from '../../components/layout/Html'

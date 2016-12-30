@@ -3,16 +3,13 @@ const path = require('path')
 module.exports = {
     http: {
         port: 2000,
-        favicon: path.join(__dirname, '../assets/favicon.ico'),
-        static: [
-            {
-                url: '/build',
-                path: path.join(__dirname, '../../build')
-            }
-        ]
+        favicon: path.join(__dirname, 'assets/favicon.ico'),
+        static: {
+            '/build': path.join(__dirname, '../build')
+        }
     },
     server: {
-        SSR: true // Server side rendering
+        SSR: false // Server side rendering
     },
     session: {
         secret: 'INFERNAL_SECRET_KEY_KERE',

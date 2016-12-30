@@ -1,7 +1,7 @@
 import jwt from 'jwt-simple'
 import crypto from 'crypto'
 import router from 'koa-router'
-import config from '../config'
+import config from '../../config'
 import Account from '../models/Account'
 
 export default router()

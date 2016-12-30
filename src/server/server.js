@@ -6,7 +6,7 @@ import mount from 'koa-mount'
 import serve from 'koa-static'
 import convert from 'koa-convert'
 
-import config from './config'
+import config from '../config'
 import context from './middleware/context'
 import catcher from './middleware/catcher'
 import render from './middleware/render'
@@ -22,8 +22,6 @@ app.use(convert(bodyParser({
     jsonLimit: '200kb',
     bufferLimit: '4mb'
 })))
-
-// Needed for authentication
 app.use(catcher)
 app.use(context)
 
@@ -32,9 +30,9 @@ app.use(todos.routes())
 app.use(account.routes())
 
 // Serve static files
-config.http.static.forEach(staticRoute => {
-    logger('app:static')(staticRoute.path)
-    app.use(mount(staticRoute.url, convert(serve(staticRoute.path))))
+Object.keys(config.http.static).forEach(staticURL => {
+    logger('app:static')(staticURL)
+    app.use(mount(staticURL, convert(serve(config.http.static[staticURL]))))
 })
 
 app.use(render)
