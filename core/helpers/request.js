@@ -58,7 +58,7 @@ function handleResponse(resp) {
     const redirect = resp.headers.get('Location')
     if (redirect && process.env.BROWSER) {
         window.location.replace(redirect)
-        throw new Exception('Redirecting')
+        return Promise.reject()
     }
 
     const contentType = resp.headers && resp.headers.get('Content-Type')
