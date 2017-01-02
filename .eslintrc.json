@@ -21,8 +21,8 @@
   "globals": {
     "size": true,
     "fetch": true,
-    "window": true,
-    "Inferno": true
+    "Inferno": true,
+    "Exception": true
   },
   "rules": {
     "semi": 0,
