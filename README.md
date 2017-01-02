@@ -127,8 +127,6 @@ Add a static `onEnter` method to your component like this:
 ```js
 class MyComponent extends Component {
     static onEnter({ myStore, params }) {
-        // Make sure to ALWAYS returns something (preferably a promise), even if its nothing!
-        // Otherwise we won't know when the method finished it's work
         return myStore.browse()
     }
     // ...
