@@ -7,7 +7,6 @@ export default class Todos {
 
     constructor(request, state = {}) {
         this.request = request
-        this.items = []
         extendObservable(this, {
             loading: false,
             items: []
@@ -40,6 +39,8 @@ export default class Todos {
     browse() {
         return this.request(`api/todos`).then(items => {
             this.items = items
+        }).catch(err => {
+            console.warn('Not logged in:', err)
         })
     }
 }

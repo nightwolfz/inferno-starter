@@ -10,9 +10,12 @@ import App from '../../components/App'
 // Server-side render
 export default async(ctx, next) => {
 
-    let content = null
     const routing = routes(ctx.stores)
     const renderProps = match(routing, ctx.url)
+
+    if (renderProps.redirect) {
+        return ctx.redirect(renderProps.redirect)
+    }
 
     function renderSSRComponent() {
         return <Html stores={ctx.stores} hostname={ctx.hostname} config={config}>
@@ -26,14 +29,8 @@ export default async(ctx, next) => {
 
     try {
         await onEnter(renderProps, ctx.stores)
-        content = renderToStaticMarkup(renderSSRComponent())
-
+        ctx.body = '<!DOCTYPE html>\n' + renderToStaticMarkup(renderSSRComponent())
     } catch(error) {
-        if (error.redirect) {
-            return ctx.redirect(error.redirect)
-        }
         throw error
     }
-
-    ctx.body = '<!DOCTYPE html>\n' + content
 }

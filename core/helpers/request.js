@@ -56,20 +56,16 @@ function createURL(hostname, path) {
  */
 function handleResponse(resp) {
     const redirect = resp.headers.get('Location')
-    if (redirect) {
-        if (process.env.BROWSER) {
-            window.location.replace(redirect)
-        }
-        return Promise.reject({ redirect })
+    if (redirect && process.env.BROWSER) {
+        window.location.replace(redirect)
+        throw new Exception('Redirecting')
     }
 
     const contentType = resp.headers && resp.headers.get('Content-Type')
     const isJSON = contentType && contentType.includes('json')
     const response = resp[isJSON ? 'json' : 'text']()
 
-    return resp.ok ? response : response.then(err => {
-        throw err
-    });
+    return resp.ok ? response : response.then(err => console.log(err))
 }
 
 function getCookie(key) {
