@@ -50,6 +50,7 @@ new WebpackDevServer(compiler, {
         'Access-Control-Expose-Headers': 'SourceMap,X-SourceMap'
     },
     hot: true,
+    compress: true,
     watchOptions: {
         aggregateTimeout: 300,
         poll: false

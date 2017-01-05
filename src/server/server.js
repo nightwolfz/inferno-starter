@@ -5,6 +5,7 @@ import favicon from 'koa-favicon'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import convert from 'koa-convert'
+import compress from 'koa-compress'
 
 import config from '../config'
 import context from './middleware/context'
@@ -22,6 +23,10 @@ app.use(convert(bodyParser({
     jsonLimit: '200kb',
     bufferLimit: '4mb'
 })))
+app.use(compress({
+    threshold: 2048,
+    flush: require('zlib').Z_SYNC_FLUSH
+}))
 app.use(catcher)
 app.use(context)
 

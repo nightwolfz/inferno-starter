@@ -1,0 +1,14 @@
+{
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "name": "Inferno-site",
+  "short_name": "Inferno-site",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/assets/favicon.png",
+      "sizes": "320x320",
+      "type": "image/png"
+    }
+  ]
+}

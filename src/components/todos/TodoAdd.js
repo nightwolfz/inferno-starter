@@ -23,13 +23,13 @@ class TodoAdd extends Component {
 
     render() {
         return <form className="header" onSubmit={this.handleSubmit}>
-            <p>
+            <label>
                 <input type="text"
                        className="new-todo"
                        placeholder="What needs to be done?"
                        onKeyUp={this.handleChange}
                 />
-            </p>
+            </label>
         </form>
     }
 }

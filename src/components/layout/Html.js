@@ -16,21 +16,23 @@ export default class Html extends Component {
                 <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8"/>
                 <meta name="title" content={stores.common.title}/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+                <meta name="theme-color" content="#ffffff"/>
 
-                {/* Favicon */}
+                {/* Favicon & manifest */}
                 <link rel="icon" href="/favicon.ico?v=ngg42qbKBN"/>
+                <link rel="manifest" href="/manifest.json" defer="defer"/>
 
                 {/* SSR State*/}
                 <script dangerouslySetInnerHTML={insertState(stores)}/>
+
+                {/* Build CSS */}
+                <link href={`${bundleURL}/build/bundle.css`} rel="stylesheet"/>
             </head>
             <body>
                 {/* Our content rendered here */}
                 <div id="container">
                     {children}
                 </div>
-
-                {/* Build CSS */}
-                <link href={`${bundleURL}/build/bundle.css`} rel="stylesheet"/>
 
                 {/* Bundled JS */}
                 <script src={`${bundleURL}/build/bundle.js`}/>

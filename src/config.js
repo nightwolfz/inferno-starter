@@ -5,11 +5,12 @@ module.exports = {
         port: 2000,
         favicon: path.join(__dirname, 'assets/favicon.ico'),
         static: {
-            '/build': path.join(__dirname, '../build')
+            '/build': path.join(__dirname, '../build'),
+            '/': path.join(__dirname, './assets')
         }
     },
     server: {
-        SSR: false // Server side rendering
+        SSR: true // Server side rendering
     },
     session: {
         secret: 'INFERNAL_SECRET_KEY_KERE',

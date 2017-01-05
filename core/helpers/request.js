@@ -57,7 +57,7 @@ function createURL(hostname, path) {
 function handleResponse(resp) {
     const redirect = resp.headers.get('Location')
     if (redirect && process.env.BROWSER) {
-        window.location.replace(redirect)
+        window.browserHistory.push(redirect)
         return Promise.reject()
     }
 
