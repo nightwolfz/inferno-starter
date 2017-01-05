@@ -15,6 +15,7 @@ Features:
 + Decorators for accessing actions and state
 + Hot reload
 + Bundle size as small as possible
++ Offline support through service workers
 
 
 ![Preview](https://raw.githubusercontent.com/nightwolfz/inferno-starter/master/preview.png)
@@ -42,6 +43,7 @@ For production:
 - Using MobX, the easiest and insanely fast state manager.
 - Simple and minimal with routing, authentication, database and server-side rendering.
 - Good developer experience with hot-reloading and source-maps.
+- Get to 100% score on Google Lighthouse
 
 # Benchmarks
 
