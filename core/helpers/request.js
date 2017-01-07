@@ -65,7 +65,9 @@ function handleResponse(resp) {
     const isJSON = contentType && contentType.includes('json')
     const response = resp[isJSON ? 'json' : 'text']()
 
-    return resp.ok ? response : response.then(err => console.log(err))
+    return resp.ok ? response : response.then(err => {
+        throw err
+    })
 }
 
 function getCookie(key) {
