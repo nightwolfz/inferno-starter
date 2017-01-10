@@ -1,4 +1,4 @@
-import { extendObservable, asFlat } from 'mobx'
+import { extendObservable, observable } from 'mobx'
 
 /**
  * @class Account
@@ -10,7 +10,7 @@ export default class Account {
         extendObservable(this, {
             username: null,
             token: null,
-            users: asFlat([])
+            users: observable.shallowArray([])
         }, state)
     }
 

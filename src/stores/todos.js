@@ -1,4 +1,4 @@
-import { extendObservable, asFlat } from 'mobx'
+import { extendObservable, observable } from 'mobx'
 
 /**
  * @class Todos
@@ -9,7 +9,7 @@ export default class Todos {
         this.request = request
         extendObservable(this, {
             loading: false,
-            items: []
+            items: observable.shallowArray([])
         }, state)
     }
 

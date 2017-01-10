@@ -27,6 +27,13 @@ window.browserHistory.listen(location => {
 })
 
 /**
+ * Enable devtools
+ */
+if (module.hot) {
+    require('inferno-devtools')
+}
+
+/**
  * Render our component according to our routes
  */
 Inferno.render(<App stores={stores}>
