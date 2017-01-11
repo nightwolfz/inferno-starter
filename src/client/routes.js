@@ -15,9 +15,9 @@ import Register from '../components/account/Register'
  */
 export default function({ account }) {
 
-    function isAuthenticated(nextState, router) {
+    function isAuthenticated({ props, router }) {
         if (!account.isLoggedIn()) {
-            //router.push('/page/login')
+            router.replace('/page/login')
         }
     }
 
