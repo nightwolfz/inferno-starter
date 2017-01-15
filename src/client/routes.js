@@ -1,5 +1,5 @@
 import Inferno from 'inferno'
-import { Route } from 'inferno-router'
+import { Route, IndexRoute } from 'inferno-router'
 import Layout from '../components/layout/Layout'
 import NotFound from '../components/layout/404'
 import Todos from '../pages/Todos'
@@ -23,7 +23,7 @@ export default function({ account }) {
 
     return (
         <Route component={ Layout }>
-            <Route path="/" component={ Todos } onEnter={ isAuthenticated }/>
+            <IndexRoute component={ Todos } onEnter={ isAuthenticated }/>
             <Route path="/page/about" component={ About }/>
             <Route path="/page/login" component={ Login }/>
             <Route path="/page/logout" component={ Logout }/>
