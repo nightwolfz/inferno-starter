@@ -1,19 +1,30 @@
+const DEBUG = false;
 const CACHE_NAME = 'inferno-starter-cache';
 
 self.addEventListener('install', e => {
     function onCacheOpen(cache) {
-        console.debug('Service cache')
+        DEBUG && console.debug('Service cache');
         return cache.addAll([
             '/',
             '/build/bundle.js',
             '/build/bundle.css'
         ]);
     }
-    e.waitUntil(caches.open(CACHE_NAME).then(onCacheOpen));
+    e.waitUntil([caches.open(CACHE_NAME).then(onCacheOpen), self.skipWaiting()]);
 });
 
-self.addEventListener('activate',  e => {
-    e.waitUntil(self.clients.claim());
+self.addEventListener('activate', e => {
+    e.waitUntil([
+        self.clients.claim().then(() => DEBUG && console.debug('Service listener - clients.claim')),
+        caches.keys().then(function(cacheNames) {
+            return Promise.all(cacheNames.map(function(cacheName) {
+                if (cacheName !== CACHE_NAME) {
+                    DEBUG && console.debug('deleting', cacheName);
+                    return caches.delete(cacheName);
+                }
+            }));
+        })
+    ]);
 });
 
 self.addEventListener('fetch', e => {
@@ -21,6 +32,7 @@ self.addEventListener('fetch', e => {
         caches.match(e.request).then(response => {
             // Cache hit - return response
             if (response) {
+                DEBUG && console.debug(`Cache hit (${CACHE_NAME})`, e.request.url);
                 return response;
             }
 
@@ -30,12 +42,13 @@ self.addEventListener('fetch', e => {
             // to clone the response.
             let fetchRequest = e.request.clone();
 
+            DEBUG && console.debug('fetch: ', fetchRequest.url);
+
             function cachedResponse(response) {
                 // Check if we received a valid response
-                // Don't cache non-CDN requests
                 const isInvalid = !response || response.status !== 200 || response.type !== 'basic';
                 if (isInvalid) {
-                    console.debug('Fetch: excluded', e.request.url)
+                    DEBUG && console.debug('Cache excluded:', e.request.url)
                     return response;
                 }
 
@@ -46,16 +59,15 @@ self.addEventListener('fetch', e => {
                 let responseToCache = response.clone();
 
                 caches.open(CACHE_NAME)
-                      .then(function(cache) {
+                      .then(function (cache) {
+                          DEBUG && console.debug('caching: ', e.request.url);
                           cache.put(e.request, responseToCache);
                       });
 
                 return response;
             }
 
-            return fetch(fetchRequest)
-            .then(cachedResponse)
-            .catch(cachedResponse);
+            return fetch(fetchRequest).then(cachedResponse).catch(cachedResponse);
         })
     );
 });
