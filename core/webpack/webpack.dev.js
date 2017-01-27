@@ -25,7 +25,7 @@ Object.assign(config, {
 
 config.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.WatchIgnorePlugin([
         path.join(__dirname, '../../core'),
