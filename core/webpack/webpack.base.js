@@ -59,7 +59,5 @@ module.exports = {
         }
     },
 
-    plugins: [
-        new ExtractCSS({ filename: 'bundle.css', allChunks: true })
-    ]
+    plugins: []
 };

@@ -1,5 +1,6 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
+import { readFileSync } from 'jsonfile'
 
 /**
  * This component is rendered on the server side
@@ -8,6 +9,7 @@ export default class Html extends Component {
     render({ stores, children, hostname, config }) {
         const serverURL = `//${hostname}`
         const bundleURL = process.env.DEV ? `${serverURL}:${config.http.port + 2}` : ''
+        const manifest = process.env.DEV ? '' : readFileSync(`${__dirname}/../../../build/build-manifest.json`);
 
         return <html>
             <head>
@@ -26,7 +28,7 @@ export default class Html extends Component {
                 <script dangerouslySetInnerHTML={insertState(stores)}/>
 
                 {/* Build CSS */}
-                <link href={`${bundleURL}/build/bundle.css`} rel="stylesheet"/>
+                <link href={`${bundleURL}/build/${manifest['bundle.css']}`} rel="stylesheet"/>
             </head>
             <body>
                 {/* Our content rendered here */}
@@ -35,7 +37,7 @@ export default class Html extends Component {
                 </div>
 
                 {/* Bundled JS */}
-                <script src={`${bundleURL}/build/bundle.js`}/>
+                <script src={`${bundleURL}/build/${manifest['bundle.js']}`}/>
             </body>
         </html>
     }

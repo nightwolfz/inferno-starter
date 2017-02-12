@@ -2,6 +2,10 @@ const path = require('path')
 const logger = require('debug')
 const webpack = require('webpack')
 const config = require('./webpack.base.js')
+const ExtractCSS = require('extract-text-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const glob = require('glob')
 
 // Merge with base configuration
 //-------------------------------
@@ -40,6 +44,7 @@ logger('server:webpack')('Environment: Production')
 // Save files to disk
 //-------------------------------
 config.output.path = path.join(__dirname, '../../build')
+config.output.filename = '[name]-[hash:8].js'
 config.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
@@ -56,11 +61,36 @@ config.plugins.push(
 // Set some environment variables
 //-------------------------------
 config.plugins.push(
+    new ExtractCSS({ filename: '[name]-[contenthash:8].css', allChunks: true }),
     new webpack.DefinePlugin({
         'process.env.DEV': false,
         'process.env.BROWSER': true,
         'process.env.NODE_ENV': JSON.stringify('production')
-    })
+    }),
+    new ManifestPlugin({
+         fileName: 'build-manifest.json'
+    }),
+new SWPrecacheWebpackPlugin({
+    cacheId: 'inferno-starter-cache',
+    filepath: path.join(__dirname, '../../src/assets/', 'service.js'),
+    maximumFileSizeToCacheInBytes: 4194304,
+    dynamicUrlToDependencies: {
+      '/': [
+        ...glob.sync(`[name]-[hash:8].js`),
+        ...glob.sync(`[name]-[contenthash:8].css`)
+      ]
+    },
+    navigateFallback: '/',
+    navigateFallbackWhitelist: [/^\/page\//],
+    staticFileGlobsIgnorePatterns: [/(\.map|\.json)$/],
+    mergeStaticsConfig: true,
+    minify: false, //set to "true" when going on production
+    runtimeCaching: [{
+      urlPattern: /^http:\/\/localhost:2000\/api/,
+      // Use network first and cache as a fallback
+      handler: 'networkFirst'
+    }],
+})
 )
 
 // Sanity checks
