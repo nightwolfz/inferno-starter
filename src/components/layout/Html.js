@@ -28,7 +28,7 @@ export default class Html extends Component {
                 <script dangerouslySetInnerHTML={insertState(stores)}/>
 
                 {/* Build CSS */}
-                <link href={`${bundleURL}/build/${manifest['bundle.css']}`} rel="stylesheet"/>
+                <link href={`${bundleURL}/build/${process.env.DEV ? 'bundle.css' : manifest['bundle.css']}`} rel="stylesheet"/>
             </head>
             <body>
                 {/* Our content rendered here */}
@@ -37,7 +37,7 @@ export default class Html extends Component {
                 </div>
 
                 {/* Bundled JS */}
-                <script src={`${bundleURL}/build/${manifest['bundle.js']}`}/>
+                <script src={`${bundleURL}/build/${process.env.DEV ? 'bundle.js' : manifest['bundle.js']}`}/>
             </body>
         </html>
     }
