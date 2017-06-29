@@ -1,15 +1,13 @@
-import requestCreator from '../../core/helpers/request'
 import Common from '../stores/common'
 import Todos from '../stores/todos'
 import Account from '../stores/account'
 
 // All our stores are listed here
 function createStores(state, token) {
-    const request = requestCreator(state.common.hostname, token)
     return {
-        common: new Common(request, state.common),
-        todos: new Todos(request, state.todos),
-        account: new Account(request, state.account)
+        common: new Common(state.common),
+        todos: new Todos(state.todos),
+        account: new Account(state.account)
     }
 }
 

@@ -1,21 +1,17 @@
 {
   "verbose": false,
   "restartable": "rs",
-  "events": {
-    "restart": "echo \"App restarted due to:\n'$FILENAME'\""
-  },
   "ext": "js",
   "ignore": [
 	".git",
-	"npm-debug.log",
-	"build/*",
-	"node_modules/**/node_modules",
-	"src/assets"
+	"node_modules",
+	"build",
+	"src/**/*"
   ],
   "watch": [
 	"core",
 	"src/client/stores.js",
 	"src/client/preload.js",
-	"src/server"
+	"server"
   ]
 }

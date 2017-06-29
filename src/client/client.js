@@ -1,46 +1,38 @@
 // This is the entry point for our client-side logic
 // The server-side has a similar configuration in `src/server/middleware/render.js`
 import 'isomorphic-fetch'
-import '../../core/helpers/polyfills'
-import '../../core/helpers/logger'
+import '../../core/polyfills'
+import '../../core/logger'
 import '../assets/css/index.scss'
-import onEnter from '../../core/helpers/onEnter'
+import onEnter from '../../core/onEnter'
 import Inferno from 'inferno'
 import { Router, match } from 'inferno-router'
 import createBrowserHistory from 'history/createBrowserHistory';
 import autorun from './autorun'
 import stores from './stores'
 import routes from './routes'
-import App from '../components/App'
+import Index from '../pages/Index'
 
 // We render our react app into this element
 const container = document.getElementById('container')
 window.browserHistory = createBrowserHistory()
-const routing = routes(stores)
 
 // React to changes
 autorun(stores)
 
 // Fetch data on route change
 window.browserHistory.listen(location => {
-    onEnter(match(routing, location), stores)
+    onEnter(match(routes, location), stores)
 })
-
-/**
- * Enable devtools
- */
-if (module.hot) {
-    require('inferno-devtools')
-}
 
 /**
  * Render our component according to our routes
  */
-Inferno.render(<App stores={stores}>
+Inferno.render(<Index stores={stores}>
     <Router history={window.browserHistory}>
-        {routing}
+        {routes}
     </Router>
-</App>, container)
+</Index>, container)
 
 
 if (process.env.NODE_ENV !== 'development') {
@@ -96,6 +88,7 @@ if (process.env.NODE_ENV !== 'development') {
  * Enable hot reloading if available
  */
 if (module.hot) {
-    module.hot.accept()
-    require('inferno-devtools')
+  module.hot.accept(function() {
+    renderApp()
+  })
 }

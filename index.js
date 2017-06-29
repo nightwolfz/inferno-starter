@@ -1,12 +1,12 @@
 /**
  * Bootstrap core and webpack
  */
-require('./core/helpers/logger')
-require('./core/helpers/polyfills')
+require('./core/logger')
+require('./core/polyfills')
 require('./core/compile')
 
 /**
  * Bootstrap our server
  */
 require('babel-register')
-require('./src/server/server')
+require('./server/server')

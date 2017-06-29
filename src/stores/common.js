@@ -5,16 +5,16 @@ import { extendObservable } from 'mobx'
  */
 export default class Common {
 
-    constructor(request, state = {}) {
-        this.request = request
-        extendObservable(this, {
-            title: 'Inferno-starter',
-            statusCode: 200,
-            hostname: 'localhost'
-        }, state)
-    }
+  constructor(request, state = {}) {
+    this.request = request
+    extendObservable(this, {
+      title: 'Inferno-starter',
+      statusCode: 200,
+      hostname: 'localhost'
+    }, state)
+  }
 
-    setTitle(newTitle) {
-        this.title = newTitle
-    }
+  setTitle(newTitle) {
+    this.title = newTitle
+  }
 }

@@ -1,6 +1,6 @@
 import logger from 'debug'
 import mongoose from 'mongoose'
-import config from '../src/config'
+import config from '../server/config'
 
 // Use native promises
 mongoose.Promise = Promise

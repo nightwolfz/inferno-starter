@@ -15,6 +15,7 @@
     "transform-es2015-parameters",
     "transform-es2015-spread",
     "inferno",
+	["babel-plugin-webpack-alias", {"config": "./core/webpack/webpack.base.js"}],
     ["fast-async"]
   ]
 }
