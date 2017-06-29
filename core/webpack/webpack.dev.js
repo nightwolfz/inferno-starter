@@ -3,6 +3,7 @@ const logger = require('debug')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const config = require('./webpack.base.js')
+const ExtractCSS = require('extract-text-webpack-plugin')
 
 // Merge with base configuration
 //-------------------------------
@@ -24,6 +25,7 @@ Object.assign(config, {
 })
 
 config.plugins.push(
+    new ExtractCSS({ filename: 'bundle.css', allChunks: true }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.NamedModulesPlugin(),
