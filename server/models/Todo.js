@@ -1,12 +1,20 @@
-const database = require('core/database')
-const mongoose = require('mongoose')
+import database from 'core/database'
+import { Schema } from 'mongoose'
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
   text: String,
   image: String,
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Account'
+  }
+})
+
+// Options
+schema.set('toJSON', {
+  transform(doc, ret) {
+    ret.id = ret._id
+    delete ret._id
   }
 })
 

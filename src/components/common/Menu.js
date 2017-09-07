@@ -3,14 +3,20 @@ import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
 import { Link } from 'inferno-router'
 
-@connect(['account'])
-export default class Header extends Component {
-  render({ account }) {
-    return account.isLoggedIn() ? <LoggedInMenu/> : <LoggedOutMenu/>
+@connect(['store'])
+class Menu extends Component {
+  render({ store }) {
+    return (
+      <div>
+        {store.account.isLoggedIn()
+          ? <LoggedInMenu/>
+          : <LoggedOutMenu/>}
+      </div>
+    )
   }
 }
 
-const LoggedInMenu = (props) => {
+function LoggedInMenu() {
   return <menu>
     <Link to="/">Browse</Link>
     <Link to="/page/about">About</Link>
@@ -18,7 +24,7 @@ const LoggedInMenu = (props) => {
   </menu>
 }
 
-const LoggedOutMenu = (props) => {
+function LoggedOutMenu() {
   return <menu>
     <Link to="/">Browse</Link>
     <Link to="/page/about">About</Link>
@@ -26,3 +32,5 @@ const LoggedOutMenu = (props) => {
     <Link to="/page/login">Login</Link>
   </menu>
 }
+
+export default Menu

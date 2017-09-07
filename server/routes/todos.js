@@ -1,22 +1,27 @@
 import Todo from '../models/Todo'
-import { getAccount } from './account'
 
 export async function getTodos(ctx) {
+
+  if (!ctx.account.id) {
+    ctx.body = []
+    return
+  }
+
   const response = await Todo.find({
-    createdBy: await getAccount(ctx.token)
+    createdBy: ctx.account
   }).limit(50).exec()
 
   ctx.body = response
 }
 
 export async function addTodos(ctx) {
-  const { text } = ctx.request.fields
+  const { fields } = ctx.request
 
-  if (!text) throw new Exception('[text] not provided')
+  if (!fields.text) throw new Exception('[text] not provided')
 
   const newTodo = new Todo({
-    text,
-    createdBy: await getAccount(ctx.token)
+    text: fields.text,
+    createdBy: ctx.account
   })
   const response = await newTodo.save()
 
@@ -24,11 +29,11 @@ export async function addTodos(ctx) {
 }
 
 export async function removeTodos(ctx) {
-  const { _id } = ctx.request.fields
+  const { fields } = ctx.request
 
-  if (!_id) throw new Exception('[_id] not provided')
+  if (!fields.id) throw new Exception('[id] not provided')
 
-  const response = await Todo.remove({ _id })
+  const response = await Todo.remove({ _id: fields.id })
 
   ctx.body = response ? { success: true } : { success: false }
 }

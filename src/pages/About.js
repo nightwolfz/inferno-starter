@@ -6,8 +6,8 @@ import { connect } from 'inferno-mobx'
 class About extends Component {
 
   // When route is loaded (isomorphic)
-  static onEnter({ common }) {
-    common.title = 'About'
+  static onEnter({ store }) {
+    store.common.title = 'About'
   }
 
   render() {
@@ -21,7 +21,7 @@ class About extends Component {
           Created for the javascript community. May your reign never end!
         </p>
         <p>
-          <a href="https://github.com/nightwolfz/inferno-starter" rel="noopener" target="_blank">
+          <a href="https://github.com/nightwolfz/inferno-starter" rel="noopener noreferrer">
             https://github.com/nightwolfz/inferno-starter
           </a>
         </p>

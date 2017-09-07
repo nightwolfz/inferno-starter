@@ -21,11 +21,7 @@ function getRoutes(staticMethod, components, promises) {
  */
 export default (routes, stores) => {
   const promises = []
-  console.warn(routes)
-
   const params = getRoutes('onEnter', routes.matched, promises)
-
-  console.warn(promises)
 
   return Promise.all(promises.map(onEnter => onEnter({
     ...stores,

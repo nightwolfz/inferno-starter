@@ -1,8 +1,7 @@
 const path = require('path')
-const logger = require('debug')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
-const config = require('./webpack.config')
+const config = require('./webpack.base.js')
 
 // Merge with base configuration
 //-------------------------------
@@ -11,42 +10,46 @@ Object.assign(config, {
   devtool: 'source-map', // eval eval-cheap-module-source-map source-map
   entry: {
     bundle: [
-      `webpack-dev-server/client?http://localhost:2001`,
+      `webpack-dev-server/client?http://localhost:2002`,
       'webpack/hot/only-dev-server',
-      path.join(__dirname, 'src/client/client.js')
+      path.join(__dirname, 'src/config/client.js')
     ]
   },
-  output: Object.assign(config.output, {
-    publicPath: `http://localhost:2001/build/`,
+  output: {
+    publicPath: 'http://localhost:2002/build/',
     libraryTarget: 'var',
     pathinfo: true
-  })
+  }
 })
 
-config.plugins = config.plugins.concat([
+config.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
   new webpack.NamedModulesPlugin(),
   new webpack.WatchIgnorePlugin([
-    path.join(__dirname, '../../node_modules'),
-    path.join(__dirname, '../../migrations'),
-    path.join(__dirname, '../../server')
+    path.join(__dirname, 'core'),
+    path.join(__dirname, 'build')
   ]),
-  new webpack.DefinePlugin({
-    'process.env.DEV': true,
-    'process.env.BROWSER': true,
-    'process.env.NODE_ENV': JSON.stringify('development')
+  new webpack.EnvironmentPlugin({
+    'DEV': true,
+    'BROWSER': true,
+    'NODE_ENV': JSON.stringify('development'),
   })
-])
+)
 
 // Run DEV server for hot-reloading
 //---------------------------------
-new WebpackDevServer(webpack(config), {
+const compiler = webpack(config)
+const port = 2002
+
+new WebpackDevServer(compiler, {
   publicPath: config.output.publicPath,
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Expose-Headers': 'SourceMap,X-SourceMap'
-  }, //hot: true,
+  },
+  hot: true,
+  historyApiFallback: true,
   watchOptions: {
     aggregateTimeout: 300,
     poll: false
@@ -54,14 +57,15 @@ new WebpackDevServer(webpack(config), {
   stats: {
     colors: true,
     hash: false,
+    timings: false,
     version: false,
     chunks: false,
     modules: false,
     children: false,
     chunkModules: false
   }
-}).listen(2001, 'localhost', function(err) {
-  if (err) return logger('webpack:error', err)
+}).listen(port, '0.0.0.0', function(err) {
+  if (err) return console.error(err)
 
-  logger('webpack:compiler')('Running on port 2001')
+  console.info('Running on port ' + port)
 })

@@ -2,7 +2,8 @@ const fs = require('fs-extra-promise')
 const path = require('path')
 const webpack = require('webpack')
 const BabiliPlugin = require("babili-webpack-plugin")
-const config = require('./webpack.config')
+const config = require('./webpack.base')
+const buildPath = path.join(__dirname, 'build')
 
 // Merge with base configuration
 //-------------------------------
@@ -10,11 +11,12 @@ Object.assign(config, {
   cache: false,
   devtool: 'source-map',
   entry: {
-    bundle: path.join(__dirname, 'src/client/client.js')
+    bundle: path.join(__dirname, 'src/config/client.js')
   },
-  output: Object.assign(config.output, {
+  output: {
+    path: buildPath,
     publicPath: '/build/'
-  })
+  }
 })
 
 // Support for old browsers
@@ -40,8 +42,7 @@ config.module.loaders.forEach(loader => {
 
 console.info('Clearing Build Path')
 
-fs.ensureDirSync(path.join(__dirname, 'uploads'))
-fs.emptyDirSync(config.output.path)
+fs.emptyDirSync(buildPath)
 
 console.info('Environment: Production')
 
@@ -50,12 +51,18 @@ console.info('Environment: Production')
 config.plugins = config.plugins.concat([
   new webpack.optimize.OccurrenceOrderPlugin(),
   new BabiliPlugin({ evaluate: false }, { comments: false }),
-  new webpack.DefinePlugin({
-    'process.env.DEV': false,
-    'process.env.BROWSER': true,
-    'process.env.NODE_ENV': JSON.stringify('production')
+  new webpack.EnvironmentPlugin({
+    'DEV': false,
+    'BROWSER': true,
+    'NODE_ENV': JSON.stringify('production'),
   })
 ])
+
+// Sanity checks
+//-------------------------------
+if (config.devtool === 'eval') {
+  throw new Error('Using "eval" source-maps may break the build')
+}
 
 // Compile everything for PROD
 //-------------------------------

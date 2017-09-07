@@ -3,18 +3,6 @@ import crypto from 'crypto'
 import config from '../config'
 import Account from '../models/Account'
 
-/**
- * Get account by token
- * @param token {string}
- * @returns {object}
- */
-export async function getAccount(token) {
-  if (token) {
-    const account = await Account.findOne({ token })
-    return account && account.toJSON()
-  }
-}
-
 export async function login(ctx) {
   const { username, password } = ctx.request.fields
   const account = await Account.findOne({
@@ -31,11 +19,11 @@ export async function login(ctx) {
 }
 
 export async function logout(ctx) {
-  const user = await Account.findOneAndUpdate({ token: ctx.token }, { token: null })
-    .lean() // clear in db
+  // Clear in db
+  await Account.findOneAndUpdate({ token: ctx.token }, { token: null })
 
   ctx.cookies.set('token', null)
-  ctx.body = user
+  ctx.body = {}
 }
 
 export async function register(ctx) {
@@ -67,18 +55,17 @@ export async function register(ctx) {
 export async function checkAuthorized(ctx) {
   ctx.authorized = false
   if (!ctx.token) throw new Exception('Token not provided')
+
   const account = await Account.findOne({ token: ctx.token }, 'token')
-  if (account) {
-    const decoded = jwt.decode(account.token, config.session.secret)
-    if (Date.now() < decoded.expires) {
-      ctx.authorized = true
-      return account
-    } else {
-      ctx.cookies.set('token', null)
-      throw new Exception('Token expired: ' + new Date(decoded.expires))
-    }
+  if (!account) throw new Exception('Invalid token')
+
+  const decoded = jwt.decode(account.token, config.session.secret)
+  if (Date.now() < decoded.expires) {
+    ctx.authorized = true
+  } else {
+    ctx.cookies.set('token', null)
+    throw new Exception('Token expired: ' + new Date(decoded.expires))
   }
-  throw new Exception('Invalid token')
 }
 
 /**

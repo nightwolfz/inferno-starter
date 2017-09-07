@@ -1,12 +1,6 @@
-/**
- * Bootstrap core and webpack
- */
-require('./core/logger')
-require('./core/polyfills')
-require('./core/compile')
-
-/**
- * Bootstrap our server
- */
+// Enable ES2018 support
 require('babel-register')
-require('./server/server')
+
+// Launch server and webpack
+require('./core/logger')
+require('./core/compile')

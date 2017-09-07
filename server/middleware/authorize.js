@@ -1,24 +1,16 @@
-import { checkAuthorized } from '../routes/account'
-
 /**
  * Middleware for checking if we're logged in
  * @param ctx
  * @param next
  */
-export default async function(ctx, next) {
-  try {
-    const auth = await checkAuthorized(ctx)
-    if (auth) await next()
-  } catch(error) {
+export default async(ctx, next) => {
 
-    console.error(error)
-    if (ctx.headers['user-agent'].includes('node-fetch')) {
-      ctx.authorized = false
-      ctx.token = null
-      await next()
-    } else {
-      ctx.redirect('/page/login')
-      ctx.status = 401
-    }
+  if (ctx.account && !ctx.token) {
+    ctx.redirect('/page/login')
+    ctx.status = 401
+    throw new Exception('Token is invalid: ' + ctx.token)
   }
+
+  ctx.authorized = ctx.account && ctx.account.id && ctx.token
+  await next()
 }

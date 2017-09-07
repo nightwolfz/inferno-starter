@@ -1,18 +1,17 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { observable, action } from 'mobx'
 import { connect } from 'inferno-mobx'
 import Error from '../components/common/Error'
 
-@connect(['account'])
+@connect(['state', 'store'])
 class Register extends Component {
 
   // When route is loaded (isomorphic)
-  static onEnter({ common }) {
-    common.title = 'Register'
+  static onEnter({ state }) {
+    state.common.title = 'Register'
   }
 
-  @observable form = {
+  state = {
     username: '',
     password: '',
     errorMsg: null,
@@ -20,41 +19,40 @@ class Register extends Component {
   }
 
   handleChange = (key) => (e) => {
-    this.form[key] = e.target.value
+    this.setState({ [key]: e.target.value })
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async(e) => {
     e.preventDefault()
-    this.handleRegister()
+    await this.handleRegister()
   }
 
-  @action
-  handleRegister() {
-    const { account } = this.props
-    const form = this.form
-    const { username, password } = form
+  handleRegister = async() => {
     const { router } = this.context
+    const { store } = this.props
+    const { username, password } = this.state
 
-    form.errorMsg = null
-    form.loading = true
+    this.setState({
+      loading: true,
+      errorMsg: null
+    })
 
-    account.register({
+    try {
+      await store.account.register({
         username,
         password
       })
-      .then(() => account.login({
-        username,
-        password
-      }))
-      .then(() => router.push('/'))
-      .catch(action(error => {
-        form.errorMsg = error
-        form.loading = false
-      }))
+      router.push('/')
+    } catch(error) {
+      this.setState({
+        loading: false,
+        errorMsg: error.toString()
+      })
+    }
   }
 
   render() {
-    const form = this.form
+    const { username, password, loading, errorMsg } = this.state
     return <main>
       <h1>register</h1>
       <form className="account" onSubmit={this.handleSubmit}>
@@ -63,7 +61,7 @@ class Register extends Component {
           <input type="text"
                  required
                  onInput={this.handleChange('username')}
-                 value={form.username}
+                 value={username}
           />
         </label>
 
@@ -72,17 +70,17 @@ class Register extends Component {
           <input type="password"
                  required
                  onInput={this.handleChange('password')}
-                 autocomplete="new-password"
-                 value={form.password}
+                 autoComplete="new-password"
+                 value={password}
           />
         </label>
 
-        {form.loading
+        {loading
           ? <button disabled>Loading</button>
           : <button type="submit">Register</button>
         }
 
-        {form.errorMsg && <Error text={form.errorMsg}/>}
+        {errorMsg && <Error text={errorMsg}/>}
       </form>
     </main>
   }

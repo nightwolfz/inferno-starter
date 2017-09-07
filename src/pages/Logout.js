@@ -1,13 +1,14 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
+import Loading from '../components/common/Loading'
 
-@connect(['account'])
+@connect(['store'])
 class Logout extends Component {
 
   // When route is loaded (isomorphic)
-  static onEnter({ common }) {
-    common.title = 'Logout'
+  static onEnter({ state }) {
+    state.common.title = 'Logout'
   }
 
   state = {
@@ -15,30 +16,28 @@ class Logout extends Component {
   }
 
   handleLogout = () => {
-    const { account } = this.props
+    const { store } = this.props
     const { router } = this.context
 
     this.setState({
       loading: true
     })
     new Promise(resolve => setTimeout(resolve, 500))
-      .then(() => account.logout())
+      .then(() => store.account.logout())
       .then(() => router.push('/'))
   }
 
-  render() {
-    const { loading } = this.state
-
+  render(_, { loading }) {
     return <main>
-      <center className="account">
+      <div className="account">
         <h3>Do you want to log out ?</h3>
         <p>This will disconnect you and you will have to login again next time.</p>
 
         {loading
-          ? <button disabled>Loading</button>
+          ? <Loading/>
           : <button onClick={this.handleLogout}>Logout</button>
         }
-      </center>
+      </div>
     </main>
   }
 }

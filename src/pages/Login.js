@@ -1,14 +1,15 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 import { connect } from 'inferno-mobx'
+import Loading from '../components/common/Loading'
 import Error from '../components/common/Error'
 
-@connect(['account'])
+@connect(['state', 'store'])
 class Login extends Component {
 
   // When route is loaded (isomorphic)
-  static onEnter({ common }) {
-    common.title = 'Login'
+  static onEnter({ state }) {
+    state.common.title = 'Login'
   }
 
   state = {
@@ -26,7 +27,7 @@ class Login extends Component {
 
   handleLogin = (e) => {
     e.preventDefault()
-    const { account } = this.props
+    const { store } = this.props
     const { router } = this.context
     const { username, password } = this.state
 
@@ -35,51 +36,57 @@ class Login extends Component {
       loading: true
     })
 
-    account.login({
-        username,
-        password
+    store.account.login({ username, password }).then(() => {
+      router.push('/')
+    }).catch(error => {
+      this.setState({
+        error,
+        loading: false,
       })
-      .then(() => router.push('/'))
-      .catch(error => {
-        this.setState({
-          error,
-          loading: false,
-        })
-      })
+    })
   }
 
   render() {
-    const { loading, error } = this.state
+    const { loading, error, username } = this.state
 
-    return <main>
-      <h1>sign-in</h1>
-      <form className="account" onSubmit={this.handleLogin}>
-        <label>
-          Username
-          <input type="text"
-                 name="username"
-                 required
-                 onInput={this.handleChange}
-          />
-        </label>
+    if (loading) {
+      return <Loading/>
+    }
 
-        <label>
-          Password
-          <input type="password"
-                 name="password"
-                 required
-                 onInput={this.handleChange}
-          />
-        </label>
+    return (
+      <main>
+        <h1>sign-in</h1>
+        <form className="account" onSubmit={this.handleLogin}>
+          <label>
+            Usernames
+            <input
+              type="text"
+              name="username"
+              onChange={this.handleChange}
+              value={username}
+              required
+            />
+          </label>
 
-        {loading
-          ? <button disabled>Loading</button>
-          : <button type="submit">Login</button>
-        }
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              onChange={this.handleChange}
+              required
+            />
+          </label>
 
-        {error && <Error text={error}/>}
-      </form>
-    </main>
+          {loading
+            ? <button disabled>Loading</button>
+            : <button type="submit">Login</button>
+          }
+
+          {error && <Error text={error}/>}
+        </form>
+      </main>
+    )
   }
 }
 

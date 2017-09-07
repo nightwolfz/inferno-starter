@@ -1,5 +1,12 @@
-import createStores from '../../src/client/stores'
-import { getAccount } from '../routes/account'
+import { useStaticRendering } from 'inferno-mobx'
+import { toJS } from 'mobx'
+import Account from '../models/Account'
+import State from '../../src/stores/State'
+import context from '../../src/config/context'
+
+useStaticRendering(true)
+
+const stateClone = JSON.stringify(toJS(new State({})))
 
 /**
  * Middleware for creating the context
@@ -10,22 +17,17 @@ export default async(ctx, next) => {
   // Get our token from headers (server) or cookies (client)
   ctx.token = ctx.headers['token'] || ctx.cookies.get('token')
 
-  // Create the context with params and hostname for SSR
-  const state = {
-    common: {
-      hostname: ctx.headers.host
-    }
+  // Check if logged in
+  ctx.account = await Account.getAccount(ctx.token)
+
+  // Create state for SSR
+  const state = JSON.parse(stateClone)
+
+  if (ctx.account.id) {
+    state.account = ctx.account
   }
 
-  // Add account state if logged in
-  if (ctx.token) {
-    const account = await getAccount(ctx.token)
-    if (account) {
-      state.account = account
-    }
-  }
+  ctx.context = context(state)
 
-  // Finally initialize state. This should come last
-  ctx.stores = createStores(state, ctx.token)
   await next()
 }

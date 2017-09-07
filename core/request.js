@@ -1,17 +1,24 @@
-const config = require('../server/config')
+import fetch from 'isomorphic-fetch'
+import config from '../server/config'
 
 /**
  * This is our overly complicated isomorphic "request"
  * @param state
  * @returns {Function}
  */
-export default {
-  get(url, params) {
-    return buildRequest('GET', url, params)
-  },
+export default function(token) {
+  return {
+    get(url, params) {
+      return buildRequest('GET', token, url, omitNil(params))
+    },
 
-  post(url, data, isMultiForm = false) {
-    return buildRequest('POST', url, data, isMultiForm)
+    post(url, data) {
+      return buildRequest('POST', token, url, data, false)
+    },
+
+    upload(url, data) {
+      return buildRequest('POST', token, url, data, true)
+    },
   }
 }
 
@@ -22,18 +29,16 @@ export default {
  * @param params
  * @param config
  */
-function buildRequest(method, url, params, isMultiForm) {
+function buildRequest(method, token, url, params, isMultiForm) {
   const requestURL = createURL(url) + (method === 'GET' && params ? toQueryString(params) : '')
   const request = {
     method,
     mode: 'cors',
     credentials: 'include',
     headers: {
-      token: getCookie('token')
+      token
     }
   }
-
-  console.warn(request)
 
   if (!isMultiForm) {
     request.headers['Content-Type'] = 'application/json'
@@ -61,10 +66,12 @@ function buildRequest(method, url, params, isMultiForm) {
  * @private
  */
 function createURL(path) {
-  if (process.env.BROWSER) {
+  if (path.startsWith('http')) {
+    return path
+  } else if (process.env.BROWSER) {
     return '/' + path.trimLeft('/')
   } else {
-    return `http://${config.http.hostname}/` + path.trimLeft('/')
+    return `http://${global.HOSTNAME}:${global.PORT}/` + path.trimLeft('/')
   }
 }
 
@@ -111,7 +118,10 @@ function toQueryString(params) {
   }).join('&')
 }
 
-function getCookie(key) {
-  const cookieValue = document.cookie.match('(^|;)\\s*' + key + '\\s*=\\s*([^;]+)')
-  return cookieValue ? cookieValue.pop() : ''
+function omitNil(obj) {
+  if (typeof obj !== 'object') return obj
+  return Object.keys(obj).reduce((acc, v) => {
+    if (obj[v] !== undefined) acc[v] = obj[v]
+    return acc
+  }, {})
 }

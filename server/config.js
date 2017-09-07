@@ -1,18 +1,23 @@
 const path = require('path')
+const isProduction = process.env.NODE_ENV === 'production'
 const root = (dir) => path.join(__dirname, '..', dir)
+
+// We need these globals to fetch data on server-side
+global.HOSTNAME = 'localhost'
+global.PORT = 2000
 
 module.exports = {
   http: {
-    hostname: 'localhost', // Must be set to allow SSR requests
-    port: 2000,
+    port: global.PORT,
+    hostname: global.HOSTNAME,
     favicon: root('src/assets/favicon.ico'),
     static: {
-      '/build': root('build'),
-      '/': root('src/assets')
+      //'/build': root('build'),
+      '/assets': root('src/assets')
     }
   },
   server: {
-    SSR: true // Server side rendering
+    DEV: !isProduction,
   },
   session: {
     secret: 'INFERNAL_SECRET_KEY_KERE',
