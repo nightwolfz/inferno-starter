@@ -3,6 +3,7 @@
 import '../assets/css/index.scss'
 import 'isomorphic-fetch'
 import 'core/polyfills'
+import 'core/globals'
 import 'core/logger'
 import onEnter from 'core/onEnter'
 import Inferno from 'inferno'

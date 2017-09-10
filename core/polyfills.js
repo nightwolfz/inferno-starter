@@ -5,18 +5,6 @@ if (typeof Promise === 'undefined') {
     global.Promise = require('promise-polyfill')
 }
 
-global.Exception = class Exception extends Error {
-    constructor(message) {
-        super(message);
-        this.message = message;
-        this.name = 'Exception';
-    }
-}
-
-global.size = function size(obj) {
-    return obj && ((typeof obj === 'string') ? obj.length : Object.keys(obj).length)
-}
-
 /**
  * Returns a numeric hash of a string
  * @returns {number}

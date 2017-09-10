@@ -21,20 +21,22 @@ export default async(ctx) => {
     return ctx.redirect(renderProps.redirect)
   }
 
-  try {
-    await onEnter(renderProps, ctx.context)
-  } catch(error) {
-    throw error
+  if (config.server.SSR) {
+    try {
+      await onEnter(renderProps, ctx.context)
+    } catch(error) {
+      throw error
+    }
   }
 
-  const components = renderToStaticMarkup(
+  const components = config.server.SSR ? renderToStaticMarkup(
     <Provider {...ctx.context}>
       <RouterContext
         matched={renderProps.matched}
         location={renderProps.location}
       />
     </Provider>
-  )
+  ) : ''
 
   ctx.body = indexHTML
     .replace(/{bundleURL}/g, bundleURL)

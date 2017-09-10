@@ -73,9 +73,25 @@ Tested on i7-6700K @ 4.00GHz 16GB RAM. **Single** node.js instance.
 
 ## What are `stores` ?
 
-Stores will contain the state of your application and the methods that mutate that state.
-Basically most of your client side logic is inside stores.
+State contains the state of your application (ex: list of your todos, UI state etc).
+Stores contain the methods that mutate that state (ex: adding a todo, fetching data).
+Technically our State object is also a store, but we make the differentiation so that our logic is easier to follow by using the same principes as redux (one big state object).
 
+## How to access our `state` and `stores` in our components ?
+
+```js
+@connect(['state', 'store'])
+class MyComponent extends Component {
+  componentDidMount() {
+    const { state, store } = this.props
+    store.account.doSomething();
+  }
+
+  render({ state, store }) {
+     return <div>{state.account.username}</div>
+  }
+}
+```
 
 ## What is `connect` ?
 
@@ -98,14 +114,14 @@ then all the visible components that display that `messageCount` will update the
 
 ## Adding stores
 
-1. Goto `src/client/stores`
-2. Add `[name].js` (based on another store like `account.js`)
-3. Update `src/client/stores.js`
+1. Goto `src/config/stores`
+2. Add `[Name].js` (it's just a class, ex: `Account.js`)
+3. Update `src/config/stores.js`
 
 ## Enabling server-side rendering
 
-1. Goto `src/server/config`
-2. Set `server.SSR` variable to `true` or `false`
+1. Goto `server/config.js`
+2. Change `SSR: false` to `SSR: true`
 
 ## My components are not updating!
 
@@ -117,8 +133,14 @@ You cannot use decorators on stateless components.
 You should instead wrap your component like this:
 
 ```js
-const MyComponent = connect((props, context) => {
-  return <p>{context.state.something} !</p>
+// Simple observable component without injection
+const MyComponent = connect(props => {
+  return <p>Something is cool</p>
+})
+
+// or with injection into props
+const MyComponent = connect(['state', 'store'])(props => {
+  return <p>We have stores and state in our props: {props.state.something}</p>
 })
 ````
 
@@ -128,10 +150,10 @@ Add a static `onEnter` method to your component like this:
 
 ```js
 class MyComponent extends Component {
-    static onEnter({ myStore, params }) {
-        return myStore.browse()
-    }
-    // ...
+  static onEnter({ myStore, params }) {
+     return myStore.browse()
+  }
+  // ...
 }
 ```
 

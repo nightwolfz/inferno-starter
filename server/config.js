@@ -18,6 +18,7 @@ module.exports = {
   },
   server: {
     DEV: !isProduction,
+    SSR: false
   },
   session: {
     secret: 'INFERNAL_SECRET_KEY_KERE',
