@@ -1,8 +1,7 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'inferno-mobx'
 
-@connect(['store'])
+@connect('store')
 class Todo extends Component {
   render({ store, item }) {
     return (

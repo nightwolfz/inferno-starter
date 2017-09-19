@@ -28,6 +28,7 @@
 	"Exception": true,
 	"Inferno": true,
 	"Component": true,
+	"connect": true,
 	"isEmpty": true,
 	"size": true
   },

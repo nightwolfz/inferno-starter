@@ -1,12 +1,12 @@
-import {fork} from 'child_process'
 import {debounce} from 'lodash'
 
 const dirs = ['./server/**/*.js']
 const args = process.argv.slice(2)
+const spawn = (src) => require('child_process').spawn('node', [src], { stdio: 'inherit' })
 
 if (args.includes('--dev')) {
   process.env.NODE_ENV = 'development'
-  let server = fork('./core/server.js')
+  let server = spawn('./core/server')
   require('../webpack.dev.js')
 
   // Run server
@@ -16,7 +16,7 @@ if (args.includes('--dev')) {
     server.kill()
     server.on('exit', function() {
       console.server('✓ SERVER RESTART')
-      server = fork('./core/server.js')
+      server = spawn('./core/server')
     })
   }, 100)
 
@@ -28,5 +28,9 @@ if (args.includes('--dev')) {
 if (args.includes('--prod') || process.env.NODE_ENV === 'production') {
   process.env.NODE_ENV = 'production'
   require('./server')
-  fork('./webpack.prod.js')
+
+  // Only run once in cluster mode
+  if (!parseInt(process.env.NODE_APP_INSTANCE)) {
+    spawn('./webpack.prod.js')
+  }
 }

@@ -1,10 +1,9 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'inferno-mobx'
 import Loading from '../components/common/Loading'
 import Error from '../components/common/Error'
 
-@connect(['state', 'store'])
+@connect('state', 'store')
 class Login extends Component {
 
   // When route is loaded (isomorphic)

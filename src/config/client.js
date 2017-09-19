@@ -5,15 +5,16 @@ import 'isomorphic-fetch'
 import 'core/polyfills'
 import 'core/globals'
 import 'core/logger'
-import onEnter from 'core/onEnter'
+//import onEnter from 'core/onEnter'
 import Inferno from 'inferno'
-import { Router, match } from 'inferno-router'
+//import { Router, match } from 'inferno-router'
+import { BrowserRouter } from 'inferno-router'
 import { Provider } from 'inferno-mobx'
-import createBrowserHistory from 'history/createBrowserHistory';
+//import createBrowserHistory from 'history/createBrowserHistory';
 import autorun from './autorun'
 import createContext from './context'
 import State from '../stores/State'
-import routes from './routes'
+import Main from '../components/Main'
 
 if (process.env.NODE_ENV !== 'production') {
   require('inferno-devtools')
@@ -28,24 +29,24 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const context = createContext(new State(window.__STATE))
-const history = createBrowserHistory()
+//const history = createBrowserHistory()
 
 // React to changes
 autorun(context)
 
 // Fetch data on route change
-history.listen(location => {
-  onEnter(match(routes, location), context)
-})
+// history.listen(location => {
+//   //onEnter(match(routes, location), context)
+// })
 
-console.warn(history.location.pathname)
+//console.warn(history.location.pathname)
 
 // Render our component according to our routes
 function renderApp() {
   Inferno.render(<Provider {...context}>
-    <Router history={history} url={history.location.pathname}>
-      {routes}
-    </Router>
+    <BrowserRouter>
+      <Main/>
+    </BrowserRouter>
   </Provider>, document.getElementById('container'))
 }
 

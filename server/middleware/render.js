@@ -1,42 +1,47 @@
 import fs from 'fs'
 import { resolve } from 'path'
 import Inferno from 'inferno'
-import { renderToStaticMarkup } from 'inferno-server'
-import { RouterContext, match } from 'inferno-router'
+import { renderToString } from 'inferno-server'
+// import { RouterContext, match } from 'inferno-router'
+import { StaticRouter } from 'inferno-router'
 import { Provider } from 'inferno-mobx'
-import onEnter from 'core/onEnter'
-import Main from '../../src/components/Main'
+// import onEnter from 'core/onEnter'
+// import Main from '../../src/components/Main'
 import config from '../config'
-import routes from '../../src/config/routes'
+import Main from '../../src/components/Main'
 
 const indexHTML = fs.readFileSync(resolve(__dirname, '../../src/pages/index.html'), 'utf8')
 
 // Server-side render
 export default async(ctx) => {
 
-  const renderProps = match(routes, ctx.url)
+  //const renderProps = match(routes, ctx.url)
   const bundleURL = config.server.DEV ? `//localhost:2002` : ''
 
-  if (renderProps.redirect) {
-    return ctx.redirect(renderProps.redirect)
-  }
+  // if (config.server.SSR) {
+  //   try {
+  //     await onEnter(renderProps, ctx.context)
+  //   } catch(error) {
+  //     throw error
+  //   }
+  // }
 
-  if (config.server.SSR) {
-    try {
-      await onEnter(renderProps, ctx.context)
-    } catch(error) {
-      throw error
-    }
-  }
+  console.warn('ctx.context', ctx.context)
 
-  const components = config.server.SSR ? renderToStaticMarkup(
+
+  const context = {}
+  const components = config.server.SSR ? renderToString(
     <Provider {...ctx.context}>
-      <RouterContext
-        matched={renderProps.matched}
-        location={renderProps.location}
-      />
+      <StaticRouter location={ctx.url} context={context}>
+        <Main/>
+      </StaticRouter>
     </Provider>
   ) : ''
+
+  // This will contain the URL to redirect to if <Redirect> was used
+  if (context.url) {
+    return ctx.redirect(context.url)
+  }
 
   ctx.body = indexHTML
     .replace(/{bundleURL}/g, bundleURL)

@@ -27,7 +27,6 @@ config.plugins.push(
   new webpack.NoEmitOnErrorsPlugin(),
   new webpack.NamedModulesPlugin(),
   new webpack.WatchIgnorePlugin([
-    path.join(__dirname, 'core'),
     path.join(__dirname, 'build')
   ]),
   new webpack.EnvironmentPlugin({

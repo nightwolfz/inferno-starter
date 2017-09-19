@@ -1,9 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'inferno-mobx'
 import Error from '../components/common/Error'
 
-@connect(['state', 'store'])
+@connect('state', 'store')
 class Register extends Component {
 
   // When route is loaded (isomorphic)

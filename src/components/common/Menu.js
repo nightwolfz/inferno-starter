@@ -1,9 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'inferno-mobx'
 import { Link } from 'inferno-router'
 
-@connect(['store'])
+@connect('store')
 class Menu extends Component {
   render({ store }) {
     return (

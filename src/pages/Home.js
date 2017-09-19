@@ -1,10 +1,9 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'inferno-mobx'
 import AddTodo from '../components/home/AddTodo'
 import Todo from '../components/home/Todo'
 
-@connect(['state', 'store'])
+@connect('state', 'store')
 class Home extends Component {
 
   // When route is loaded (isomorphic)

@@ -1,9 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'inferno-mobx'
 import { observable } from 'mobx'
 
-@connect(['store'])
+@connect('store')
 class AddTodo extends Component {
 
   @observable inputText = ''

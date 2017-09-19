@@ -1,9 +1,8 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
-import { connect } from 'inferno-mobx'
 import Loading from '../components/common/Loading'
 
-@connect(['store'])
+@connect('store')
 class Logout extends Component {
 
   // When route is loaded (isomorphic)
