@@ -1,4 +1,3 @@
-const fs = require('fs-extra-promise')
 const path = require('path')
 const webpack = require('webpack')
 const BabiliPlugin = require("babili-webpack-plugin")
@@ -39,10 +38,6 @@ config.module.loaders.forEach(loader => {
     ])
   }
 })
-
-console.info('Clearing Build Path')
-
-fs.emptyDirSync(buildPath)
 
 console.info('Environment: Production')
 
