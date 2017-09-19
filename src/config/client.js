@@ -38,8 +38,6 @@ history.listen(location => {
   onEnter(match(routes, location), context)
 })
 
-console.warn(history.location.pathname)
-
 // Render our component according to our routes
 function renderApp() {
   Inferno.render(<Provider {...context}>

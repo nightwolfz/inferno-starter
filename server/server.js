@@ -14,13 +14,11 @@ const app = new Koa()
 app.context.onerror = catcher
 
 // Serve static files
-if (process.env.NODE_ENV !== 'production') {
-  const mount = require('koa-mount')
-  const serve = require('koa-static')
+const mount = require('koa-mount')
+const serve = require('koa-static')
 
-  for(const [k, v] of Object.entries(config.http.static)) {
-    app.use(mount(k, serve(v, {index: false})))
-  }
+for(const [k, v] of Object.entries(config.http.static)) {
+  app.use(mount(k, serve(v, {index: false})))
 }
 
 // Middleware
