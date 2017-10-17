@@ -2,13 +2,11 @@ import fs from 'fs'
 import { resolve } from 'path'
 import Inferno from 'inferno'
 import { renderToString } from 'inferno-server'
-// import { RouterContext, match } from 'inferno-router'
 import { StaticRouter } from 'inferno-router'
 import { Provider } from 'inferno-mobx'
 // import onEnter from 'core/onEnter'
-// import Main from '../../src/components/Main'
-import config from '../config'
 import Main from '../../src/components/Main'
+import config from '../config'
 
 const indexHTML = fs.readFileSync(resolve(__dirname, '../../src/pages/index.html'), 'utf8')
 
@@ -25,9 +23,6 @@ export default async(ctx) => {
   //     throw error
   //   }
   // }
-
-  console.warn('ctx.context', ctx.context)
-
 
   const context = {}
   const components = config.server.SSR ? renderToString(

@@ -1,6 +1,5 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
-import { Link } from 'inferno-router'
+import Inferno, { Component } from 'inferno'
+import { NavLink } from 'inferno-router'
 
 @connect()
 class NotFound extends Component {
@@ -9,7 +8,7 @@ class NotFound extends Component {
       <p>&nbsp;</p>
       <h1>Page not found. Are you lost ?</h1>
 
-      <Link to="/">Go to Homepage</Link>
+      <NavLink to="/">Go to Homepage</NavLink>
     </main>
   }
 }

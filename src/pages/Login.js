@@ -1,5 +1,4 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
+import Inferno, { Component } from 'inferno'
 import Loading from '../components/common/Loading'
 import Error from '../components/common/Error'
 
@@ -11,14 +10,20 @@ class Login extends Component {
     state.common.title = 'Login'
   }
 
-  state = {
-    username: '',
-    password: '',
-    loading: false,
-    error: null
+  constructor() {
+    super()
+    this.state = {
+      username: '',
+      password: '',
+      loading: false,
+      error: null
+    }
   }
 
   handleChange = (e) => {
+    console.warn({
+      [e.target.name]: e.target.value
+    })
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -61,7 +66,7 @@ class Login extends Component {
             <input
               type="text"
               name="username"
-              onChange={this.handleChange}
+              onInput={this.handleChange}
               value={username}
               required
             />
@@ -72,7 +77,7 @@ class Login extends Component {
             <input
               type="password"
               name="password"
-              onChange={this.handleChange}
+              onInput={this.handleChange}
               required
             />
           </label>

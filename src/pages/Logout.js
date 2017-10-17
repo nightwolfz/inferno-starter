@@ -1,5 +1,4 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
+import Inferno, { Component } from 'inferno'
 import Loading from '../components/common/Loading'
 
 @connect('store')

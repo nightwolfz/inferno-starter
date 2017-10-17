@@ -1,5 +1,4 @@
-import Inferno from 'inferno'
-import Component from 'inferno-component'
+import Inferno, { Component } from 'inferno'
 import { Route, Switch } from 'inferno-router'
 import Menu from '../components/common/Menu'
 import NotFound from '../pages/404'
@@ -14,7 +13,7 @@ import Register from '../pages/Register'
  * such as for redux
  */
 export default class Main extends Component {
-  render({ children }) {
+  render() {
     return (
       <div>
         <Menu/>
@@ -26,7 +25,6 @@ export default class Main extends Component {
           <Route path="/page/register" component={ Register }/>
           <Route path="*" component={ NotFound }/>
         </Switch>
-        {children}
       </div>
     )
   }
