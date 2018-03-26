@@ -6,7 +6,7 @@ import 'core/polyfills'
 import 'core/globals'
 import 'core/logger'
 //import onEnter from 'core/onEnter'
-import Inferno from 'inferno'
+import { render } from 'inferno'
 //import { Router, match } from 'inferno-router'
 import { BrowserRouter } from 'inferno-router'
 import { Provider } from 'inferno-mobx'
@@ -43,7 +43,7 @@ autorun(context)
 
 // Render our component according to our routes
 function renderApp() {
-  Inferno.render(<Provider {...context}>
+  render(<Provider {...context}>
     <BrowserRouter>
       <Main/>
     </BrowserRouter>

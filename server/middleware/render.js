@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { resolve } from 'path'
-import Inferno from 'inferno'
+//import Inferno from 'inferno'
 import { renderToString } from 'inferno-server'
 import { StaticRouter } from 'inferno-router'
 import { Provider } from 'inferno-mobx'
@@ -8,7 +8,7 @@ import { Provider } from 'inferno-mobx'
 import Main from '../../src/components/Main'
 import config from '../config'
 
-const indexHTML = fs.readFileSync(resolve(__dirname, '../../src/pages/index.html'), 'utf8')
+const indexHTML = fs.readFileSync(resolve(__dirname, '../../src/assets/index.html'), 'utf8')
 
 // Server-side render
 export default async(ctx) => {

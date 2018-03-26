@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import config from '../server/config'
+//import config from '../server/config'
 
 /**
  * This is our overly complicated isomorphic "request"
@@ -13,7 +13,7 @@ export default function(token) {
     },
 
     post(url, data) {
-      return buildRequest('POST', token, url, data, false)
+      return buildRequest('POST', token, url, data)
     },
 
     upload(url, data) {
@@ -29,7 +29,7 @@ export default function(token) {
  * @param params
  * @param config
  */
-function buildRequest(method, token, url, params, isMultiForm) {
+function buildRequest(method, token, url, params, isMultiForm = false) {
   const requestURL = createURL(url) + (method === 'GET' && params ? toQueryString(params) : '')
   const request = {
     method,
@@ -82,11 +82,11 @@ function createURL(path) {
  * @private
  */
 function handleResponse(response) {
-  const redirect = response.headers.get('Location')
-  if (process.env.BROWSER && redirect) {
-    window.location.replace(redirect)
-    return Promise.reject()
-  }
+  // const redirect = response.headers.get('Location')
+  // if (process.env.BROWSER && redirect) {
+  //   window.location.replace(redirect)
+  //   return Promise.reject()
+  // }
 
   if (response.headers.get('content-type').includes('json')) {
     return response.json().then(res => {

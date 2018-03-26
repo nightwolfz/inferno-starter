@@ -1,5 +1,5 @@
 const path = require('path')
-const ExtractCSS = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const root = path.join.bind(path, __dirname)
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
     hints: false
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -28,11 +28,11 @@ module.exports = {
           cacheDirectory: false,
           presets: [],
           plugins: [
+            ["babel-plugin-inferno", {"imports": true}],
             "add-module-exports",
-            "transform-object-rest-spread",
             "transform-decorators-legacy",
+            "transform-object-rest-spread",
             "transform-class-properties",
-            "inferno"
           ]
         }
       },
@@ -54,7 +54,11 @@ module.exports = {
       },
       {
         test: /\.(css|scss)?$/,
-        use: ExtractCSS.extract(['css-loader?sourceMap', 'sass-loader?sourceMap']),
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader?sourceMap',
+          'sass-loader?sourceMap'
+        ],
         include: [
           root('src/assets'),
           root('src/components')
@@ -76,7 +80,7 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractCSS({
+    new MiniCssExtractPlugin({
       filename: 'bundle.css',
       allChunks: false
     })

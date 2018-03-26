@@ -1,13 +1,12 @@
-import { extendObservable, toJS } from 'mobx'
+import { extendObservable, decorate, observable } from 'mobx'
 
 /**
  * This is our state, we update it
  * using the methods from other stores
  */
-export default class State {
+class State {
   constructor(state) {
-    extendObservable(this, {
-
+    Object.assign(this, {
       account: {
         username: null,
         token: null,
@@ -23,3 +22,9 @@ export default class State {
     }, state)
   }
 }
+
+export default decorate(State, {
+  account: observable,
+  common: observable,
+  todos: observable,
+})

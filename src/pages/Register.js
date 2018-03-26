@@ -1,4 +1,4 @@
-import Inferno, { Component } from 'inferno'
+import { Component } from 'inferno'
 import Error from '../components/common/Error'
 
 @connect('state', 'store')
@@ -36,11 +36,13 @@ class Register extends Component {
     })
 
     try {
+      console.warn(this.context)
+      //router.history.push('/')
       await store.account.register({
         username,
         password
       })
-      router.push('/')
+      console.warn(this.context)
     } catch(error) {
       this.setState({
         loading: false,

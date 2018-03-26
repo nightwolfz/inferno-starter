@@ -1,5 +1,3 @@
-import Inferno from 'inferno'
-
 export default function Loading() {
   // Loading animation...
   return <main className="spinner-wrapper">

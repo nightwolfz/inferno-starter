@@ -20,7 +20,7 @@ Object.assign(config, {
 
 // Support for old browsers
 //------------------------------------
-config.module.loaders.forEach(loader => {
+config.module.rules.forEach(loader => {
   if (loader.loader === 'babel-loader') {
     loader.query.plugins = loader.query.plugins.concat([
       "transform-es2015-arrow-functions",

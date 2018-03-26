@@ -1,6 +1,6 @@
-import Inferno, { Component } from 'inferno'
+import { Component } from 'inferno'
 
-@connect()
+@connect('store')
 class About extends Component {
 
   // When route is loaded (isomorphic)

@@ -1,4 +1,4 @@
-import Inferno, { Component } from 'inferno'
+import { Component } from 'inferno'
 import AddTodo from '../components/home/AddTodo'
 import Todo from '../components/home/Todo'
 

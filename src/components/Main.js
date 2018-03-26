@@ -1,4 +1,4 @@
-import Inferno, { Component } from 'inferno'
+import { Component } from 'inferno'
 import { Route, Switch } from 'inferno-router'
 import Menu from '../components/common/Menu'
 import NotFound from '../pages/404'

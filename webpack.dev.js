@@ -7,6 +7,7 @@ const config = require('./webpack.base.js')
 //-------------------------------
 Object.assign(config, {
   cache: true,
+  mode: 'development',
   devtool: 'source-map', // eval eval-cheap-module-source-map source-map
   entry: {
     bundle: [
@@ -19,6 +20,10 @@ Object.assign(config, {
     publicPath: 'http://localhost:2002/build/',
     libraryTarget: 'var',
     pathinfo: true
+  },
+  resolve: {
+    ...config.resolve,
+    mainFields: ['dev:module', 'browser', 'module', 'main'],
   }
 })
 

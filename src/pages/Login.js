@@ -1,4 +1,4 @@
-import Inferno, { Component } from 'inferno'
+import { Component } from 'inferno'
 import Loading from '../components/common/Loading'
 import Error from '../components/common/Error'
 

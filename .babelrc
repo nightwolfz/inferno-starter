@@ -1,12 +1,12 @@
 {
   "plugins": [
+	["babel-plugin-inferno", {"imports": true}],
 	"add-module-exports",
 	"transform-decorators-legacy",
 	"transform-class-properties",
 	"transform-es2015-modules-commonjs",
 	"transform-es2015-destructuring",
 	"transform-object-rest-spread",
-    "inferno",
 	["babel-plugin-webpack-alias", {"config": "./webpack.base.js"}],
     ["fast-async"]
   ]

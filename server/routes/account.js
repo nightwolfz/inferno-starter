@@ -29,6 +29,8 @@ export async function logout(ctx) {
 export async function register(ctx) {
   const { username, password, email } = ctx.request.fields
 
+  console.warn(ctx.request.fields)
+
   if (!isValidUsername(username)) {
     throw new Exception('Username cannot contain special characters')
   }
