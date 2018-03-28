@@ -2,6 +2,7 @@ import Koa from 'koa'
 import bodyParser from 'koa-better-body'
 import favicon from 'koa-favicon'
 import convert from 'koa-convert'
+import compress from 'koa-compress'
 import config from './config'
 import context from './middleware/context'
 import catcher from './middleware/catcher'
@@ -12,6 +13,11 @@ const app = new Koa()
 
 // override koa's undocumented error handler
 app.context.onerror = catcher
+
+app.use(compress({
+  threshold: 2048,
+  flush: require('zlib').Z_SYNC_FLUSH
+}))
 
 // Serve static files (you can use another server such as nginx instead)
 const mount = require('koa-mount')
