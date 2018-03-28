@@ -1,11 +1,12 @@
 import { Component } from 'inferno'
 
-@connect('store')
+@connect('state')
 class About extends Component {
 
-  // When route is loaded (isomorphic)
-  static onEnter({ store }) {
-    store.common.title = 'About'
+  // When route is loaded
+  componentDidMount() {
+    const { state } = this.props
+    state.common.title = 'About'
   }
 
   render() {

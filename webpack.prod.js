@@ -8,6 +8,7 @@ const buildPath = path.join(__dirname, 'build')
 //-------------------------------
 Object.assign(config, {
   cache: false,
+  mode: 'production',
   devtool: 'source-map',
   entry: {
     bundle: path.join(__dirname, 'src/config/client.js')
@@ -44,8 +45,8 @@ console.info('Environment: Production')
 // Production plugins
 //-------------------------------
 config.plugins = config.plugins.concat([
-  new webpack.optimize.OccurrenceOrderPlugin(),
-  new BabiliPlugin({ evaluate: false }, { comments: false }),
+  //new webpack.optimize.OccurrenceOrderPlugin(),
+  //new BabiliPlugin({ evaluate: false }, { comments: false }),
   new webpack.EnvironmentPlugin({
     'DEV': false,
     'BROWSER': true,

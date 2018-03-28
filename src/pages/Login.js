@@ -5,8 +5,9 @@ import Error from '../components/common/Error'
 @connect('state', 'store')
 class Login extends Component {
 
-  // When route is loaded (isomorphic)
-  static onEnter({ state }) {
+  // When route is loaded
+  componentDidMount() {
+    const { state } = this.props
     state.common.title = 'Login'
   }
 
@@ -21,15 +22,12 @@ class Login extends Component {
   }
 
   handleChange = (e) => {
-    console.warn({
-      [e.target.name]: e.target.value
-    })
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
-  handleLogin = (e) => {
+  handleLogin = async(e) => {
     e.preventDefault()
     const { store } = this.props
     const { router } = this.context
@@ -40,14 +38,18 @@ class Login extends Component {
       loading: true
     })
 
-    store.account.login({ username, password }).then(() => {
-      router.push('/')
-    }).catch(error => {
+    try {
+      // Simulate latency. Can be removed
+      await new Promise(resolve => setTimeout(resolve, 500))
+
+      await store.account.login({ username, password })
+      router.history.push('/')
+    } catch(error) {
       this.setState({
         error,
         loading: false,
       })
-    })
+    }
   }
 
   render() {

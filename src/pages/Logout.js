@@ -1,11 +1,12 @@
 import { Component } from 'inferno'
 import Loading from '../components/common/Loading'
 
-@connect('store')
+@connect('store', 'state')
 class Logout extends Component {
 
-  // When route is loaded (isomorphic)
-  static onEnter({ state }) {
+  // When route is loaded
+  componentDidMount() {
+    const { state } = this.props
     state.common.title = 'Logout'
   }
 
@@ -13,16 +14,19 @@ class Logout extends Component {
     loading: false
   }
 
-  handleLogout = () => {
+  handleLogout = async() => {
     const { store } = this.props
     const { router } = this.context
 
     this.setState({
       loading: true
     })
-    new Promise(resolve => setTimeout(resolve, 500))
-      .then(() => store.account.logout())
-      .then(() => router.push('/'))
+
+    // Simulate latency. Can be removed
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    store.account.logout()
+    router.history.push('/')
   }
 
   render(_, { loading }) {

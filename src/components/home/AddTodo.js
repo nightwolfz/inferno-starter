@@ -26,7 +26,7 @@ class AddTodo extends Component {
             className="new-todo"
             placeholder="What needs to be done?"
             value={this.inputText}
-            onChange={this.handleChange}
+            onInput={this.handleChange}
           />
         </p>
       </form>

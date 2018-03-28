@@ -5,8 +5,9 @@ import Todo from '../components/home/Todo'
 @connect('state', 'store')
 class Home extends Component {
 
-  // When route is loaded (isomorphic)
-  static async onEnter({ state, store }, params) {
+  // When route is loaded
+  async componentDidMount() {
+    const { state, store } = this.props
     state.common.title = 'Home'
     await store.todos.browse()
   }

@@ -8,7 +8,6 @@ The goal of this project is to provide a starting base for an mobx inferno proje
 
 Features:
 + `async/await` support
-+ Isomorphic for SEO goodness
 + CSS and SCSS compilation
 + MongoDB user register/login/logout
 + Token based authentication
@@ -80,7 +79,7 @@ Technically our State object is also a store, but we make the differentiation so
 ## How to access our `state` and `stores` in our components ?
 
 ```js
-@connect(['state', 'store'])
+@connect('state', 'store')
 class MyComponent extends Component {
   componentDidMount() {
     const { state, store } = this.props
@@ -114,14 +113,9 @@ then all the visible components that display that `messageCount` will update the
 
 ## Adding stores
 
-1. Goto `src/config/stores`
+1. Goto `src/stores`
 2. Add `[Name].js` (it's just a class, ex: `Account.js`)
-3. Update `src/config/stores.js`
-
-## Enabling server-side rendering
-
-1. Goto `server/config.js`
-2. Change `SSR: false` to `SSR: true`
+3. Update `src/config/context.js`
 
 ## My components are not updating!
 
@@ -139,32 +133,14 @@ const MyComponent = connect(props => {
 })
 
 // or with injection into props
-const MyComponent = connect(['state', 'store'])(props => {
+const MyComponent = connect('state', 'store')(props => {
   return <p>We have stores and state in our props: {props.state.something}</p>
 })
 ````
 
-## How do I execute async actions on the server and/or client ?
-
-Add a static `onEnter` method to your component like this:
-
-```js
-class MyComponent extends Component {
-  static onEnter({ myStore, params }) {
-     return myStore.browse()
-  }
-  // ...
-}
-```
-
-The `onEnter` method is smart, it will be executed either on the server or on the browser depending on how you access the website.
-
-It also passes all your stores and url params as arguments as a convenience.
-
-
 ## Useful links
 
-[Inferno](https://github.com/trueadm/inferno)
+[Inferno](https://infernojs.org)
 
 [MobX](https://mobxjs.github.io/mobx/)
 

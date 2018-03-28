@@ -16,6 +16,12 @@ class Register extends Component {
     loading: false
   }
 
+  // When route is loaded
+  componentDidMount() {
+    const { state } = this.props
+    state.common.title = 'Register'
+  }
+
   handleChange = (key) => (e) => {
     this.setState({ [key]: e.target.value })
   }
@@ -36,13 +42,14 @@ class Register extends Component {
     })
 
     try {
-      console.warn(this.context)
-      //router.history.push('/')
+      // Simulate latency. Can be removed
+      await new Promise(resolve => setTimeout(resolve, 500))
+
       await store.account.register({
         username,
         password
       })
-      console.warn(this.context)
+      router.history.push('/')
     } catch(error) {
       this.setState({
         loading: false,

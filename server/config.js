@@ -12,8 +12,8 @@ module.exports = {
     hostname: global.HOSTNAME,
     favicon: root('src/assets/favicon.ico'),
     static: {
-      //'/build': root('build'),
-      '/assets': root('src/assets')
+      '/assets': root('src/assets'),
+      '/build': root('build'),
     }
   },
   server: {

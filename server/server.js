@@ -13,14 +13,12 @@ const app = new Koa()
 // override koa's undocumented error handler
 app.context.onerror = catcher
 
-// Serve static files
-if (process.env.NODE_ENV !== 'production') {
-  const mount = require('koa-mount')
-  const serve = require('koa-static')
+// Serve static files (you can use another server such as nginx instead)
+const mount = require('koa-mount')
+const serve = require('koa-static')
 
-  for(const [k, v] of Object.entries(config.http.static)) {
-    app.use(mount(k, serve(v, {index: false})))
-  }
+for(const [k, v] of Object.entries(config.http.static)) {
+  app.use(mount(k, serve(v, {index: false})))
 }
 
 // Middleware
